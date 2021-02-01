@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Models\Project;
+use App\Models\Product;
 use Way2Web\Force\AbstractRepository;
 
-class ProjectRepository extends AbstractRepository
+class ProductRepository extends AbstractRepository
 {
     public function model(): string
     {
-        return Project::class;
+        return Product::class;
     }
 }

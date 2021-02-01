@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjectsTable extends Migration
+class CreateProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class CreateProjectsTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table): void {
+        Schema::create('products', function (Blueprint $table): void {
             $table->id();
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreateProjectsTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('products');
     }
 }
