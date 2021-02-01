@@ -16,13 +16,13 @@ use RuntimeException;
 abstract class AbstractRepository
 {
     /**
-     * Pagination constants
+     * Pagination constants.
      */
     const MAX_PER_PAGE = 250;
     const DEFAULT_PER_PAGE = 15;
 
     /**
-     * Default attributes field used for whereIn and update methods
+     * Default attributes field used for whereIn and update methods.
      */
     const DEFAULT_ATTRIBUTES_FIELD = 'id';
 
@@ -33,7 +33,9 @@ abstract class AbstractRepository
 
     /**
      * @param array $columns
+     *
      * @return Collection
+     *
      * @throws RuntimeException
      */
     public function all(array $columns = ['*']): Collection
@@ -43,7 +45,9 @@ abstract class AbstractRepository
 
     /**
      * @param array $with
+     *
      * @return Builder
+     *
      * @throws RuntimeException
      */
     public function with(array $with = []): Builder
@@ -54,7 +58,9 @@ abstract class AbstractRepository
     /**
      * @param int   $perPage
      * @param array $columns
+     *
      * @return LengthAwarePaginator
+     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -66,7 +72,9 @@ abstract class AbstractRepository
     /**
      * @param int   $perPage
      * @param array $columns
+     *
      * @return Paginator
+     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -77,7 +85,9 @@ abstract class AbstractRepository
 
     /**
      * @param array $data
+     *
      * @return Model
+     *
      * @throws RuntimeException
      */
     public function create(array $data = []): Model
@@ -87,7 +97,9 @@ abstract class AbstractRepository
 
     /**
      * @param array $data
+     *
      * @return bool
+     *
      * @throws RuntimeException
      */
     public function insert(array $data): bool
@@ -99,17 +111,21 @@ abstract class AbstractRepository
      * @param array  $data
      * @param        $attributeValue
      * @param string $attributeField
+     *
      * @return int
+     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
     public function update(array $data, $attributeValue, string $attributeField = self::DEFAULT_ATTRIBUTES_FIELD): int
     {
-        Arr::forget($data,
+        Arr::forget(
+            $data,
             [
                 '_method',
                 '_token',
-            ]);
+            ]
+        );
 
         return $this->makeQuery()->where($attributeField, $attributeValue)->update($data);
     }
@@ -118,7 +134,9 @@ abstract class AbstractRepository
      * @param array  $data
      * @param        $attributeValues
      * @param string $attributeField
+     *
      * @return int
+     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -133,7 +151,9 @@ abstract class AbstractRepository
     /**
      * @param array $attributes
      * @param array $values
+     *
      * @return Model
+     *
      * @throws RuntimeException
      */
     public function updateOrCreate(array $attributes, array $values = []): Model
@@ -143,7 +163,9 @@ abstract class AbstractRepository
 
     /**
      * @param int $id
+     *
      * @return mixed
+     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -154,7 +176,9 @@ abstract class AbstractRepository
 
     /**
      * @param array $criteria
+     *
      * @return mixed
+     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -166,6 +190,7 @@ abstract class AbstractRepository
     /**
      * @param array  $values
      * @param string $column
+     *
      * @return mixed
      */
     public function deleteWhereIn(array $values, string $column = 'id')
@@ -176,7 +201,9 @@ abstract class AbstractRepository
     /**
      * @param int|string $id
      * @param array      $columns
+     *
      * @return Model|null
+     *
      * @throws RuntimeException
      */
     public function find($id, array $columns = ['*'])
@@ -187,7 +214,9 @@ abstract class AbstractRepository
     /**
      * @param int|string $id
      * @param array      $columns
+     *
      * @return Builder|Builder[]|Collection|Model|null
+     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -199,7 +228,9 @@ abstract class AbstractRepository
     /**
      * @param array $criteria
      * @param array $columns
+     *
      * @return Builder|Model|mixed
+     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -211,7 +242,9 @@ abstract class AbstractRepository
     /**
      * @param array $criteria
      * @param array $columns
+     *
      * @return Builder|Model|mixed
+     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -223,7 +256,9 @@ abstract class AbstractRepository
     /**
      * @param int|string $id
      * @param array      $columns
+     *
      * @return Builder|Builder[]|Collection|Model|null
+     *
      * @throws RuntimeException
      */
     public function findOrFail($id, array $columns = ['*'])
@@ -234,7 +269,9 @@ abstract class AbstractRepository
     /**
      * @param int|string $id
      * @param array      $columns
+     *
      * @return Builder|Builder[]|Collection|Model|null
+     *
      * @throws RuntimeException
      */
     public function findAndLockOrFail($id, array $columns = ['*'])
@@ -245,7 +282,9 @@ abstract class AbstractRepository
     /**
      * @param array $criteria
      * @param array $columns
+     *
      * @return Collection
+     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -256,7 +295,9 @@ abstract class AbstractRepository
 
     /**
      * @param array $data
+     *
      * @return int
+     *
      * @throws RuntimeException
      */
     public function insertGetId(array $data): int
@@ -266,6 +307,7 @@ abstract class AbstractRepository
 
     /**
      * @return int
+     *
      * @throws RuntimeException
      */
     public function count(): int
@@ -276,6 +318,7 @@ abstract class AbstractRepository
     /**
      * @param        $id
      * @param string $column
+     *
      * @return bool
      */
     public function exists($id, string $column = 'id'): bool
@@ -285,6 +328,7 @@ abstract class AbstractRepository
 
     /**
      * @return Model
+     *
      * @throws RuntimeException
      */
     final protected function makeModel(): Model
@@ -301,8 +345,10 @@ abstract class AbstractRepository
 
     /**
      * @param bool $timestamps
-     * @return  Builder
-     * @throws  RuntimeException
+     *
+     * @return Builder
+     *
+     * @throws RuntimeException
      */
     final public function makeQuery(bool $timestamps = true): Builder
     {
