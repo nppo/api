@@ -20,6 +20,6 @@ export PHPUNIT_EXIT=true
 export PHP_DEBUG="php -d pcov.enabled=1"
 export BROWSER_TESTS_EXIT=true
 export SENTRY_CLI_DIRECTORY=
-export SECURITY_CHECKER_EXIT=true
+export SECURITY_CHECKER_EXIT=false
 export PHPCS_SECURITY_EXIT=true
 export PHPLOC_FOLDERS="app tests database routes"
