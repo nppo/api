@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Base;
+namespace Way2Web\Force;
 
 use InvalidArgumentException;
 use ReflectionClass;
 
-abstract class Enum
+class Enum
 {
     public static function asArray(): array
     {

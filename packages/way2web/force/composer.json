@@ -1,0 +1,31 @@
+{
+    "name": "way2web/force",
+    "license": "MIT",
+    "description": "Team Force's basic toolset.",
+    "authors": [
+        {
+            "name": "Arlon Antonius",
+            "email": "arlon.antonius@way2web.nl"
+        },
+        {
+            "name": "Tom Stemerding",
+            "email": "tom.stemerding@way2web.nl"
+        },
+        {
+            "name": "Chris Hessler",
+            "email": "chris.hessler@way2web.nl"
+        },
+        {
+            "name": "Roan Brouwer",
+            "email": "roan.brouwer@way2web.nl"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Way2Web\\Force\\": "src/"
+        }
+    }
+}
