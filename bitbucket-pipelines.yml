@@ -4,14 +4,17 @@ pipelines:
   default:
     - step:
         size: 2x
+
         caches:
           - composer
           - yarn
           - node-admin
+
         script:
-          - git clone ssh://git@bitbucket.org/way2dev/bitbucket-pipelines --branch v2.1.1 --single-branch
+          - git clone ssh://git@bitbucket.org/way2dev/bitbucket-pipelines --branch v3.0.2 --single-branch
           - cd bitbucket-pipelines && composer install --no-interaction --no-progress --no-ansi --prefer-dist && cd ..
           - cp .build/pipelines/* .
+          - cp .dev/PHP/* .
           - ./bitbucket-pipelines/prepare.sh
           - ./bitbucket-pipelines/php/composer.sh
           - ./bitbucket-pipelines/php/validation.sh
@@ -30,6 +33,7 @@ pipelines:
           - ./bitbucket-pipelines/php/docs.sh
           - ./bitbucket-pipelines/deploy.sh
           - ./bitbucket-pipelines/sentry.sh
+
         artifacts:
           - build/**
 
