@@ -10,3 +10,4 @@
         }
     ],
 ```
+- Run `composer require way2web/force`
