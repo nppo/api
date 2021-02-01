@@ -1,0 +1,43 @@
+image: way2web/pipeline-apps:v1
+
+pipelines:
+  default:
+    - step:
+        size: 2x
+
+        caches:
+          - composer
+          - yarn
+          - node-admin
+
+        script:
+          - git clone ssh://git@bitbucket.org/way2dev/bitbucket-pipelines --branch v3.0.2 --single-branch
+          - cd bitbucket-pipelines && composer install --no-interaction --no-progress --no-ansi --prefer-dist && cd ..
+          - cp .build/* .
+          - cp .dev/PHP/* .
+          - ./bitbucket-pipelines/prepare.sh
+          - ./bitbucket-pipelines/php/composer.sh
+          - ./bitbucket-pipelines/php/validation.sh
+          - ./bitbucket-pipelines/js/validation.sh
+          - ./bitbucket-pipelines/php/security.sh
+          - ./bitbucket-pipelines/php/compatibility.sh
+          - ./bitbucket-pipelines/php/analysis.sh
+          - ./bitbucket-pipelines/php/migrations.sh
+          - ./bitbucket-pipelines/php/bootstrap.sh
+          - ./bitbucket-pipelines/js/tests.sh
+          - ./bitbucket-pipelines/js/build.sh
+          - ./bitbucket-pipelines/php/tests.sh
+          - ./bitbucket-pipelines/php/seeding.sh
+          - ./bitbucket-pipelines/php/translations.sh
+          - ./bitbucket-pipelines/browser/tests.sh
+          - ./bitbucket-pipelines/php/docs.sh
+          - ./bitbucket-pipelines/deploy.sh
+          - ./bitbucket-pipelines/sentry.sh
+
+        artifacts:
+          - build/**
+
+definitions:
+  caches:
+    yarn: /usr/local/share/.cache/yarn/
+    node-admin: resources/assets/admin/node_modules
