@@ -17,7 +17,6 @@ class CreatePeopleTable extends Migration
     {
         Schema::create('people', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

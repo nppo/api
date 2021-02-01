@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Way2Web\Force\AbstractModel;
 
-class Party extends Model
+class Party extends AbstractModel
 {
-    use HasFactory;
 }
