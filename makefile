@@ -21,12 +21,12 @@ app-install:
 init-pipelines:
 	-git clone ssh://git@bitbucket.org/way2dev/bitbucket-pipelines --branch v3.0.2 --single-branch
 	cd bitbucket-pipelines && composer install --no-interaction --no-progress --no-ansi --prefer-dist && cd ..
-	cp .build/pipelines/* .
+	cp .build/* .
 
 run-pipelines:
 	-./bitbucket-pipelines/prepare.sh
-	rm .env
-	cp .build/pipelines/* .
+	cp .dev/PHP/* .
+	cp .build/* .
 	cp .dev/envs/.env.testing.example .env.pipeline
 	cp .dev/envs/.env.testing.example .env
 	./bitbucket-pipelines/php/composer.sh
