@@ -1,13 +1,44 @@
-/node_modules
-/public/hot
+# General
+/.temp
+/.idea
+.editorconfig
+
+# Regular web folders
 /public/storage
-/storage/*.key
+
+# Regular PHP folders
 /vendor
+
+# Environment files
 .env
 .env.backup
+.env.testing
+
+# Test artifacts
+tests/Browser/console/(?!(index\.html|\.htaccess|\.gitignore)$).+
+tests/Browser/screenshots/(?!(index\.html|\.htaccess|\.gitignore)$).+
 .phpunit.result.cache
-docker-compose.override.yml
-Homestead.json
-Homestead.yaml
-npm-debug.log
-yarn-error.log
+
+# Regular Laravel directories with files that should not be commited
+storage/framework/views/(?!(index\.html|\.htaccess|\.gitignore)$).+
+storage/framework/sessions/(?!(index\.html|\.htaccess|\.gitignore)$).+
+storage/framework/cache/(?!(index\.html|\.htaccess|\.gitignore)$).+
+storage/logs/(?!(index\.html|\.htaccess|\.gitignore)$).+
+
+# Build / Pipeline
+pipelines
+/build/
+/bitbucket-pipelines/
+/pipelines.sh
+/.env.bak
+/.env.pipeline
+/.php_cs
+/.php_cs.cache
+/phpcs.xml
+/phpcs_security.xml
+/phpcs_compatibility.xml
+/phpinsights.php
+/phpstan.neon
+/phpunit.pipeline.xml
+/phpmd.xml
+/Doxyfile

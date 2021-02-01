@@ -1,0 +1,24 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    level: max
+
+    paths:
+        - app
+        - config
+        - tests
+        - database
+        - routes
+
+    checkMissingIterableValueType: false
+    checkUnionTypes: false
+
+    universalObjectCratesClasses:
+        # This can be removed once we start annotating our models, otherwise properties and methods can not be resolved properly
+        - Illuminate\Database\Eloquent\Model
+
+    ignoreErrors:
+        # Larastan does not resolve the new Laravel factories yet, once they do, this line can be deleted
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::#'
+
