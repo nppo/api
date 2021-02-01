@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a16c3c541bd99241cab1c21ce8e83ac",
+    "content-hash": "110937a138458373c8d01db4431654d2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4811,6 +4811,46 @@
             "time": "2020-11-12T00:07:28+00:00"
         },
         {
+            "name": "way2web/force",
+            "version": "dev-develop",
+            "dist": {
+                "type": "path",
+                "url": "packages/way2web/force",
+                "reference": "c3e2a91dafdec57fdc18ba17ed85413d11d29f89"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Way2Web\\Force\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arlon Antonius",
+                    "email": "arlon.antonius@way2web.nl"
+                },
+                {
+                    "name": "Tom Stemerding",
+                    "email": "tom.stemerding@way2web.nl"
+                },
+                {
+                    "name": "Chris Hessler",
+                    "email": "chris.hessler@way2web.nl"
+                },
+                {
+                    "name": "Roan Brouwer",
+                    "email": "roan.brouwer@way2web.nl"
+                }
+            ],
+            "description": "Team Force's basic toolset.",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "webmozart/assert",
             "version": "1.9.1",
             "source": {
@@ -7354,7 +7394,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "way2web/force": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
