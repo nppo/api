@@ -28,6 +28,8 @@ class Client
 
     public function token(?string $token): self
     {
+        unset($this->headers['Authorization']);
+
         if ($token) {
             $this->headers['Authorization'] = 'Bearer ' . $token;
         }
