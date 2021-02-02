@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Way2Web\Force;
+namespace Way2Web\Force\Repository;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;

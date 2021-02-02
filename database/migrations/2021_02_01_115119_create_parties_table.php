@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePartiesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up(): void
     {
         Schema::create('parties', function (Blueprint $table): void {
@@ -21,11 +16,6 @@ class CreatePartiesTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down(): void
     {
         Schema::dropIfExists('parties');
