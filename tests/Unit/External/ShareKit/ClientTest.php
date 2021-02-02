@@ -58,11 +58,13 @@ class ClientTest extends TestCase
         $guzzleClient
             ->expects($this->once())
             ->method('request')
-            ->with('GET', '::STRING::', ['headers' => []])
+            ->with('GET', '::STRING::', ['headers' => ['Authorization' => 'Bearer ::STRING_TOKEN::']])
             ->willReturn(Response::fakeJson());
 
         /** @var GuzzleHttpClient $guzzleClient */
         $client = new Client($guzzleClient);
+
+        $client->token('::STRING_TOKEN::');
 
         $client->get('::STRING::');
     }
