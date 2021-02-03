@@ -26,7 +26,7 @@ class Client
         );
     }
 
-    public function token(?string $token): self
+    public function setToken(?string $token): self
     {
         unset($this->headers['Authorization']);
 

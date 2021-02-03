@@ -22,18 +22,18 @@ class Connection
 
         $this->client = App::make(Client::class);
 
-        $this->url($baseUrl ?? config('sharekit.url'));
-        $this->token($token);
+        $this->setUrl($baseUrl ?? config('sharekit.url'));
+        $this->setToken($token);
     }
 
-    public function token(?string $token): self
+    public function setToken(?string $token): self
     {
-        $this->client->token($token);
+        $this->client->setToken($token);
 
         return $this;
     }
 
-    public function url(?string $baseUrl): self
+    public function setUrl(?string $baseUrl): self
     {
         $this->baseUrl = $baseUrl;
 

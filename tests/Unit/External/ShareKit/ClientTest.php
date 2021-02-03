@@ -27,7 +27,7 @@ class ClientTest extends TestCase
     {
         $client = $this->app->make(Client::class);
 
-        $client->token('::STRING::');
+        $client->setToken('::STRING::');
 
         $this->assertArrayHasKey(
             'Authorization',
@@ -40,9 +40,9 @@ class ClientTest extends TestCase
     {
         $client = $this->app->make(Client::class);
 
-        $client->token('::STRING::');
+        $client->setToken('::STRING::');
 
-        $client->token(null);
+        $client->setToken(null);
 
         $this->assertArrayNotHasKey(
             'Authorization',
@@ -64,7 +64,7 @@ class ClientTest extends TestCase
         /** @var GuzzleHttpClient $guzzleClient */
         $client = new Client($guzzleClient);
 
-        $client->token('::STRING_TOKEN::');
+        $client->setToken('::STRING_TOKEN::');
 
         $client->get('::STRING::');
     }
