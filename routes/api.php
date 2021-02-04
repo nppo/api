@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductSearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
