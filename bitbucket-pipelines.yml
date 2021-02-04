@@ -1,4 +1,4 @@
-image: way2web/pipeline-apps:v1
+image: way2web/pipeline-apps:v3
 
 pipelines:
   default:
