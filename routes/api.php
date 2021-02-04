@@ -22,8 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group([
-    'as'         => 'api.',
-    'middleware' => ['auth:api'],
+    'as' => 'api.',
 ], function (): void {
     Route::get('products/search', ProductSearchController::class)->name('products.search');
 });
