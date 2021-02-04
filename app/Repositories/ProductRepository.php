@@ -17,6 +17,12 @@ class ProductRepository extends AbstractRepository
 
     public function search(string $query): Collection
     {
-        return Product::search($query)->get();
+        $builder = $this->makeQuery();
+
+        if ($builder !== '') {
+            $builder->where('title', 'LIKE', "%{$query}%");
+        }
+
+        return $builder->get();
     }
 }
