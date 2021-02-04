@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductSearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,5 +25,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group([
     'as' => 'api.',
 ], function (): void {
-    Route::get('products/search', ProductSearchController::class)->name('products.search');
+    Route::get('products/search', [ProductController::class, 'search'])->name('products.search');
 });
