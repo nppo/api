@@ -19,7 +19,7 @@ class ProductRepository extends AbstractRepository
     {
         $builder = $this->makeQuery();
 
-        if ($builder !== '') {
+        if ($query !== '') {
             $builder->where('title', 'LIKE', "%{$query}%");
         }
 

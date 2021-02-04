@@ -9,7 +9,7 @@ use App\Http\Resources\ProductResource;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class ProductSearchController extends Controller
+class ProductController extends Controller
 {
     private ProductRepository $productRepository;
 
@@ -18,8 +18,10 @@ class ProductSearchController extends Controller
         $this->productRepository = $productRepository;
     }
 
-    public function __invoke(ProductSearchRequest $request): AnonymousResourceCollection
+    public function search(ProductSearchRequest $request): AnonymousResourceCollection
     {
-        return ProductResource::collection($this->productRepository->search($request->get('query') ?: ''));
+        return ProductResource::collection(
+            $this->productRepository->search($request->get('query') ?: '')
+        );
     }
 }
