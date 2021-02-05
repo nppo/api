@@ -21,7 +21,7 @@ class ProductController extends Controller
     public function search(ProductSearchRequest $request): AnonymousResourceCollection
     {
         return ProductResource::collection(
-            $this->productRepository->search($request->get('query') ?: '')
+            $this->productRepository->search($request->get('query') ?: '')->get()
         );
     }
 }

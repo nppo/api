@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Product;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use Way2Web\Force\Repository\AbstractRepository;
 
 class ProductRepository extends AbstractRepository
@@ -15,7 +15,7 @@ class ProductRepository extends AbstractRepository
         return Product::class;
     }
 
-    public function search(string $query): Collection
+    public function search(string $query): Builder
     {
         $builder = $this->makeQuery();
 
@@ -23,6 +23,6 @@ class ProductRepository extends AbstractRepository
             $builder->where('title', 'LIKE', "%{$query}%");
         }
 
-        return $builder->get();
+        return $builder;
     }
 }

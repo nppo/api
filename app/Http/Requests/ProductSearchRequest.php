@@ -11,7 +11,7 @@ class ProductSearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'query' => 'string|nullable',
+            'query' => ['string', 'nullable'],
         ];
     }
 }
