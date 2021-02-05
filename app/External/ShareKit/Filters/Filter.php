@@ -47,7 +47,7 @@ class Filter
         return $filterString . $this->wrap($this->operator);
     }
 
-    protected function wrap(string $string)
+    protected function wrap(string $string): string
     {
         return '[' . $string . ']';
     }
