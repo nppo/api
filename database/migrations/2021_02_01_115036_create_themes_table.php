@@ -6,14 +6,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePeopleTable extends Migration
+class CreateThemesTable extends Migration
 {
     public function up(): void
     {
-        Schema::create('people', function (Blueprint $table): void {
+        Schema::create('themes', function (Blueprint $table): void {
             $table->id();
 
-            $table->string('name');
+            $table->string('label');
 
             $table->timestamps();
         });
@@ -21,6 +21,6 @@ class CreatePeopleTable extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('people');
+        Schema::dropIfExists('themes');
     }
 }

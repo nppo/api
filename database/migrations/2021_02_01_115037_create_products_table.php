@@ -12,8 +12,12 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table): void {
             $table->id();
+            $table->foreignId('theme_id')->constrained();
+
             $table->string('title');
             $table->text('description');
+            $table->unsignedBigInteger('views');
+
             $table->timestamps();
         });
     }
