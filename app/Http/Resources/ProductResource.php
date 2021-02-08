@@ -26,11 +26,11 @@ class ProductResource extends JsonResource
             'views'       => $this->views,
             'likes'       => $this->likes_count,
 
-            'theme'       => $this->whenLoaded('theme', function (): ThemeResource {
+            'theme' => $this->whenLoaded('theme', function (): ThemeResource {
                 return ThemeResource::make($this->theme);
             }),
 
-            'tags'        => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
+            'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
                 return TagResource::collection($this->tags);
             })
         ];

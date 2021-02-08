@@ -18,7 +18,7 @@ class ProductFactory extends Factory
             'theme_id'    => Theme::factory(),
             'title'       => $this->faker->sentence(mt_rand(2, 6)),
             'description' => $this->faker->text,
-            'views'       => $this->faker->randomNumber(5)
+            'views'       => $this->faker->randomNumber(5),
         ];
     }
 }

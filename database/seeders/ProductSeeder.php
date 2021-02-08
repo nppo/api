@@ -32,7 +32,7 @@ class ProductSeeder extends Seeder
             ->create([
                 'theme_id' => function () use ($themes): Theme {
                     return $themes->random(1)->first();
-                }
+                },
             ])
             ->each(function (Product $product) use ($tags, $people, $users): void {
                 $this->attachTags($product, $tags);
