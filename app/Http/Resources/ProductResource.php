@@ -32,7 +32,7 @@ class ProductResource extends JsonResource
 
             'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
                 return TagResource::collection($this->tags);
-            })
+            }),
         ];
     }
 }
