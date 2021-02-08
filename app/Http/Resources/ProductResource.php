@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Models\Theme;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Collection;
 
 class ProductResource extends JsonResource
 {
@@ -25,17 +24,14 @@ class ProductResource extends JsonResource
             'title'       => $this->title,
             'description' => $this->description,
             'views'       => $this->views,
+            'likes'       => $this->likes_count,
 
-            'likes'       => $this->whenLoaded('views', function (): int {
-                return $this->views()->count();
+            'theme'       => $this->whenLoaded('theme', function (): ThemeResource {
+                return ThemeResource::make($this->theme);
             }),
 
-            'theme'       => $this->whenLoaded('theme', function (): Theme {
-                return $this->theme;
-            }),
-
-            'tags'        => $this->whenLoaded('tags', function (): Collection {
-                return $this->tags;
+            'tags'        => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
+                return TagResource::collection($this->tags);
             })
         ];
     }

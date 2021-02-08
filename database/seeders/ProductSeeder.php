@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
 
 class ProductSeeder extends Seeder
 {
-    private const MAX_PRODUCTS = 500;
+    private const MAX_PRODUCTS = 250;
 
     private const MAX_TAGS_PER_PRODUCT = 10;
 
@@ -30,9 +30,11 @@ class ProductSeeder extends Seeder
         Product::factory()
             ->times(self::MAX_PRODUCTS)
             ->create([
-                'theme_id' => $themes->random(1)->first()->id
+                'theme_id' => function () use ($themes): Theme {
+                    return $themes->random(1)->first();
+                }
             ])
-            ->each(function (Product $product) use ($themes, $tags, $people, $users): void {;
+            ->each(function (Product $product) use ($tags, $people, $users): void {
                 $this->attachTags($product, $tags);
                 $this->attachPeople($product, $people);
                 $this->attachLikes($product, $users);

@@ -15,7 +15,7 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'theme_id'    => Theme::factory()->create()->id,
+            'theme_id'    => Theme::factory(),
             'title'       => $this->faker->sentence(mt_rand(2, 6)),
             'description' => $this->faker->text,
             'views'       => $this->faker->randomNumber(5)

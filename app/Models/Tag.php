@@ -15,8 +15,8 @@ class Tag extends AbstractModel
     public function toSearchableArray(): array
     {
         return [
-            'id'          => $this->getKey(),
-            'label'       => $this->label,
+            'id'    => $this->getKey(),
+            'label' => $this->label,
         ];
     }
 
