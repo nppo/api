@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\Product;
+use App\Models\Theme;
 use Tests\TestCase;
 
 class ProductSearchTest extends TestCase
@@ -20,5 +21,28 @@ class ProductSearchTest extends TestCase
         $response
             ->assertOk()
             ->assertJsonFragment(['title' => $product->title]);
+    }
+
+    /** @test */
+    public function it_can_filter_by_theme(): void
+    {
+        $products = Product::factory()
+            ->count(2)
+            ->create();
+
+        $theme = Theme::factory()->create();
+
+        $products
+            ->first()
+            ->themes()
+            ->save($theme);
+
+        $response = $this
+            ->getJson(route('api.products.search', ['filters' => ['theme' => $theme->id]]));
+
+        $response
+            ->assertOk()
+            ->assertJsonFragment(['title' => $products->first()->title])
+            ->assertJsonMissing(['title' => $products->last()->title]);
     }
 }
