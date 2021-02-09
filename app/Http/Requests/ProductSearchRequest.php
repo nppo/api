@@ -12,6 +12,7 @@ class ProductSearchRequest extends FormRequest
     {
         return [
             'query' => ['string', 'nullable'],
+            'filters' => ['array', 'nullable']
         ];
     }
 }
