@@ -19,6 +19,12 @@ class ProductSeeder extends Seeder
 
     private const MAX_TAGS_PER_PRODUCT = 10;
 
+    private const MAX_CONTRIBUTORS = 10;
+
+    private const MAX_THEMES = 10;
+
+    private const MAX_PARTIES = 2;
+
     public function run(): void
     {
         $this->command->getOutput()->progressStart(self::MAX_PRODUCTS);
@@ -34,9 +40,9 @@ class ProductSeeder extends Seeder
             ->create()
             ->each(function (Product $product) use ($themes, $tags, $people, $parties, $users): void {
                 $this->attachThemes($product, $themes);
-                $this->attachParties($product, $parties);
                 $this->attachTags($product, $tags);
-                $this->attachPeople($product, $people);
+                $this->attachContributors($product, $people);
+                $this->attachParties($product, $parties);
                 $this->attachLikes($product, $users);
 
                 $this->command->getOutput()->progressAdvance(1);
@@ -49,18 +55,15 @@ class ProductSeeder extends Seeder
     {
         $product
             ->themes()
-            ->saveMany($themes->random(mt_rand(1, 3)));
+            ->saveMany($themes->random(mt_rand(1, self::MAX_THEMES)));
     }
 
-    private function attachPeople(Product $product, Collection $people): void
+    private function attachContributors(Product $product, Collection $people): void
     {
         $product
-            ->people()
-            ->sync(
-                $people
-                    ->random(mt_rand(0, $people->count()))
-                    ->pluck('id')
-                    ->toArray()
+            ->contributors()
+            ->saveMany(
+                $people->random(mt_rand(1, self::MAX_CONTRIBUTORS))
             );
     }
 
@@ -68,11 +71,8 @@ class ProductSeeder extends Seeder
     {
         $product
             ->parties()
-            ->sync(
-                $parties
-                    ->random(mt_rand(1, 2))
-                    ->pluck('id')
-                    ->toArray()
+            ->saveMany(
+                $parties->random(mt_rand(1, self::MAX_PARTIES))
             );
     }
 
@@ -81,7 +81,7 @@ class ProductSeeder extends Seeder
         $product
             ->tags()
             ->saveMany(
-                $tags->random(mt_rand(1, self::MAX_TAGS_PER_PRODUCT))
+                $tags->random(mt_rand(0, self::MAX_TAGS_PER_PRODUCT))
             );
     }
 
@@ -90,8 +90,7 @@ class ProductSeeder extends Seeder
         $product
             ->likes()
             ->saveMany(
-                $users
-                    ->random(mt_rand(0, $users->count()))
+                $users->random(mt_rand(0, $users->count()))
             );
     }
 }

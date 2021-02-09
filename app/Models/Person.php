@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Way2Web\Force\AbstractModel;
 
 class Person extends AbstractModel
 {
-    public function products(): BelongsToMany
+    public function products(): MorphToMany
     {
-        return $this->belongsToMany(Product::class);
+        return $this->morphToMany(Product::class, 'contributable');
     }
 
     public function themes(): MorphToMany

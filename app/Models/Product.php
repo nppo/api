@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Way2Web\Force\AbstractModel;
@@ -17,22 +16,25 @@ class Product extends AbstractModel
     {
         return [
             'id'          => $this->getKey(),
-            'themes'      => $this->themes->map(function (Theme $theme): int {
-                return $theme->id;
-            })->toArray(),
             'title'       => $this->title,
             'description' => $this->description,
+
+            'themes' => $this->themes->map(function (Theme $theme): int {
+                return $theme->id;
+            })->toArray(),
+
+            'tags' => $this->tags->map(function (Tag $tag): int {
+                return $tag->id;
+            })->toArray(),
+
+            'contributors' => $this->tags->map(function (Person $person): int {
+                return $person->id;
+            })->toArray(),
+
+            'parties' => $this->parties->map(function (Party $party): int {
+                return $party->id;
+            })->toArray(),
         ];
-    }
-
-    public function parties(): BelongsToMany
-    {
-        return $this->belongsToMany(Party::class);
-    }
-
-    public function people(): BelongsToMany
-    {
-        return $this->belongsToMany(Person::class);
     }
 
     public function themes(): MorphToMany
@@ -48,5 +50,15 @@ class Product extends AbstractModel
     public function likes(): MorphToMany
     {
         return $this->morphToMany(User::class, 'likeable');
+    }
+
+    public function contributors(): MorphToMany
+    {
+        return $this->morphedByMany(Person::class, 'contributable');
+    }
+
+    public function parties(): MorphToMany
+    {
+        return $this->morphedByMany(Party::class, 'contributable');
     }
 }
