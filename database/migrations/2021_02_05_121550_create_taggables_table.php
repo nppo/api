@@ -6,18 +6,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductTagTable extends Migration
+class CreateTaggablesTable extends Migration
 {
     public function up(): void
     {
-        Schema::create('product_tag', function (Blueprint $table): void {
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+        Schema::create('taggables', function (Blueprint $table): void {
             $table->foreignId('tag_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('taggable_id');
+            $table->string('taggable_type');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('product_tag');
+        Schema::dropIfExists('taggables');
     }
 }

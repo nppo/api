@@ -23,11 +23,10 @@ class ProductResource extends JsonResource
             'id'          => $this->getKey(),
             'title'       => $this->title,
             'description' => $this->description,
-            'views'       => $this->views,
             'likes'       => $this->likes_count,
 
-            'theme' => $this->whenLoaded('theme', function (): ThemeResource {
-                return ThemeResource::make($this->theme);
+            'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {
+                return ThemeResource::collection($this->themes);
             }),
 
             'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {

@@ -6,18 +6,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductThemeTable extends Migration
+class CreateThemeablesTable extends Migration
 {
     public function up(): void
     {
-        Schema::create('product_theme', function (Blueprint $table): void {
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+        Schema::create('themeables', function (Blueprint $table): void {
             $table->foreignId('theme_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('themeable_id');
+            $table->string('themeable_type');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('product_theme');
+        Schema::dropIfExists('themeables');
     }
 }

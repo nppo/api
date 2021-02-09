@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -36,8 +37,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Product::class);
     }
 
-    public function likes(): BelongsToMany
+    public function likedProducts(): MorphToMany
     {
-        return $this->belongsToMany(Product::class);
+        return $this->morphedByMany(Product::class, 'likeable', 'likeables', 'user_id');
+    }
+
+    public function likedPeople(): MorphToMany
+    {
+        return $this->morphedByMany(Person::class, 'likeable', 'likeables', 'user_id');
     }
 }

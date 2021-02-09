@@ -19,7 +19,7 @@ class ProductRepository extends AbstractRepository
     {
         $builder = $this
             ->makeQuery()
-            ->with(['theme', 'tags'])
+            ->with(['themes', 'tags'])
             ->withCount('likes');
 
         if ($query !== '') {

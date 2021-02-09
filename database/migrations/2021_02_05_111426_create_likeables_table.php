@@ -6,18 +6,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLikesTable extends Migration
+class CreateLikeablesTable extends Migration
 {
     public function up(): void
     {
-        Schema::create('likes', function (Blueprint $table): void {
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+        Schema::create('likeables', function (Blueprint $table): void {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('likeable_id');
+            $table->string('likeable_type');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('likes');
+        Schema::dropIfExists('likeables');
     }
 }

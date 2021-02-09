@@ -29,12 +29,9 @@ class ProductSeeder extends Seeder
 
         Product::factory()
             ->times(self::MAX_PRODUCTS)
-            ->create([
-                'theme_id' => function () use ($themes): Theme {
-                    return $themes->random(1)->first();
-                },
-            ])
-            ->each(function (Product $product) use ($tags, $people, $users): void {
+            ->create()
+            ->each(function (Product $product) use ($themes, $tags, $people, $users): void {
+                $this->attachThemes($product, $themes);
                 $this->attachTags($product, $tags);
                 $this->attachPeople($product, $people);
                 $this->attachLikes($product, $users);
@@ -43,6 +40,13 @@ class ProductSeeder extends Seeder
             });
 
         $this->command->getOutput()->progressFinish();
+    }
+
+    private function attachThemes(Product $product, Collection $themes): void
+    {
+        $product
+            ->themes()
+            ->saveMany($themes->random(mt_rand(1, 3)));
     }
 
     private function attachPeople(Product $product, Collection $people): void
@@ -61,7 +65,7 @@ class ProductSeeder extends Seeder
     {
         $product
             ->tags()
-            ->sync(
+            ->saveMany(
                 $tags->random(mt_rand(1, self::MAX_TAGS_PER_PRODUCT))
             );
     }
@@ -70,11 +74,9 @@ class ProductSeeder extends Seeder
     {
         $product
             ->likes()
-            ->sync(
+            ->saveMany(
                 $users
                     ->random(mt_rand(0, $users->count()))
-                    ->pluck('id')
-                    ->toArray()
             );
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Way2Web\Force\AbstractModel;
 
@@ -20,8 +20,8 @@ class Tag extends AbstractModel
         ];
     }
 
-    public function products(): BelongsToMany
+    public function products(): MorphToMany
     {
-        return $this->belongsToMany(Product::class);
+        return $this->morphedByMany(Product::class, 'taggable');
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Way2Web\Force\AbstractModel;
 
 class Person extends AbstractModel
@@ -15,8 +15,13 @@ class Person extends AbstractModel
         return $this->belongsToMany(Product::class);
     }
 
-    public function tags(): HasManyThrough
+    public function themes(): MorphToMany
     {
-        return $this->hasManyThrough(Tag::class, Product::class);
+        return $this->morphToMany(Theme::class, 'themeable');
+    }
+
+    public function likes(): MorphToMany
+    {
+        return $this->morphToMany(User::class, 'likeable');
     }
 }

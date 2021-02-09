@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Way2Web\Force\AbstractModel;
 
@@ -20,8 +20,13 @@ class Theme extends AbstractModel
         ];
     }
 
-    public function products(): HasMany
+    public function people(): MorphToMany
     {
-        return $this->hasMany(Product::class);
+        return $this->morphedByMany(Person::class, 'themeable');
+    }
+
+    public function products(): MorphToMany
+    {
+        return $this->morphedByMany(Product::class, 'themeable');
     }
 }

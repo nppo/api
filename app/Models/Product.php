@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Way2Web\Force\AbstractModel;
 
@@ -28,18 +28,18 @@ class Product extends AbstractModel
         return $this->belongsToMany(Person::class);
     }
 
-    public function theme(): BelongsTo
+    public function themes(): MorphToMany
     {
-        return $this->belongsTo(Theme::class);
+        return $this->morphToMany(Theme::class, 'themeable');
     }
 
-    public function tags(): BelongsToMany
+    public function tags(): MorphToMany
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function likes(): BelongsToMany
+    public function likes(): MorphToMany
     {
-        return $this->belongsToMany(User::class, 'likes');
+        return $this->morphToMany(User::class, 'likeable');
     }
 }
