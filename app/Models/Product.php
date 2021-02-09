@@ -23,6 +23,11 @@ class Product extends AbstractModel
         ];
     }
 
+    public function parties(): BelongsToMany
+    {
+        return $this->belongsToMany(Party::class);
+    }
+
     public function people(): BelongsToMany
     {
         return $this->belongsToMany(Person::class);

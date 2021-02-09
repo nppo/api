@@ -25,6 +25,11 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'likes'       => $this->likes_count,
 
+            'parties' => $this->whenLoaded('parties', function (): AnonymousResourceCollection {
+                return PartyResource::collection($this->parties);
+            }),
+
+
             'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {
                 return ThemeResource::collection($this->themes);
             }),

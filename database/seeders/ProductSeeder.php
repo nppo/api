@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
 use App\Models\Tag;
@@ -25,13 +26,15 @@ class ProductSeeder extends Seeder
         $themes = Theme::all();
         $tags = Tag::all();
         $people = Person::all();
+        $parties = Party::all();
         $users = User::all();
 
         Product::factory()
             ->times(self::MAX_PRODUCTS)
             ->create()
-            ->each(function (Product $product) use ($themes, $tags, $people, $users): void {
+            ->each(function (Product $product) use ($themes, $tags, $people, $parties, $users): void {
                 $this->attachThemes($product, $themes);
+                $this->attachParties($product, $parties);
                 $this->attachTags($product, $tags);
                 $this->attachPeople($product, $people);
                 $this->attachLikes($product, $users);
@@ -56,6 +59,18 @@ class ProductSeeder extends Seeder
             ->sync(
                 $people
                     ->random(mt_rand(0, $people->count()))
+                    ->pluck('id')
+                    ->toArray()
+            );
+    }
+
+    private function attachParties(Product $product, Collection $parties): void
+    {
+        $product
+            ->parties()
+            ->sync(
+                $parties
+                    ->random(mt_rand(1, 2))
                     ->pluck('id')
                     ->toArray()
             );
