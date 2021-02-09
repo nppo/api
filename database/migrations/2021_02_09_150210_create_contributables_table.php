@@ -6,18 +6,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePartyProductTable extends Migration
+class CreateContributablesTable extends Migration
 {
     public function up(): void
     {
-        Schema::create('party_product', function (Blueprint $table): void {
-            $table->foreignId('party_id')->constrained()->onDelete('cascade');
+        Schema::create('contributables', function (Blueprint $table): void {
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('contributable_id');
+            $table->string('contributable_type');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('party_product');
+        Schema::dropIfExists('contributables');
     }
 }
