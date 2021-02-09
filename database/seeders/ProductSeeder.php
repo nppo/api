@@ -21,9 +21,9 @@ class ProductSeeder extends Seeder
 
     private const MAX_CONTRIBUTORS = 10;
 
-    private const MAX_THEMES = 10;
+    private const MAX_THEMES = 3;
 
-    private const MAX_PARTIES = 2;
+    private const MAX_PARTIES = 3;
 
     public function run(): void
     {
