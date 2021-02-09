@@ -29,7 +29,6 @@ class ProductResource extends JsonResource
                 return PartyResource::collection($this->parties);
             }),
 
-
             'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {
                 return ThemeResource::collection($this->themes);
             }),
