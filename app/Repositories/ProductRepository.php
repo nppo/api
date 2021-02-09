@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Enumerators\Filters;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Way2Web\Force\Repository\AbstractRepository;
@@ -39,9 +40,9 @@ class ProductRepository extends AbstractRepository
     public function filter(array $filters = []): self
     {
         foreach ($filters as $key => $value) {
-            if ($key === 'theme') {
+            if ($key === Filters::THEMES) {
                 $this->builder->whereHas('themes', function ($query) use ($value): void {
-                    $query->where('themes.id', $value);
+                    $query->whereIn('themes.id', $value);
                 });
             }
         }

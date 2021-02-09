@@ -15,4 +15,14 @@ class ProductSearchRequest extends FormRequest
             'filters' => ['array', 'nullable'],
         ];
     }
+
+    public function getFilters(): array
+    {
+        return key_exists('filters', $this->validated()) ? $this->validated()['filters'] : [];
+    }
+
+    public function getQuery(): string
+    {
+        return key_exists('query', $this->validated()) ? (string) $this->validated()['query'] : '';
+    }
 }

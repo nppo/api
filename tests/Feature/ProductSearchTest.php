@@ -38,7 +38,30 @@ class ProductSearchTest extends TestCase
             ->save($theme);
 
         $response = $this
-            ->getJson(route('api.products.search', ['filters' => ['theme' => $theme->id]]));
+            ->getJson(route('api.products.search', ['filters' => ['themes' => [$theme->id]]]));
+
+        $response
+            ->assertOk()
+            ->assertJsonFragment(['title' => $products->first()->title])
+            ->assertJsonMissing(['title' => $products->last()->title]);
+    }
+
+    /** @test */
+    public function it_can_filter_by_multiple_themes(): void
+    {
+        $products = Product::factory()
+            ->count(2)
+            ->create();
+
+        $themes = Theme::factory()->times(3)->create();
+
+        $products
+            ->first()
+            ->themes()
+            ->saveMany($themes);
+
+        $response = $this
+            ->getJson(route('api.products.search', ['filters' => ['themes' => $themes->pluck('id')->toArray()]]));
 
         $response
             ->assertOk()

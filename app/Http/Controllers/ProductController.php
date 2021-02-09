@@ -23,8 +23,8 @@ class ProductController extends Controller
         return ProductResource::collection(
             $this
                 ->productRepository
-                ->search($request->get('query') ?: '')
-                ->filter($request->get('filters') ?: [])
+                ->search($request->getQuery())
+                ->filter($request->getFilters())
                 ->get()
         );
     }
