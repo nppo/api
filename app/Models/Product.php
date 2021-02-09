@@ -17,7 +17,9 @@ class Product extends AbstractModel
     {
         return [
             'id'          => $this->getKey(),
-            'theme'       => $this->theme->name,
+            'themes'      => $this->themes->map(function (Theme $theme): int {
+                return $theme->id;
+            })->toArray(),
             'title'       => $this->title,
             'description' => $this->description,
         ];
