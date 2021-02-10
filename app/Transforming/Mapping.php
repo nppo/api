@@ -38,8 +38,8 @@ class Mapping
     /** @return mixed */
     public function apply(array $using, &$on)
     {
-        foreach ($this->maps as $maps) {
-            foreach ($maps as $map) {
+        foreach ($this->maps as $mapsForKey) {
+            foreach ($mapsForKey as $map) {
                 $this->map($map, $using, $on);
             }
         }
