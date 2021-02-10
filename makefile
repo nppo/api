@@ -1,4 +1,4 @@
-init: init-ide init-php init-git init-env 
+init: init-ide init-php init-git init-env
 
 init-git:
 	cp .dev/git/hooks/prepare-commit-msg .git/hooks/prepare-commit-msg
