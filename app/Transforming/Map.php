@@ -6,27 +6,27 @@ namespace App\Transforming;
 
 class Map
 {
-    protected string $from;
+    protected string $origin;
 
-    protected string $to;
+    protected string $destination;
 
     protected ?string $transformerType;
 
-    public function __construct(string $from, string $to, ?string $transformerType = null)
+    public function __construct(string $origin, string $destination, ?string $transformerType = null)
     {
-        $this->from = $from;
-        $this->to = $to;
+        $this->origin = $origin;
+        $this->destination = $destination;
         $this->transformerType = $transformerType;
     }
 
-    public function getFrom(): string
+    public function getOrigin(): string
     {
-        return $this->from;
+        return $this->origin;
     }
 
-    public function getTo(): string
+    public function getDestination(): string
     {
-        return $this->to;
+        return $this->destination;
     }
 
     public function setTransformerType(string $type)

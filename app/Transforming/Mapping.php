@@ -21,7 +21,7 @@ class Mapping
 
     public function addMap(Map $map): self
     {
-        $this->maps[$map->getFrom()][] = $map;
+        $this->maps[$map->getOrigin()][] = $map;
 
         return $this;
     }
