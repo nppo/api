@@ -31,18 +31,18 @@ trait MapsData
 
     protected function mapArray(Map $map, array $input, array &$output): void
     {
-        $output[$map->getTo()] = $this->retrieveInputValue($map, $input);
+        $output[$map->getDestination()] = $this->retrieveInputValue($map, $input);
     }
 
     protected function mapObject(Map $map, array $input, object &$output): void
     {
-        $output->{$map->getTo()} = $this->retrieveInputValue($map, $input);
+        $output->{$map->getDestination()} = $this->retrieveInputValue($map, $input);
     }
 
     /** @return mixed */
     protected function retrieveInputValue(Map $map, array $input)
     {
-        $value = (new JSONPath($input))->find($map->getFrom())->first();
+        $value = (new JSONPath($input))->find($map->getOrigin())->first();
 
         if (is_null($value)) {
             return;
