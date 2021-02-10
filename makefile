@@ -11,6 +11,3 @@ init-ide:
 
 init-php:
 	cp .dev/PHP/* .
-
-init-oauth:
-	php artisan passport:client --public --name=surapp_frontend_local --redirect_uri="http://localhost:3000/login" --no-interaction --no-ansi -vvv
