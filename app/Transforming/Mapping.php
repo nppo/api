@@ -36,14 +36,14 @@ class Mapping
     }
 
     /** @return mixed */
-    public function apply(array $using, &$on)
+    public function apply(array $using, &$toOutput)
     {
         foreach ($this->maps as $mapsForKey) {
             foreach ($mapsForKey as $map) {
-                $this->map($map, $using, $on);
+                $this->map($map, $using, $toOutput);
             }
         }
 
-        return $on;
+        return $toOutput;
     }
 }
