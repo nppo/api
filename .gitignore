@@ -43,3 +43,4 @@ pipelines
 /phpunit.pipeline.xml
 /phpmd.xml
 /Doxyfile
+**.key

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder
+class TagSeeder extends Seeder
 {
-    private const MAX_USERS = 100;
+    private const MAX_TAGS = 100;
 
     public function run(): void
     {
-        User::factory()
-            ->times(self::MAX_USERS)
+        Tag::factory()
+            ->count(self::MAX_TAGS)
             ->create();
     }
 }

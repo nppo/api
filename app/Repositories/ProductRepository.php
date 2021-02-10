@@ -17,7 +17,10 @@ class ProductRepository extends AbstractRepository
 
     public function search(string $query): Builder
     {
-        $builder = $this->makeQuery();
+        $builder = $this
+            ->makeQuery()
+            ->with(['parties', 'themes', 'tags'])
+            ->withCount('likes');
 
         if ($query !== '') {
             $builder->where('title', 'LIKE', "%{$query}%");
