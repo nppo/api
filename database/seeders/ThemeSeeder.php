@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Theme;
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder
+class ThemeSeeder extends Seeder
 {
-    private const MAX_USERS = 100;
+    private const MAX_THEMES = 15;
 
     public function run(): void
     {
-        User::factory()
-            ->times(self::MAX_USERS)
+        Theme::factory()
+            ->count(self::MAX_THEMES)
             ->create();
     }
 }
