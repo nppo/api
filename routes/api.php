@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ThemeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +26,5 @@ Route::group([
     'as' => 'api.',
 ], function (): void {
     Route::get('products/search', [ProductController::class, 'search'])->name('products.search');
+    Route::resource('themes', ThemeController::class)->only(['index']);
 });
