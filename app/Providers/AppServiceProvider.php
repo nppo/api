@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Auth\Passport\Client;
 use App\External\ShareKit\Provider as ShareKitProvider;
+use App\Transforming\Repository;
 use Fruitcake\Cors\HandleCors;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
@@ -13,6 +14,10 @@ use Laravel\Passport\RouteRegistrar;
 
 class AppServiceProvider extends ServiceProvider
 {
+    public $singletons = [
+        Repository::class => Repository::class,
+    ];
+
     public function register(): void
     {
         $this->app->register(ShareKitProvider::class);

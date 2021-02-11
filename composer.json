@@ -22,6 +22,7 @@
         "laravel/passport": "^10.1",
         "laravel/scout": "^8.6",
         "laravel/tinker": "^2.5",
+        "softcreatr/jsonpath": "^0.7.2",
         "way2web/force": "dev-develop"
     },
     "require-dev": {
