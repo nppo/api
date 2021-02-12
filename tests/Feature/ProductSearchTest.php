@@ -53,7 +53,7 @@ class ProductSearchTest extends TestCase
             ->count(3)
             ->create();
 
-        $products->each(function (Product $product) {
+        $products->each(function (Product $product): void {
             $product
                 ->themes()
                 ->save(Theme::factory()->create());
@@ -64,7 +64,7 @@ class ProductSearchTest extends TestCase
         $response = $this
             ->getJson(
                 route('api.products.search', [
-                    'filters' => ['themes' => $themes->whereIn('id', [1, 2])->pluck('id')->toArray()]
+                    'filters' => ['themes' => $themes->whereIn('id', [1, 2])->pluck('id')->toArray()],
                 ])
             );
 
