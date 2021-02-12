@@ -64,14 +64,14 @@ class ProductSearchTest extends TestCase
         $response = $this
             ->getJson(
                 route('api.products.search', [
-                    'filters' => ['themes' => $themes->whereIn('id', [1, 2])->pluck('id')->toArray()],
+                    'filters' => ['themes' => [$themes->first()->id, $themes->get(1)->id]],
                 ])
             );
 
         $response
             ->assertOk()
             ->assertJsonFragment(['title' => $products->first()->title])
-            ->assertJsonFragment(['title' => $products->where('id', 2)->first()->title])
-            ->assertJsonMissing(['title' => $products->where('id', 3)->first()->title]);
+            ->assertJsonFragment(['title' => $products->get(1)->title])
+            ->assertJsonMissing(['title' => $products->get(2)->title]);
     }
 }
