@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\External\ShareKit;
 
-use App\External\ShareKit\Support\HasAttributes;
 use App\External\ShareKit\Support\HasPivot;
 use App\External\ShareKit\Support\HasRelationships;
 
 abstract class Entity
 {
-    use HasAttributes;
     use HasRelationships;
     use HasPivot;
 
