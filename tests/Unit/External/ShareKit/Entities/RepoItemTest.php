@@ -17,10 +17,10 @@ class RepoItemTest extends TestCase
 
         $this->assertInstanceOf(
             Collection::class,
-            $repoItem->getAuthors()
+            $repoItem->authors
         );
 
-        $this->assertEmpty($repoItem->getAuthors());
+        $this->assertEmpty($repoItem->authors);
     }
 
     /** @test */
@@ -30,9 +30,9 @@ class RepoItemTest extends TestCase
 
         $this->assertInstanceOf(
             Collection::class,
-            $repoItem->getAuthors()
+            $repoItem->authors
         );
 
-        $this->assertNotEmpty($repoItem->getAuthors());
+        $this->assertNotEmpty($repoItem->authors);
     }
 }
