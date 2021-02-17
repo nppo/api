@@ -21,19 +21,19 @@ class SearchResource extends JsonResource
         return [
             'results' => $this->resource['count'],
 
-            'parties' => key_exists('party', $this->resource)
+            'parties' => array_key_exists('party', $this->resource)
                 ? PartyResource::collection($this->resource['party'])
                 : [],
 
-            'people' => key_exists('person', $this->resource)
+            'people' => array_key_exists('person', $this->resource)
                 ? PersonResource::collection($this->resource['person'])
                 : [],
 
-            'products' => key_exists('product', $this->resource)
+            'products' => array_key_exists('product', $this->resource)
                 ? ProductResource::collection($this->resource['product'])
                 : [],
 
-            'projects' => key_exists('project', $this->resource)
+            'projects' => array_key_exists('project', $this->resource)
                 ? $this->resource['project']
                 : [],
         ];
