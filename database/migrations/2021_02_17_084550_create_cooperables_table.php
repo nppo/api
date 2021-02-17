@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateCooperablesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up(): void
     {
         Schema::create('cooperables', function (Blueprint $table): void {
@@ -23,11 +18,6 @@ class CreateCooperablesTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down(): void
     {
         Schema::dropIfExists('cooperables');

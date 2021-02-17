@@ -19,7 +19,7 @@ class ProjectSeeder extends Seeder
 
     private const MAX_TAGS = 10;
 
-    private const MAX_CONTRIBUTORS = 10;
+    private const MAX_PEOPLE = 10;
 
     private const MAX_THEMES = 3;
 
@@ -68,7 +68,7 @@ class ProjectSeeder extends Seeder
         $product
             ->people()
             ->saveMany(
-                $people->random(mt_rand(1, self::MAX_CONTRIBUTORS))
+                $people->random(mt_rand(1, self::MAX_PEOPLE))
             );
     }
 
