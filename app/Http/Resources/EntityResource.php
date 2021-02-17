@@ -11,7 +11,7 @@ class EntityResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->resource
+            'name' => $this->resource,
         ];
     }
 }

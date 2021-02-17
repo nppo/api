@@ -80,7 +80,7 @@ class SearchTest extends TestCase
     }
 
     /** @test */
-    public function it_will_return_all_results_when_no_filters_are_set()
+    public function it_will_return_all_results_when_no_filters_are_set(): void
     {
         Party::factory()->create();
         Person::factory()->create();
@@ -128,7 +128,7 @@ class SearchTest extends TestCase
 
         $response = $this->getJson(
             route('api.search', [
-                'filters' => ['type' => [Entities::PRODUCT, Entities::PERSON]]
+                'filters' => ['type' => [Entities::PRODUCT, Entities::PERSON]],
             ])
         );
 
