@@ -40,7 +40,7 @@ class ProductRepository extends AbstractRepository
     public function filter(array $filters = []): self
     {
         foreach ($filters as $key => $value) {
-            if ($key === Filters::THEMES) {
+            if ($key === Filters::THEME) {
                 $this->builder->whereHas('themes', function ($query) use ($value): void {
                     $query->whereIn('themes.id', $value);
                 });
