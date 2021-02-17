@@ -17,6 +17,7 @@ parameters:
     universalObjectCratesClasses:
         # This can be removed once we start annotating our models, otherwise properties and methods can not be resolved properly
         - Illuminate\Database\Eloquent\Model
+        - App\External\ShareKit\Entity
 
     ignoreErrors:
         # Larastan does not resolve the new Laravel factories yet, once they do, this line can be deleted
