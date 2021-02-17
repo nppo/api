@@ -44,7 +44,7 @@ class SearchTest extends TestCase
         $response = $this
             ->getJson(
                 route('api.search', [
-                    'filters' => [Filters::THEME => [$theme->id]],
+                    'filters' => [Filters::THEMES => [$theme->id]],
                 ])
             );
 
@@ -72,7 +72,7 @@ class SearchTest extends TestCase
         $response = $this
             ->getJson(
                 route('api.search', [
-                    'filters' => [Filters::THEME => [$themes->first()->id, $themes->get(1)->id]],
+                    'filters' => [Filters::THEMES => [$themes->first()->id, $themes->get(1)->id]],
                 ])
             );
 
@@ -111,7 +111,7 @@ class SearchTest extends TestCase
 
         $response = $this->getJson(
             route('api.search', [
-                'filters' => [Filters::TYPE => [Entities::PRODUCT]],
+                'filters' => [Filters::TYPES => [Entities::PRODUCT]],
             ])
         );
 
@@ -132,7 +132,7 @@ class SearchTest extends TestCase
 
         $response = $this->getJson(
             route('api.search', [
-                'filters' => [Filters::TYPE => [Entities::PRODUCT, Entities::PERSON]],
+                'filters' => [Filters::TYPES => [Entities::PRODUCT, Entities::PERSON]],
             ])
         );
 

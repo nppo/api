@@ -43,7 +43,7 @@ class PersonRepository extends AbstractRepository
     public function filter(array $filters = []): self
     {
         foreach ($filters as $key => $value) {
-            if ($key === Filters::THEME) {
+            if ($key === Filters::THEMES) {
                 $this->builder->whereHas('themes', function ($query) use ($value): void {
                     $query->whereIn('themes.id', $value);
                 });
