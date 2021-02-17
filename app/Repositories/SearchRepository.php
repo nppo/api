@@ -35,6 +35,7 @@ class SearchRepository
      * @param string|array $types
      * @param string       $query
      * @param array        $filters
+     *
      * @return $this
      */
     public function searchFor($types, string $query = '', array $filters = []): self
