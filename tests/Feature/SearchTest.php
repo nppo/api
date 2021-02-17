@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Enumerators\Entities;
+use App\Enumerators\Filters;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
 use App\Models\Theme;
-use phpDocumentor\Reflection\Project;
 use Tests\TestCase;
 
 class SearchTest extends TestCase
@@ -42,7 +42,11 @@ class SearchTest extends TestCase
             ->save($theme);
 
         $response = $this
-            ->getJson(route('api.search', ['filters' => ['theme' => [$theme->id]]]));
+            ->getJson(
+                route('api.search', [
+                    'filters' => [Filters::THEME => [$theme->id]]
+                ])
+            );
 
         $response
             ->assertOk()
@@ -68,7 +72,7 @@ class SearchTest extends TestCase
         $response = $this
             ->getJson(
                 route('api.search', [
-                    'filters' => ['theme' => [$themes->first()->id, $themes->get(1)->id]],
+                    'filters' => [Filters::THEME => [$themes->first()->id, $themes->get(1)->id]],
                 ])
             );
 
@@ -107,7 +111,7 @@ class SearchTest extends TestCase
 
         $response = $this->getJson(
             route('api.search', [
-                'filters' => ['type' => [Entities::PRODUCT]],
+                'filters' => [Filters::TYPE => [Entities::PRODUCT]],
             ])
         );
 
@@ -128,7 +132,7 @@ class SearchTest extends TestCase
 
         $response = $this->getJson(
             route('api.search', [
-                'filters' => ['type' => [Entities::PRODUCT, Entities::PERSON]],
+                'filters' => [Filters::TYPE => [Entities::PRODUCT, Entities::PERSON]],
             ])
         );
 
