@@ -44,7 +44,7 @@ class SearchTest extends TestCase
         $response = $this
             ->getJson(
                 route('api.search', [
-                    'filters' => [Filters::THEME => [$theme->id]]
+                    'filters' => [Filters::THEME => [$theme->id]],
                 ])
             );
 
