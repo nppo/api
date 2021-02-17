@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Party;
 use App\Models\Person;
+use App\Models\Product;
 use App\Models\Project;
 use App\Models\Tag;
 use App\Models\Theme;
@@ -25,6 +26,8 @@ class ProjectSeeder extends Seeder
 
     private const MAX_PARTIES = 3;
 
+    private const MAX_PRODUCTS = 2;
+
     /**
      * Run the database seeds.
      *
@@ -39,16 +42,18 @@ class ProjectSeeder extends Seeder
         $people = Person::all();
         $parties = Party::all();
         $users = User::all();
+        $products = Product::all();
 
         Project::factory()
             ->times(self::MAX_PROJECTS)
             ->create()
-            ->each(function (Project $project) use ($themes, $tags, $people, $parties, $users): void {
+            ->each(function (Project $project) use ($themes, $tags, $people, $parties, $users, $products): void {
                 $this->attachThemes($project, $themes);
                 $this->attachTags($project, $tags);
                 $this->attachPeople($project, $people);
                 $this->attachParties($project, $parties);
                 $this->attachLikes($project, $users);
+                $this->attachProducts($project, $products);
 
                 $this->command->getOutput()->progressAdvance(1);
             });
@@ -56,46 +61,55 @@ class ProjectSeeder extends Seeder
         $this->command->getOutput()->progressFinish();
     }
 
-    private function attachThemes(Project $product, Collection $themes): void
+    private function attachThemes(Project $project, Collection $themes): void
     {
-        $product
+        $project
             ->themes()
             ->saveMany($themes->random(mt_rand(1, self::MAX_THEMES)));
     }
 
-    private function attachPeople(Project $product, Collection $people): void
+    private function attachPeople(Project $project, Collection $people): void
     {
-        $product
+        $project
             ->people()
             ->saveMany(
                 $people->random(mt_rand(1, self::MAX_PEOPLE))
             );
     }
 
-    private function attachParties(Project $product, Collection $parties): void
+    private function attachParties(Project $project, Collection $parties): void
     {
-        $product
+        $project
             ->parties()
             ->saveMany(
                 $parties->random(mt_rand(1, self::MAX_PARTIES))
             );
     }
 
-    private function attachTags(Project $product, Collection $tags): void
+    private function attachTags(Project $project, Collection $tags): void
     {
-        $product
+        $project
             ->tags()
             ->saveMany(
                 $tags->random(mt_rand(0, self::MAX_TAGS))
             );
     }
 
-    private function attachLikes(Project $product, Collection $users): void
+    private function attachLikes(Project $project, Collection $users): void
     {
-        $product
+        $project
             ->likes()
             ->saveMany(
                 $users->random(mt_rand(0, $users->count()))
+            );
+    }
+
+    private function attachProducts(Project $project, Collection $products): void
+    {
+        $project
+            ->products()
+            ->saveMany(
+                $products->random(mt_rand(1, self::MAX_PRODUCTS))
             );
     }
 }
