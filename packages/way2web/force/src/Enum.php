@@ -9,11 +9,57 @@ use ReflectionClass;
 
 class Enum
 {
-    public static function asArray(): array
+    private const IDENTIFIER = 'id';
+
+    private const DEFAULT_KEY = 'name';
+
+    public static function asArray(bool $associative = true): array
     {
         $class = get_called_class();
 
-        return (new ReflectionClass(new $class()))->getConstants();
+        $constants = (new ReflectionClass(new $class()))->getConstants();
+
+        if ($associative) {
+            return $constants;
+        }
+
+        return array_values($constants);
+    }
+
+    public static function asReferableArray(string $valueKey = self::DEFAULT_KEY): array
+    {
+        $class = get_called_class();
+
+        $constants = (new ReflectionClass(new $class()))->getConstants();
+
+        $referableArray = [];
+
+        foreach (array_values($constants) as $key => $value) {
+            $id = $key + 1;
+
+            $referableArray[$key][self::IDENTIFIER] = $id;
+            $referableArray[$key][$valueKey] = $value;
+        }
+
+        return $referableArray;
+    }
+
+    public static function getByReferableKey($id, string $key = self::DEFAULT_KEY)
+    {
+        $referableArray = self::asReferableArray();
+
+        return $referableArray[$id - 1][$key];
+    }
+
+    public static function getByReferableValue($value, string $key = self::DEFAULT_KEY)
+    {
+        $referableArray = self::asReferableArray();
+
+        $requestedValue = array_filter($referableArray, function ($referableValue) use ($value, $key) {
+            return $value === $referableValue[self::DEFAULT_KEY];
+        });
+
+        return reset($requestedValue)[$key];
     }
 
     /**

@@ -21,14 +21,18 @@ class SearchRepository
 
     private PersonRepository $personRepository;
 
+    private ProjectRepository $projectRepository;
+
     public function __construct(
         ProductRepository $productRepository,
         PartyRepository $partyRepository,
-        PersonRepository $personRepository
+        PersonRepository $personRepository,
+        ProjectRepository $projectRepository
     ) {
         $this->productRepository = $productRepository;
         $this->partyRepository = $partyRepository;
         $this->personRepository = $personRepository;
+        $this->projectRepository = $projectRepository;
     }
 
     /**
@@ -78,6 +82,14 @@ class SearchRepository
                 $this->results[$type] = $this
                     ->partyRepository
                     ->search($query)
+                    ->get();
+                break;
+
+            case Entities::PROJECT:
+                $this->results[$type] = $this
+                    ->projectRepository
+                    ->search($query)
+                    ->filter($filters)
                     ->get();
                 break;
 
