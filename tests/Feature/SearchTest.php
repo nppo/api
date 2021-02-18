@@ -9,6 +9,7 @@ use App\Enumerators\Filters;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
+use App\Models\Project;
 use App\Models\Theme;
 use Tests\TestCase;
 
@@ -89,7 +90,7 @@ class SearchTest extends TestCase
         Party::factory()->create();
         Person::factory()->create();
         Product::factory()->create();
-//        Project::factory()->create();
+        Project::factory()->create();
 
         $response = $this->getJson(route('api.search'));
 
@@ -107,7 +108,7 @@ class SearchTest extends TestCase
         Party::factory()->create();
         Person::factory()->create();
         Product::factory()->create();
-//        Project::factory()->create();
+        Project::factory()->create();
 
         $response = $this->getJson(
             route('api.search', [
@@ -129,6 +130,7 @@ class SearchTest extends TestCase
         Party::factory()->create();
         Person::factory()->create();
         Product::factory()->create();
+        Project::factory()->create();
 
         $response = $this->getJson(
             route('api.search', [
