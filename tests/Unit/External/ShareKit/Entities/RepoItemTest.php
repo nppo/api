@@ -17,22 +17,22 @@ class RepoItemTest extends TestCase
 
         $this->assertInstanceOf(
             Collection::class,
-            $repoItem->getAuthors()
+            $repoItem->authors
         );
 
-        $this->assertEmpty($repoItem->getAuthors());
+        $this->assertEmpty($repoItem->authors);
     }
 
     /** @test */
     public function when_it_has_authors_it_will_return_a_collection_with_data(): void
     {
-        $repoItem = new RepoItem([], ['authors' => [['person' => ['::KEY::' => '::VALUE::']]]]);
+        $repoItem = new RepoItem(['authors' => [['person' => ['::KEY::' => '::VALUE::']]]]);
 
         $this->assertInstanceOf(
             Collection::class,
-            $repoItem->getAuthors()
+            $repoItem->authors
         );
 
-        $this->assertNotEmpty($repoItem->getAuthors());
+        $this->assertNotEmpty($repoItem->authors);
     }
 }

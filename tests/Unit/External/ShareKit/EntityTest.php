@@ -12,7 +12,7 @@ class EntityTest extends TestCase
     /** @test */
     public function it_will_magically_get_properties_from_the_data(): void
     {
-        $entity = new Entity([], ['::KEY::' => '::VALUE::']);
+        $entity = new Entity(['::KEY::' => '::VALUE::']);
 
         $this->assertEquals(
             '::VALUE::',
