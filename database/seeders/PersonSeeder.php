@@ -25,7 +25,8 @@ class PersonSeeder extends Seeder
             });
     }
 
-    private function attachThemes(Person $person, Collection $themes) {
+    private function attachThemes(Person $person, Collection $themes): void
+    {
         $person
             ->themes()
             ->saveMany($themes->random(mt_rand(1, self::MAX_THEMES)));
