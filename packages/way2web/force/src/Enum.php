@@ -13,17 +13,11 @@ class Enum
 
     private const DEFAULT_KEY = 'name';
 
-    public static function asArray(bool $associative = true): array
+    public static function asArray(): array
     {
         $class = get_called_class();
 
-        $constants = (new ReflectionClass(new $class()))->getConstants();
-
-        if ($associative) {
-            return $constants;
-        }
-
-        return array_values($constants);
+        return (new ReflectionClass(new $class()))->getConstants();
     }
 
     public static function asReferableArray(string $valueKey = self::DEFAULT_KEY): array
