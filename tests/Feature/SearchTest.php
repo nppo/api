@@ -99,7 +99,7 @@ class SearchTest extends TestCase
             ->assertJsonCount(1, 'data.products')
             ->assertJsonCount(1, 'data.parties')
             ->assertJsonCount(1, 'data.people')
-            ->assertJsonCount(0, 'data.projects');
+            ->assertJsonCount(1, 'data.projects');
     }
 
     /** @test */
@@ -110,9 +110,11 @@ class SearchTest extends TestCase
         Product::factory()->create();
         Project::factory()->create();
 
+        $typeFilter = Entities::getByReferableValue(Entities::PRODUCT, 'id');
+
         $response = $this->getJson(
             route('api.search', [
-                'filters' => [Filters::TYPES => [Entities::PRODUCT]],
+                'filters' => [Filters::TYPES => [$typeFilter]],
             ])
         );
 
@@ -132,9 +134,14 @@ class SearchTest extends TestCase
         Product::factory()->create();
         Project::factory()->create();
 
+        $typeFilters = [
+            $typeFilter = Entities::getByReferableValue(Entities::PRODUCT, 'id'),
+            $typeFilter = Entities::getByReferableValue(Entities::PERSON, 'id'),
+        ];
+
         $response = $this->getJson(
             route('api.search', [
-                'filters' => [Filters::TYPES => [Entities::PRODUCT, Entities::PERSON]],
+                'filters' => [Filters::TYPES => $typeFilters],
             ])
         );
 

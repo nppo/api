@@ -30,8 +30,16 @@ class SearchRequest extends FormRequest
 
     public function getTypes(): array
     {
-        return array_key_exists(Filters::TYPES, $this->getFilters())
-            ? $this->getFilters()[Filters::TYPES]
-            : array_values(Entities::asArray());
+        if (array_key_exists(Filters::TYPES, $this->getFilters())) {
+            $types = [];
+
+            foreach ($this->getFilters()[Filters::TYPES] as $type) {
+                $types[] = Entities::getByReferableKey($type);
+            }
+
+            return $types;
+        }
+
+        return array_values(Entities::asArray());
     }
 }

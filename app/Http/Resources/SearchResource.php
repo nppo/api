@@ -34,7 +34,7 @@ class SearchResource extends JsonResource
                 : [],
 
             'projects' => array_key_exists('project', $this->resource)
-                ? $this->resource['project']
+                ? ProjectResource::collection($this->resource['project'])
                 : [],
         ];
     }
