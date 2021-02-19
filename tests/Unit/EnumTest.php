@@ -32,7 +32,7 @@ class EnumTest extends TestCase
 
         $referableArray = Entities::asReferableArray($valueKey);
 
-        foreach($referableArray as $entity) {
+        foreach ($referableArray as $entity) {
             $this->assertEquals(
                 $entity[$valueKey],
                 Entities::getByReferableKey($entity['id'])
@@ -45,7 +45,7 @@ class EnumTest extends TestCase
     {
         $referableArray = Entities::asArray();
 
-        foreach($referableArray as $entity) {
+        foreach ($referableArray as $entity) {
             $this->assertEquals(
                 $entity,
                 Entities::getByReferableValue($entity)
