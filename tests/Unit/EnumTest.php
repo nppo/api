@@ -26,7 +26,7 @@ class EnumTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_a_specific_value_based_on_referable_key()
+    public function it_returns_a_specific_value_based_on_referable_key(): void
     {
         $valueKey = '::value::';
 
@@ -41,7 +41,7 @@ class EnumTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_a_specific_value_based_on_referable_value()
+    public function it_returns_a_specific_value_based_on_referable_value(): void
     {
         $referableArray = Entities::asArray();
 
