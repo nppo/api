@@ -19,6 +19,11 @@ class ThemeController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        return ThemeResource::collection($this->themeRepository->all());
+        return ThemeResource::collection(
+            $this->themeRepository
+                ->makeQuery()
+                ->orderBy('label')
+                ->get()
+        );
     }
 }
