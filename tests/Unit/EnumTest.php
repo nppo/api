@@ -43,10 +43,6 @@ class EnumTest extends TestCase
     /** @test */
     public function it_returns_a_specific_value_based_on_referable_value()
     {
-        $valueKey = '::value::';
-
-        $iWantToSee = 'id';
-
         $referableArray = Entities::asArray();
 
         foreach($referableArray as $entity) {
