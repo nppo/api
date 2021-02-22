@@ -5,30 +5,30 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Person;
-use App\Models\Theme;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
 class PersonSeeder extends Seeder
 {
-    private const MAX_THEMES = 3;
+    private const MAX_TAGS = 5;
 
     public function run(): void
     {
-        $themes = Theme::all();
+        $tags = Tag::all();
 
         Person::factory()
             ->times(30)
             ->create()
-            ->each(function (Person $person) use ($themes): void {
-                $this->attachThemes($person, $themes);
+            ->each(function (Person $person) use ($tags): void {
+                $this->attachTags($person, $tags);
             });
     }
 
-    private function attachThemes(Person $person, Collection $themes): void
+    private function attachTags(Person $person, Collection $tags): void
     {
         $person
-            ->themes()
-            ->saveMany($themes->random(mt_rand(1, self::MAX_THEMES)));
+            ->tags()
+            ->saveMany($tags->random(mt_rand(1, self::MAX_TAGS)));
     }
 }

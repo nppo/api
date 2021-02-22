@@ -31,8 +31,8 @@ class PersonResource extends JsonResource
                 return ProductResource::collection($this->products);
             }),
 
-            'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {
-                return ThemeResource::collection($this->themes);
+            'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
+                return TagResource::collection($this->tags);
             }),
         ];
     }
