@@ -8,6 +8,7 @@ use Way2Web\Force\Enum;
 
 class Filters extends Enum
 {
+    public const TAGS = 'tags';
     public const THEMES = 'themes';
     public const TYPES = 'types';
 }

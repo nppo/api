@@ -14,9 +14,9 @@ class Person extends AbstractModel
         return $this->morphToMany(Product::class, 'contributable');
     }
 
-    public function themes(): MorphToMany
+    public function tags(): MorphToMany
     {
-        return $this->morphToMany(Theme::class, 'themeable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function likes(): MorphToMany

@@ -27,7 +27,7 @@ class PersonRepository extends AbstractRepository
     {
         $this
             ->builder
-            ->with(['themes']);
+            ->with(['tags']);
 
         if ($query !== '') {
             $this
@@ -43,9 +43,9 @@ class PersonRepository extends AbstractRepository
     public function filter(array $filters = []): self
     {
         foreach ($filters as $key => $value) {
-            if ($key === Filters::THEMES) {
-                $this->builder->whereHas('themes', function ($query) use ($value): void {
-                    $query->whereIn('themes.id', $value);
+            if ($key === Filters::TAGS) {
+                $this->builder->whereHas('tags', function ($query) use ($value): void {
+                    $query->whereIn('tag.id', $value);
                 });
             }
         }
