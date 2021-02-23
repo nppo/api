@@ -17,13 +17,13 @@ class EntityStatisticsResource extends JsonResource
      *
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return collect($this->resource->entities)
             ->map(fn ($entity) => [
                 'name'          => $entity,
                 'count'         => ('App\Models\\' . Str::studly($entity))::count(),
-                'count_display' => number_format(('App\Models\\' . Str::studly($entity))::count(), 0, ',', '.'),
+                'countDisplay' => number_format(('App\Models\\' . Str::studly($entity))::count(), 0, ',', '.'),
             ])
             ->values()
             ->toArray();
