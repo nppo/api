@@ -21,9 +21,8 @@ class EntityStatisticsResource extends JsonResource
     {
         return collect($this->resource->entities)
             ->map(fn ($entity) => [
-                'name'         => $entity,
-                'count'        => ('App\Models\\' . Str::studly($entity))::count(),
-                'countDisplay' => number_format(('App\Models\\' . Str::studly($entity))::count(), 0, ',', '.'),
+                'name'  => $entity,
+                'count' => ('App\Models\\' . Str::studly($entity))::count(),
             ])
             ->values()
             ->toArray();
