@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\AuthController;
 use App\Models\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -24,8 +25,13 @@ Route::get('/', function () {
 
 if (App::environment('local')) {
     Route::get('login', function () {
-        Auth::login(User::first());
+        Auth::login(User::inRandomOrder()->first());
 
         return redirect()->intended();
     })->name('login');
+} else {
+    Route::get('login', [AuthController::class, 'login'])
+        ->name('login');
+
+    Route::get('surfconext', [AuthController::class, 'surfconext']);
 }
