@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\EntityController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\ThemeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,7 @@ Route::group([
     'as' => 'api.',
 ], function (): void {
     Route::get('search', [SearchController::class, 'search'])->name('search');
+    Route::get('statistics/entities', [StatisticsController::class, 'entities'])->name('statistics.entities');
 
     Route::resource('themes', ThemeController::class)->only(['index']);
     Route::resource('types', EntityController::class)->only(['index']);
