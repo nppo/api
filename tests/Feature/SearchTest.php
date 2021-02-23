@@ -11,6 +11,7 @@ use App\Models\Person;
 use App\Models\Product;
 use App\Models\Project;
 use App\Models\Theme;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 class SearchTest extends TestCase
@@ -151,5 +152,26 @@ class SearchTest extends TestCase
             ->assertJsonCount(0, 'data.parties')
             ->assertJsonCount(1, 'data.people')
             ->assertJsonCount(0, 'data.projects');
+    }
+
+    /** @test */
+    public function it_orders_products_by_published_at_desc_by_default(): void
+    {
+        Product::factory()
+            ->count(3)
+            ->create();
+
+        $response = $this->getJson(
+            route('api.search', [
+                'filter' => ['types' => [Entities::getByReferableValue(Entities::PRODUCT, 'id')]],
+            ])
+        );
+
+        $products = Product::orderBy('published_at', 'desc')
+            ->get()
+            ->pluck('published_at')
+            ->toArray();
+
+        $this->assertEquals($products, Arr::pluck($response['data']['products'], 'publishedAt'));
     }
 }

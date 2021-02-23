@@ -50,6 +50,13 @@ class ProductRepository extends AbstractRepository
         return $this;
     }
 
+    public function orderBy(string $column, string $order = 'asc'): self
+    {
+        $this->builder->orderBy($column, $order);
+
+        return $this;
+    }
+
     public function get()
     {
         return $this->builder->get();
