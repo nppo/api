@@ -16,6 +16,7 @@ class CreateProjectsTable extends Migration
             $table->string('title');
             $table->text('description');
 
+            $table->timestamp('published_at');
             $table->timestamps();
         });
     }
