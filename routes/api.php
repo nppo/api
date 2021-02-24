@@ -6,6 +6,7 @@ use App\Http\Controllers\EntityController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ThemeController;
 use Illuminate\Http\Request;
@@ -36,4 +37,5 @@ Route::group([
     Route::resource('products', ProductController::class)->only(['index']);
     Route::resource('persons', PersonController::class)->only(['index']);
     Route::resource('parties', PartyController::class)->only(['index']);
+    Route::resource('projects', ProjectController::class)->only(['index']);
 });
