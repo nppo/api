@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
-use App\Models\Product;
 use App\Repositories\ProductRepository;
 
 class ProductController extends Controller
@@ -17,8 +16,10 @@ class ProductController extends Controller
         $this->productRepository = $productRepository;
     }
 
-    public function show(Product $product): ProductResource
+    public function show($id): ProductResource
     {
-        return new ProductResource($product);
+        return new ProductResource(
+            $this->productRepository->findOrFail($id)
+        );
     }
 }
