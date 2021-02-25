@@ -8,6 +8,7 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\ThemeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,10 +32,11 @@ Route::group([
     'as' => 'api.',
 ], function (): void {
     Route::get('search', [SearchController::class, 'search'])->name('search');
+    Route::get('statistics/entities', [StatisticsController::class, 'entities'])->name('statistics.entities');
 
     Route::resource('themes', ThemeController::class)->only(['index']);
     Route::resource('types', EntityController::class)->only(['index']);
-    Route::resource('products', ProductController::class)->only(['index']);
+    Route::resource('products', ProductController::class)->only(['index', 'show']);
     Route::resource('persons', PersonController::class)->only(['index']);
     Route::resource('parties', PartyController::class)->only(['index']);
     Route::resource('projects', ProjectController::class)->only(['index']);

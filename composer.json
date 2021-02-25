@@ -21,7 +21,9 @@
         "laravel/framework": "^8.12",
         "laravel/passport": "^10.1",
         "laravel/scout": "^8.6",
+        "laravel/socialite": "^5.2",
         "laravel/tinker": "^2.5",
+        "socialiteproviders/surfconext": "^4.1",
         "softcreatr/jsonpath": "^0.7.2",
         "way2web/force": "dev-develop"
     },

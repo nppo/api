@@ -26,4 +26,11 @@ class ProductController extends Controller
                 ->get()
         );
     }
+
+    public function show($id): ProductResource
+    {
+        return new ProductResource(
+            $this->productRepository->findOrFail($id)
+        );
+    }
 }

@@ -67,6 +67,7 @@ class SearchRepository
                     ->productRepository
                     ->search($query)
                     ->filter($filters)
+                    ->orderBy('published_at', 'desc')
                     ->get();
                 break;
 
