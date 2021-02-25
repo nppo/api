@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\EntityController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProductController;
@@ -40,4 +41,6 @@ Route::group([
     Route::resource('persons', PersonController::class)->only(['index']);
     Route::resource('parties', PartyController::class)->only(['index']);
     Route::resource('projects', ProjectController::class)->only(['index']);
+
+    Route::get('discover', [HomeController::class, 'discover'])->name('discover');
 });

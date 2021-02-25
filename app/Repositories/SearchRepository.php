@@ -7,7 +7,10 @@ namespace App\Repositories;
 use App\Enumerators\Entities;
 use App\Enumerators\Filters;
 use App\Http\Resources\SearchResource;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Way2Web\Force\Repository\AbstractRepository;
 
 class SearchRepository
 {
@@ -100,6 +103,42 @@ class SearchRepository
         }
 
         $this->results[self::COUNT_KEY] += count($this->results[$type]);
+    }
+
+    public function discover(): self
+    {
+        foreach (Entities::asArray() as $entity) {
+            $model = 'App\Models\\' . Str::studly($entity);
+            $repositoryName = "{$entity}Repository";
+            $orderByColumn = $entity === Entities::PRODUCT ? 'published_at' : 'created_at';
+
+            if (!property_exists(self::class, $repositoryName)) {
+                continue;
+            }
+
+            /** @var AbstractRepository $repository */
+            $repository = $this->{$repositoryName};
+
+            $query = $repository
+                ->makeQuery()
+                ->orderBy($orderByColumn, 'desc')
+                ->limit(10);
+
+            if (class_exists($model)) {
+                /** @var Model $model */
+                $model = new $model();
+
+                if (!is_null($model->likes)) {
+                    $query->withCount('likes');
+                }
+            }
+
+            $this->results[$entity] = $query->get();
+
+            $this->results[self::COUNT_KEY] += count($this->results[$entity]);
+        }
+
+        return $this;
     }
 
     public function toResource(): SearchResource
