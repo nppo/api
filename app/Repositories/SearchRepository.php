@@ -123,7 +123,7 @@ class SearchRepository
 
             $query = $repository
                 ->makeQuery()
-                ->orderBy($orderByColumn, 'desc')
+                ->orderByDesc($orderByColumn)
                 ->limit(10);
 
             if (class_exists($model)) {
@@ -136,7 +136,7 @@ class SearchRepository
                     }
                 }
 
-                if (!is_null($model->likes)) {
+                if (method_exists($model, 'likes')) {
                     $query->withCount('likes');
                 }
             }
