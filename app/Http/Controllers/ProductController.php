@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
 use App\Repositories\ProductRepository;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProductController extends Controller
 {
@@ -15,13 +14,6 @@ class ProductController extends Controller
     public function __construct(ProductRepository $productRepository)
     {
         $this->productRepository = $productRepository;
-    }
-
-    public function index(): AnonymousResourceCollection
-    {
-        return ProductResource::collection(
-            $this->productRepository->index()
-        );
     }
 
     public function show($id): ProductResource
