@@ -7,7 +7,6 @@ namespace App\Repositories;
 use App\Enumerators\Filters;
 use App\Models\Person;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Way2Web\Force\Repository\AbstractRepository;
 
 class PersonRepository extends AbstractRepository
@@ -22,14 +21,6 @@ class PersonRepository extends AbstractRepository
     public function model(): string
     {
         return Person::class;
-    }
-
-    public function index(): Collection
-    {
-        $this
-            ->makeQuery()
-            ->orderByDesc('created_at')
-            ->get();
     }
 
     public function search(string $query): self

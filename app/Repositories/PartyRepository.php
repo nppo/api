@@ -6,7 +6,6 @@ namespace App\Repositories;
 
 use App\Models\Party;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Way2Web\Force\Repository\AbstractRepository;
 
 class PartyRepository extends AbstractRepository
@@ -21,14 +20,6 @@ class PartyRepository extends AbstractRepository
     public function model(): string
     {
         return Party::class;
-    }
-
-    public function index(): Collection
-    {
-        $this
-            ->makeQuery()
-            ->orderByDesc('created_at')
-            ->get();
     }
 
     public function search(string $query): self
