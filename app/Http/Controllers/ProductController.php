@@ -20,10 +20,7 @@ class ProductController extends Controller
     public function index(): AnonymousResourceCollection
     {
         return ProductResource::collection(
-            $this->productRepository
-                ->makeQuery()
-                ->orderByDesc('id')
-                ->get()
+            $this->productRepository->index()
         );
     }
 

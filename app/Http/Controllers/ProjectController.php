@@ -20,10 +20,7 @@ class ProjectController extends Controller
     public function index(): AnonymousResourceCollection
     {
         return ProjectResource::collection(
-            $this->projectRepository
-                ->makeQuery()
-                ->orderByDesc('id')
-                ->get()
+            $this->projectRepository->index()
         );
     }
 }

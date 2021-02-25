@@ -20,10 +20,7 @@ class PersonController extends Controller
     public function index(): AnonymousResourceCollection
     {
         return PersonResource::collection(
-            $this->personRepository
-                ->makeQuery()
-                ->orderByDesc('id')
-                ->get()
+            $this->personRepository->index()
         );
     }
 }

@@ -20,10 +20,7 @@ class PartyController extends Controller
     public function index(): AnonymousResourceCollection
     {
         return PartyResource::collection(
-            $this->partyRepository
-                ->makeQuery()
-                ->orderByDesc('id')
-                ->get()
+            $this->partyRepository->index()
         );
     }
 }
