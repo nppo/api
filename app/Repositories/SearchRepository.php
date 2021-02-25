@@ -14,6 +14,8 @@ use Way2Web\Force\Repository\AbstractRepository;
 
 class SearchRepository
 {
+    const DISCOVER_EAGER_LOADED_RELATIONS = ['themes', 'tags'];
+
     public array $results = [self::COUNT_KEY => 0];
 
     private const COUNT_KEY = 'count';
@@ -127,6 +129,12 @@ class SearchRepository
             if (class_exists($model)) {
                 /** @var Model $model */
                 $model = new $model();
+
+                foreach (self::DISCOVER_EAGER_LOADED_RELATIONS as $relation) {
+                    if (method_exists($model, $relation)) {
+                        $query->with($relation);
+                    }
+                }
 
                 if (!is_null($model->likes)) {
                     $query->withCount('likes');
