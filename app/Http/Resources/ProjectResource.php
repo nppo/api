@@ -24,6 +24,7 @@ class ProjectResource extends JsonResource
             'title'       => $this->title,
             'description' => $this->description,
             'likes'       => $this->likes_count,
+            'createdAt'   => $this->created_at,
 
             'parties' => $this->whenLoaded('parties', function (): AnonymousResourceCollection {
                 return PartyResource::collection($this->parties);
