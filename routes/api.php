@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\EntityController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StatisticsController;
@@ -34,4 +35,6 @@ Route::group([
     Route::resource('themes', ThemeController::class)->only(['index']);
     Route::resource('types', EntityController::class)->only(['index']);
     Route::resource('products', ProductController::class)->only(['index', 'show']);
+
+    Route::get('discover', [HomeController::class, 'discover'])->name('discover');
 });

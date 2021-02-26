@@ -7,10 +7,15 @@ namespace App\Repositories;
 use App\Enumerators\Entities;
 use App\Enumerators\Filters;
 use App\Http\Resources\SearchResource;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Way2Web\Force\Repository\AbstractRepository;
 
 class SearchRepository
 {
+    const DISCOVER_EAGER_LOADED_RELATIONS = ['themes', 'tags'];
+
     public array $results = [self::COUNT_KEY => 0];
 
     private const COUNT_KEY = 'count';
@@ -100,6 +105,48 @@ class SearchRepository
         }
 
         $this->results[self::COUNT_KEY] += count($this->results[$type]);
+    }
+
+    public function discover(): self
+    {
+        foreach (Entities::asArray() as $entity) {
+            $model = 'App\Models\\' . Str::studly($entity);
+            $repositoryName = "{$entity}Repository";
+            $orderByColumn = $entity === Entities::PRODUCT ? 'published_at' : 'created_at';
+
+            if (!property_exists(self::class, $repositoryName)) {
+                continue;
+            }
+
+            /** @var AbstractRepository $repository */
+            $repository = $this->{$repositoryName};
+
+            $query = $repository
+                ->makeQuery()
+                ->orderByDesc($orderByColumn)
+                ->limit(10);
+
+            if (class_exists($model)) {
+                /** @var Model $model */
+                $model = new $model();
+
+                foreach (self::DISCOVER_EAGER_LOADED_RELATIONS as $relation) {
+                    if (method_exists($model, $relation)) {
+                        $query->with($relation);
+                    }
+                }
+
+                if (method_exists($model, 'likes')) {
+                    $query->withCount('likes');
+                }
+            }
+
+            $this->results[$entity] = $query->get();
+
+            $this->results[self::COUNT_KEY] += count($this->results[$entity]);
+        }
+
+        return $this;
     }
 
     public function toResource(): SearchResource

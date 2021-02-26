@@ -19,8 +19,9 @@ class PartyResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'id'   => $this->getKey(),
-            'name' => $this->name,
+            'id'          => $this->getKey(),
+            'name'        => $this->name,
+            'description' => $this->description,
         ];
     }
 }
