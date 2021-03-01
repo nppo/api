@@ -11,7 +11,7 @@ class Party extends AbstractModel
 {
     public function parties(): MorphToMany
     {
-        return $this->morphToMany(Party::class, 'affiliable');
+        return $this->morphToMany(self::class, 'affiliable');
     }
 
     public function people(): MorphToMany
