@@ -15,7 +15,7 @@ class PersonFactory extends Factory
     public function definition(): array
     {
         return [
-            'identifier'  => Str::random(10),
+            'identifier' => Str::random(10),
             'first_name' => $this->faker->firstName,
             'last_name'  => $this->faker->lastName,
             'about'      => $this->faker->text,

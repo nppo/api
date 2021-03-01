@@ -37,7 +37,7 @@ class PersonSeeder extends Seeder
             });
     }
 
-    private function attachParty(Person $person, Collection $parties)
+    private function attachParty(Person $person, Collection $parties): void
     {
         $person
             ->parties()
