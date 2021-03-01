@@ -20,19 +20,33 @@ class PersonResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'id'        => $this->getKey(),
-            'firstName' => $this->first_name,
-            'lastName'  => $this->last_name,
-            'email'     => $this->email,
-            'function'  => $this->function,
-            'phone'     => $this->phone,
+            'id'         => $this->getKey(),
+            'identifier' => $this->identifier,
+            'firstName'  => $this->first_name,
+            'lastName'   => $this->last_name,
+            'about'      => $this->about,
+            'email'      => $this->email,
+            'function'   => $this->function,
+            'phone'      => $this->phone,
 
-            'contributions' => $this->whenLoaded('products', function (): AnonymousResourceCollection {
+            'parties' => $this->whenLoaded('parties', function (): AnonymousResourceCollection {
+                return PartyResource::collection($this->parties);
+            }),
+
+            'products' => $this->whenLoaded('products', function (): AnonymousResourceCollection {
                 return ProductResource::collection($this->products);
+            }),
+
+            'projects' => $this->whenLoaded('projects', function (): AnonymousResourceCollection {
+                return ProjectResource::collection($this->projects);
             }),
 
             'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
                 return TagResource::collection($this->tags);
+            }),
+
+            'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {
+                return ThemeResource::collection($this->themes);
             }),
         ];
     }
