@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Way2Web\Force\AbstractModel;
 
@@ -15,9 +14,9 @@ class Person extends AbstractModel
         return $this->morphToMany(User::class, 'likeable');
     }
 
-    public function parties(): BelongsToMany
+    public function parties(): MorphToMany
     {
-        return $this->belongsToMany(Party::class);
+        return $this->morphToMany(Party::class, 'affiliable');
     }
 
     public function products(): MorphToMany
