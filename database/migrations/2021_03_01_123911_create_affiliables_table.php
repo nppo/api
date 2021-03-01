@@ -6,18 +6,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePartyPersonTable extends Migration
+class CreateAffiliablesTable extends Migration
 {
     public function up(): void
     {
-        Schema::create('party_person', function (Blueprint $table): void {
+        Schema::create('affiliables', function (Blueprint $table): void {
             $table->foreignId('party_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('person_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('affiliable_id');
+            $table->string('affiliable_type');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('party_person');
+        Schema::dropIfExists('affiliable');
     }
 }
