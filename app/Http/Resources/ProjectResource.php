@@ -30,16 +30,20 @@ class ProjectResource extends JsonResource
                 return PartyResource::collection($this->parties);
             }),
 
-            'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {
-                return ThemeResource::collection($this->themes);
+            'people' => $this->whenLoaded('people', function (): AnonymousResourceCollection {
+                return PersonResource::collection($this->people);
+            }),
+
+            'products' => $this->whenLoaded('products', function (): AnonymousResourceCollection {
+                return ProductResource::collection($this->products);
             }),
 
             'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
                 return TagResource::collection($this->tags);
             }),
 
-            'products' => $this->whenLoaded('products', function (): AnonymousResourceCollection {
-                return ProductResource::collection($this->products);
+            'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {
+                return ThemeResource::collection($this->themes);
             }),
         ];
     }

@@ -28,11 +28,6 @@ class ProjectSeeder extends Seeder
 
     private const MAX_PRODUCTS = 2;
 
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run(): void
     {
         $this->command->getOutput()->progressStart(self::MAX_PROJECTS);

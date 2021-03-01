@@ -23,6 +23,20 @@ class ProjectRepository extends AbstractRepository
         return Project::class;
     }
 
+    public function show($id)
+    {
+        return $this
+            ->with([
+                'parties',
+                'people',
+                'products',
+                'tags',
+                'themes',
+            ])
+            ->withCount('likes')
+            ->findOrFail($id);
+    }
+
     public function search(string $query): self
     {
         $this

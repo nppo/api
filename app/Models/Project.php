@@ -13,24 +13,14 @@ class Project extends AbstractModel
 {
     use HasFactory;
 
-    public function products(): BelongsToMany
-    {
-        return $this->belongsToMany(Product::class)->withTimestamps();
-    }
-
-    public function themes(): MorphToMany
-    {
-        return $this->morphToMany(Theme::class, 'themeable');
-    }
-
-    public function tags(): MorphToMany
-    {
-        return $this->morphToMany(Tag::class, 'taggable');
-    }
-
     public function likes(): MorphToMany
     {
         return $this->morphToMany(User::class, 'likeable');
+    }
+
+    public function parties(): MorphToMany
+    {
+        return $this->morphedByMany(Party::class, 'cooperable');
     }
 
     public function people(): MorphToMany
@@ -38,8 +28,21 @@ class Project extends AbstractModel
         return $this->morphedByMany(Person::class, 'cooperable');
     }
 
-    public function parties(): MorphToMany
+    public function products(): BelongsToMany
     {
-        return $this->morphedByMany(Party::class, 'cooperable');
+        return $this
+            ->belongsToMany(Product::class)
+            ->withCount('likes')
+            ->withTimestamps();
+    }
+
+    public function tags(): MorphToMany
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    public function themes(): MorphToMany
+    {
+        return $this->morphToMany(Theme::class, 'themeable');
     }
 }

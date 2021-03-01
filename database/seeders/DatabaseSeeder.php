@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(ThemeSeeder::class);
         $this->call(TagSeeder::class);
-        $this->call(PersonSeeder::class);
         $this->call(PartySeeder::class);
+        $this->call(PersonSeeder::class);
         $this->call(ProductSeeder::class);
         $this->call(ProjectSeeder::class);
         $this->call(PassportSeeder::class);

@@ -23,6 +23,19 @@ class PersonRepository extends AbstractRepository
         return Person::class;
     }
 
+    public function show($id)
+    {
+        return $this
+            ->with([
+                'parties',
+                'products',
+                'projects',
+                'tags',
+                'themes',
+            ])
+            ->findOrFail($id);
+    }
+
     public function search(string $query): self
     {
         $this
