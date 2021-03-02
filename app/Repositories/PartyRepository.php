@@ -39,4 +39,9 @@ class PartyRepository extends AbstractRepository
     {
         return $this->builder->get();
     }
+
+    public function show($id)
+    {
+        return $this->findOrFail($id);
+    }
 }
