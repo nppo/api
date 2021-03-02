@@ -65,20 +65,33 @@ class ProjectSeeder extends Seeder
 
     private function attachPeople(Project $project, Collection $people): void
     {
+        $pivotAttributes = [];
+
+        // Women and children first
+        $peopleToSave = $people
+            ->random(mt_rand(1, self::MAX_PEOPLE))
+            ->each(function (Person $person, $key) use (&$pivotAttributes): void {
+                $pivotAttributes[] = ['is_owner' => ($key === 0)];
+            });
+
         $project
             ->people()
-            ->saveMany(
-                $people->random(mt_rand(1, self::MAX_PEOPLE))
-            );
+            ->saveMany($peopleToSave, $pivotAttributes);
     }
 
     private function attachParties(Project $project, Collection $parties): void
     {
+        $pivotAttributes = [];
+
+        $partiesToSave = $parties
+            ->random(mt_rand(1, self::MAX_PARTIES))
+            ->each(function () use (&$pivotAttributes): void {
+                $pivotAttributes[] = ['is_owner' => false];
+            });
+
         $project
             ->parties()
-            ->saveMany(
-                $parties->random(mt_rand(1, self::MAX_PARTIES))
-            );
+            ->saveMany($partiesToSave, $pivotAttributes);
     }
 
     private function attachTags(Project $project, Collection $tags): void

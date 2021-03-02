@@ -27,6 +27,7 @@ class ProjectRepository extends AbstractRepository
     {
         return $this
             ->with([
+                'owner.tags',
                 'parties',
                 'people.tags',
                 'products',
