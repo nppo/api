@@ -18,7 +18,7 @@ class Project extends AbstractModel
         return $this->morphToMany(User::class, 'likeable');
     }
 
-    public function owner()
+    public function owner(): MorphToMany
     {
         return $this->people()->wherePivot('is_owner', true);
     }
