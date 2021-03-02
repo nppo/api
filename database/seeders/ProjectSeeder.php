@@ -63,6 +63,12 @@ class ProjectSeeder extends Seeder
             ->saveMany($themes->random(mt_rand(1, self::MAX_THEMES)));
     }
 
+    /**
+     * @param Project    $project
+     * @param Collection $people
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
     private function attachPeople(Project $project, Collection $people): void
     {
         $pivotAttributes = [];
