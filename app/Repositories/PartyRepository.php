@@ -42,6 +42,12 @@ class PartyRepository extends AbstractRepository
 
     public function show($id)
     {
-        return $this->findOrFail($id);
+        return $this
+            ->with([
+                'parties',
+                'projects',
+                'products',
+            ])
+            ->findOrFail($id);
     }
 }

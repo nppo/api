@@ -23,4 +23,9 @@ class Party extends AbstractModel
     {
         return $this->morphToMany(Product::class, 'contributable')->withCount('likes');
     }
+
+    public function projects(): MorphToMany
+    {
+        return $this->morphToMany(Project::class, 'cooperable');
+    }
 }
