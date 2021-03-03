@@ -15,6 +15,7 @@ class CreateCooperablesTable extends Migration
 
             $table->unsignedBigInteger('cooperable_id');
             $table->string('cooperable_type');
+            $table->boolean('is_owner');
         });
     }
 

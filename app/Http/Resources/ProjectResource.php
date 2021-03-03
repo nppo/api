@@ -26,6 +26,10 @@ class ProjectResource extends JsonResource
             'likes'       => $this->likes_count,
             'createdAt'   => $this->created_at,
 
+            'owner' => $this->whenLoaded('owner', function (): PersonResource {
+                return PersonResource::make($this->owner->first());
+            }),
+
             'parties' => $this->whenLoaded('parties', function (): AnonymousResourceCollection {
                 return PartyResource::collection($this->parties);
             }),
