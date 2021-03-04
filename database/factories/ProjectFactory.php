@@ -15,6 +15,7 @@ class ProjectFactory extends Factory
     {
         return [
             'title'       => $this->faker->sentence(mt_rand(2, 6)),
+            'purpose'     => $this->faker->text,
             'description' => $this->faker->text,
         ];
     }
