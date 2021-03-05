@@ -1,0 +1,27 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers;
+
+use App\Http\Resources\UserResource;
+use App\Models\User;
+use App\Repositories\UserRepository;
+
+class UserController extends Controller
+{
+    private UserRepository $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+    public function current(): UserResource
+    {
+        return new UserResource(
+            User::with(['roles', 'permissions'])->first()
+        );
+//        return new UserResource(auth()->user());
+    }
+}

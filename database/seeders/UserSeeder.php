@@ -6,6 +6,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -13,8 +15,15 @@ class UserSeeder extends Seeder
 
     public function run(): void
     {
+        $role = Role::create(['name' => 'editor']);
+        $permission = Permission::create(['name' => 'projects.update']);
+        $role->givePermissionTo($permission);
+
         User::factory()
             ->times(self::MAX_USERS)
-            ->create();
+            ->create()
+            ->each(function ($user) use ($role): void {
+                $user->assignRole($role);
+            });
     }
 }

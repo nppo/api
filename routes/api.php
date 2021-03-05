@@ -11,6 +11,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,4 +44,6 @@ Route::group([
     Route::resource('parties', PartyController::class)->only(['show']);
 
     Route::get('discover', [HomeController::class, 'discover'])->name('discover');
+
+    Route::get('users/current', [UserController::class, 'current']);
 });
