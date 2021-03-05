@@ -20,7 +20,7 @@ class PermissionResource extends JsonResource
     {
         return [
             'id'   => $this->getKey(),
-            'name' => $this->resource['name'],
+            'name' => $this->name,
         ];
     }
 }

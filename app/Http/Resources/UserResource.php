@@ -21,7 +21,7 @@ class UserResource extends JsonResource
     {
         return [
             'id'    => $this->getKey(),
-            'email' => $this->resource['email'],
+            'email' => $this->email,
 
             'roles' => $this->whenLoaded('roles', function (): AnonymousResourceCollection {
                 return RoleResource::collection($this->roles);
