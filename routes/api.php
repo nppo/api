@@ -31,8 +31,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group([
-    'as' => 'api.',
-    'middleware' => 'auth:api'
+    'as'         => 'api.',
+    'middleware' => 'auth:api',
 ], function (): void {
     Route::get('users/current', [UserController::class, 'current']);
 });
