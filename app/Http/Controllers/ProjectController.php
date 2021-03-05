@@ -24,17 +24,17 @@ class ProjectController extends Controller
         );
     }
 
-    public function update(ProjectUpdateRequest $request): ProjectResource
+    public function update(ProjectUpdateRequest $request, $id): ProjectResource
     {
         $this
             ->projectRepository
             ->update(
                 $request->validated(),
-                $request->getId()
+                $id
             );
 
         return new ProjectResource(
-            $this->projectRepository->show($request->getId())
+            $this->projectRepository->show($id)
         );
     }
 }
