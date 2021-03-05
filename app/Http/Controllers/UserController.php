@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
-use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 
