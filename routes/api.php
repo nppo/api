@@ -32,6 +32,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group([
     'as' => 'api.',
+    'middleware' => 'auth:api'
+], function (): void {
+    Route::get('users/current', [UserController::class, 'current']);
+});
+
+Route::group([
+    'as' => 'api.',
 ], function (): void {
     Route::get('search', [SearchController::class, 'search'])->name('search');
     Route::get('statistics/entities', [StatisticsController::class, 'entities'])->name('statistics.entities');
@@ -44,6 +51,4 @@ Route::group([
     Route::resource('parties', PartyController::class)->only(['show']);
 
     Route::get('discover', [HomeController::class, 'discover'])->name('discover');
-
-    Route::get('users/current', [UserController::class, 'current']);
 });

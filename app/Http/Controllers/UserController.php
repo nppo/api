@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -20,8 +21,7 @@ class UserController extends Controller
     public function current(): UserResource
     {
         return new UserResource(
-            User::with(['roles', 'permissions'])->first()
+            Auth::user()->load(['roles', 'permissions'])
         );
-//        return new UserResource(auth()->user());
     }
 }
