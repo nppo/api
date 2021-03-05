@@ -24,17 +24,17 @@ class PersonController extends Controller
         );
     }
 
-    public function update(PersonUpdateRequest $request): PersonResource
+    public function update(PersonUpdateRequest $request, $id): PersonResource
     {
         $this
             ->personRepository
             ->update(
                 $request->validated(),
-                $request->getId()
+                $id
             );
 
         return new PersonResource(
-            $this->personRepository->show($request->getId())
+            $this->personRepository->show($id)
         );
     }
 }

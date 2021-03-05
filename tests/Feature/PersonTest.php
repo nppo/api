@@ -21,7 +21,7 @@ class PersonTest extends TestCase
         $this
             ->putJson(
                 route('api.people.update', [$person->id]),
-                $person->toArray()
+                $person->only('about')
             )
             ->assertOk()
             ->assertJsonFragment(['about' => $newAbout]);
