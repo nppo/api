@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enumerators\Roles;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -13,13 +14,16 @@ class PermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        $role = Role::create(['name' => 'editor']);
-        $permission = Permission::create(['name' => 'projects.update']);
-        $role->givePermissionTo($permission);
+        foreach (Roles::asArray() as $role => $permissions) {
+            $role = Role::findOrCreate($role);
+            foreach ($permissions as $permission) {
+                $role->givePermissionTo(Permission::findOrCreate($permission));
+            }
+        }
 
         User::all()
             ->each(function ($user) use ($role): void {
-                $user->assignRole($role);
+                $user->assignRole(Role::inRandomOrder()->first());
             });
     }
 }
