@@ -50,9 +50,9 @@ class CreatePermissionTables extends Migration
                 );
 
                 $table->foreign('permission_id')
-                ->references('id')
-                ->on($tableNames['permissions'])
-                ->onDelete('cascade');
+                    ->references('id')
+                    ->on($tableNames['permissions'])
+                    ->onDelete('cascade');
 
                 $table->primary(
                     ['permission_id', $columnNames['model_morph_key'], 'model_type'],
@@ -74,9 +74,9 @@ class CreatePermissionTables extends Migration
                 );
 
                 $table->foreign('role_id')
-                ->references('id')
-                ->on($tableNames['roles'])
-                ->onDelete('cascade');
+                    ->references('id')
+                    ->on($tableNames['roles'])
+                    ->onDelete('cascade');
 
                 $table->primary(
                     ['role_id', $columnNames['model_morph_key'], 'model_type'],
