@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Way2Web\Force\AbstractModel;
 
-class Person extends AbstractModel
+class Person extends AbstractModel implements HasMedia
 {
+    use InteractsWithMedia;
+
     public function likes(): MorphToMany
     {
         return $this->morphToMany(User::class, 'likeable');

@@ -26,6 +26,7 @@
         "mzur/laravel-openstack-swift": "^1.11",
         "socialiteproviders/surfconext": "^4.1",
         "softcreatr/jsonpath": "^0.7.2",
+        "spatie/laravel-medialibrary": "^9.4",
         "way2web/force": "dev-develop"
     },
     "require-dev": {
