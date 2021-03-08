@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
 use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -17,10 +17,10 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function current(): UserResource
+    public function current(Request $request): UserResource
     {
         return new UserResource(
-            Auth::user()->load(['roles', 'permissions'])
+            $request->user()->load(['roles', 'permissions'])
         );
     }
 }
