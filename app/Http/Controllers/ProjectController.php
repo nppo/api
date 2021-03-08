@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
+use App\Models\Project;
 use App\Repositories\ProjectRepository;
 
 class ProjectController extends Controller
@@ -26,6 +27,8 @@ class ProjectController extends Controller
 
     public function update(ProjectUpdateRequest $request, $id): ProjectResource
     {
+        $this->authorize('update', Project::find($id));
+
         $this
             ->projectRepository
             ->update(
