@@ -16,6 +16,7 @@ class PermissionSeeder extends Seeder
     {
         foreach (Roles::asArray() as $role => $permissions) {
             $role = Role::findOrCreate($role);
+
             foreach ($permissions as $permission) {
                 $role->givePermissionTo(Permission::findOrCreate($permission));
             }
