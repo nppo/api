@@ -38,4 +38,9 @@ class Person extends AbstractModel
     {
         return $this->morphToMany(Theme::class, 'themeable');
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
 }
