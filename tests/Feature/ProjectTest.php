@@ -62,7 +62,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_project_with_an_logged_in_user_with_permission_but_not_owner(): void
+    public function it_can_not_update_a_project_with_an_logged_in_user_with_permission_but_not_owner(): void
     {
         /** @var Project $project */
         $project = Project::factory()->create();
