@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Models\Person;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Collection;
 
 class PersonUpdateRequest extends FormRequest
 {
@@ -17,7 +15,7 @@ class PersonUpdateRequest extends FormRequest
             'last_name'  => ['string', 'required'],
             'about'      => ['string', 'nullable'],
             'tags'       => ['array', 'nullable'],
-            'tags.*.id'    => ['required', 'integer'],
+            'tags.*.id'  => ['required', 'integer'],
         ];
     }
 }

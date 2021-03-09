@@ -49,12 +49,14 @@ class PersonRepository extends AbstractRepository
 
         $person = $this->makeQuery()->where($attributeField, $attributeValue)->first();
 
-        $person->tags()->sync(
-            collect($data['tags'])
+        if (isset($data['tags'])) {
+            $person->tags()->sync(
+                collect($data['tags'])
                 ->map(fn ($tag) => $tag['id'])
-        );
+            );
 
-        unset($data['tags']);
+            unset($data['tags']);
+        }
 
         return $this->makeQuery()->where($attributeField, $attributeValue)->update($data);
     }
