@@ -35,13 +35,14 @@ class PersonTest extends TestCase
 
         $this->assertEmpty($person->media);
 
-        dd($this
+        $this
             ->putJson(
                 route('api.people.update', [$person->id]),
                 [
                     'profile_picture' => UploadedFile::fake()->image('avatar.jpg', 200, 200),
                 ]
-            )->json());
+            )
+            ->assertOk();
 
         $this->assertNotEmpty($person->media()->get());
     }
