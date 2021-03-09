@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, HasRoles;
 
     /** @var array */
     protected $fillable = [
