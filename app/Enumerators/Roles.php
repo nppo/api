@@ -14,5 +14,6 @@ class Roles extends Enum
 
     public const PLATFORM_ADMIN = [
         Permissions::PROJECTS_UPDATE,
+        Permissions::PEOPLE_UPDATE,
     ];
 }
