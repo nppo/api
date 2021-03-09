@@ -57,16 +57,18 @@ return [
         Disks::SURF_PUBLIC => [
             'driver' => env('OS_DRIVER'),
 
+            'url'  => env('OS_DRIVER') === 'local' ?
+                env('APP_URL') . '/' . env('OS_PUBLIC_PATH') :
+                env('OS_PUBLIC_CONTAINER_URL'),
+
             'authUrl'   => env('OS_AUTH_URL'),
             'region'    => env('OS_REGION_NAME'),
             'user'      => env('OS_USERNAME'),
             'domain'    => env('OS_USER_DOMAIN_NAME'),
             'password'  => env('OS_PASSWORD'),
             'container' => env('OS_PUBLIC_CONTAINER_NAME'),
-            'url'       => env('OS_PUBLIC_CONTAINER_URL'),
 
             'root' => public_path(env('OS_PUBLIC_PATH')),
-            'url'  => env('APP_URL') . '/' . env('OS_PUBLIC_PATH'),
         ],
 
         Disks::SURF_PRIVATE => [
