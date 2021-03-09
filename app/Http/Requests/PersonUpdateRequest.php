@@ -17,13 +17,7 @@ class PersonUpdateRequest extends FormRequest
             'last_name'  => ['string', 'required'],
             'about'      => ['string', 'nullable'],
             'tags'       => ['array', 'nullable'],
+            'tags.*.id'    => ['required', 'integer'],
         ];
-    }
-
-    public function attachTags(Person $person, Collection $tags): void
-    {
-        $person
-            ->tags()
-            ->saveMany($tags);
     }
 }

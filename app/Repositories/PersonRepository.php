@@ -7,6 +7,7 @@ namespace App\Repositories;
 use App\Enumerators\Filters;
 use App\Models\Person;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Way2Web\Force\Repository\AbstractRepository;
 
 class PersonRepository extends AbstractRepository
@@ -34,6 +35,28 @@ class PersonRepository extends AbstractRepository
                 'themes',
             ])
             ->findOrFail($id);
+    }
+
+    public function update(array $data, $attributeValue, string $attributeField = self::DEFAULT_ATTRIBUTES_FIELD): int
+    {
+        Arr::forget(
+            $data,
+            [
+                '_method',
+                '_token',
+            ]
+        );
+
+        $person = $this->makeQuery()->where($attributeField, $attributeValue)->first();
+
+        $person->tags()->sync(
+            collect($data['tags'])
+                ->map(fn ($tag) => $tag['id'])
+        );
+
+        unset($data['tags']);
+
+        return $this->makeQuery()->where($attributeField, $attributeValue)->update($data);
     }
 
     public function search(string $query): self
