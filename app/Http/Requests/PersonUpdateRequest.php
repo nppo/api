@@ -11,9 +11,20 @@ class PersonUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['string', 'nullable'],
-            'last_name'  => ['string', 'nullable'],
-            'about'      => ['string', 'nullable'],
+            'first_name'      => ['string', 'nullable'],
+            'last_name'       => ['string', 'nullable'],
+            'about'           => ['string', 'nullable'],
+            'profile_picture' => [
+                'sometimes',
+                'image',
+                'mimes:jpg,jpeg,bmp,png,gif',
+                'max:' . $this->getMaxFileSize(),
+            ],
         ];
+    }
+
+    private function getMaxFileSize(): string
+    {
+        return (string) config('media-library.max_file_size');
     }
 }

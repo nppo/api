@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enumerators\Disks;
+use App\Enumerators\MediaCollections;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -41,5 +43,18 @@ class Person extends AbstractModel implements HasMedia
     public function themes(): MorphToMany
     {
         return $this->morphToMany(Theme::class, 'themeable');
+    }
+
+    public function getProfilePictureUrlAttribute(): ?string
+    {
+        return $this->getFirstMediaUrl(MediaCollections::PROFILE_PICTURE);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection(MediaCollections::PROFILE_PICTURE)
+            ->singleFile()
+            ->useDisk(Disks::SURF_PUBLIC);
     }
 }
