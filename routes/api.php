@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThemeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,7 @@ Route::group([
     Route::resource('projects', ProjectController::class)->only(['show']);
     Route::resource('people', PersonController::class)->only(['show', 'update']);
     Route::resource('parties', PartyController::class)->only(['show']);
+    Route::resource('tags', TagController::class)->only(['index']);
 
     Route::get('discover', [HomeController::class, 'discover'])->name('discover');
 });

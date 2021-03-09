@@ -30,6 +30,7 @@ class PersonController extends Controller
             ->personRepository
             ->update(
                 $request->validated(),
+                $request->saveMany(Tag::all()),
                 $id
             );
 

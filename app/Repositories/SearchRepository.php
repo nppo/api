@@ -14,7 +14,7 @@ use Way2Web\Force\Repository\AbstractRepository;
 
 class SearchRepository
 {
-    const DISCOVER_EAGER_LOADED_RELATIONS = ['themes', 'tags'];
+    const DISCOVER_EAGER_LOADED_RELATIONS = ['themes', 'tags', 'products', 'projects', 'parties'];
 
     public array $results = [self::COUNT_KEY => 0];
 
