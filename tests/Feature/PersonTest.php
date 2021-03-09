@@ -33,10 +33,6 @@ class PersonTest extends TestCase
     {
         $person = Person::factory()->create();
 
-        $newAbout = '::about::';
-
-        $person->about = $newAbout;
-
         $this->assertEmpty($person->media);
 
         $this
@@ -49,5 +45,22 @@ class PersonTest extends TestCase
             ->assertOk();
 
         $this->assertNotEmpty($person->media()->get());
+    }
+
+    /** @test */
+    public function adding_a_profile_picture_will_validate_dimensions(): void
+    {
+        $person = Person::factory()->create();
+
+        $this
+            ->putJson(
+                route('api.people.update', [$person->id]),
+                [
+                    'profile_picture' => UploadedFile::fake()->image('avatar.jpg', 150, 200),
+                ]
+            )
+            ->assertJsonValidationErrors('profile_picture');
+
+        $this->assertEmpty($person->media()->get());
     }
 }

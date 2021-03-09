@@ -19,6 +19,7 @@ class PersonUpdateRequest extends FormRequest
                 'image',
                 'mimes:jpg,jpeg,bmp,png,gif',
                 'max:' . $this->getMaxFileSize(),
+                'dimensions:ratio=2/2',
             ],
         ];
     }
