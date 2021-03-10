@@ -15,6 +15,7 @@ pipelines:
           - cd bitbucket-pipelines && composer install --no-interaction --no-progress --no-ansi --prefer-dist && cd ..
           - cp .build/* .
           - cp .dev/PHP/* .
+          - ./artisan passport:keys --ansi
           - ./bitbucket-pipelines/prepare.sh
           - ./bitbucket-pipelines/php/composer.sh
           - ./bitbucket-pipelines/php/validation.sh
