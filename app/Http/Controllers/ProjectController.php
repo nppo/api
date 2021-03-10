@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enumerators\Action;
 use App\Http\Resources\ProjectResource;
 use App\Repositories\ProjectRepository;
 
@@ -20,6 +21,6 @@ class ProjectController extends Controller
     {
         return ProjectResource::make(
             $this->projectRepository->show($id)
-        )->withPermissions();
+        )->includePermissions([Action::UPDATE]);
     }
 }
