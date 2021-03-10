@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Enumerators\Action;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Way2Web\Force\Http\Resource;
 
-class PersonResource extends JsonResource
+class PersonResource extends Resource
 {
+    protected array $permissions = [
+        Action::UPDATE,
+    ];
+
     /**
      * @param Request $request
      *

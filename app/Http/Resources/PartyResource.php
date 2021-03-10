@@ -6,9 +6,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Way2Web\Force\Http\Resource;
 
-class PartyResource extends JsonResource
+class PartyResource extends Resource
 {
     /**
      * @param Request $request

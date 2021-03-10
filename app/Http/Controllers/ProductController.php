@@ -18,7 +18,7 @@ class ProductController extends Controller
 
     public function show($id): ProductResource
     {
-        return new ProductResource(
+        return ProductResource::make(
             $this->productRepository->findOrFail($id)
         );
     }

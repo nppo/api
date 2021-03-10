@@ -22,7 +22,8 @@ class ProjectController extends Controller
     {
         return ProjectResource::make(
             $this->projectRepository->show($id)
-        )->includePermissions([Action::UPDATE]);
+        )
+            ->withPermissions();
     }
 
     public function update(ProjectUpdateRequest $request, $id): ProjectResource
@@ -36,8 +37,9 @@ class ProjectController extends Controller
                 $id
             );
 
-        return new ProjectResource(
+        return ProjectResource::make(
             $this->projectRepository->show($id)
-        );
+        )
+            ->withPermissions();
     }
 }

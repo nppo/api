@@ -19,9 +19,10 @@ class PersonController extends Controller
 
     public function show($id): PersonResource
     {
-        return new PersonResource(
+        return PersonResource::make(
             $this->personRepository->show($id)
-        );
+        )
+            ->withPermissions();
     }
 
     public function update(PersonUpdateRequest $request, $id): PersonResource
@@ -33,8 +34,9 @@ class PersonController extends Controller
                 $id
             );
 
-        return new PersonResource(
+        return PersonResource::make(
             $this->personRepository->show($id)
-        );
+        )
+            ->withPermissions();
     }
 }

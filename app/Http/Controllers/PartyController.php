@@ -18,8 +18,9 @@ class PartyController extends Controller
 
     public function show($id): PartyResource
     {
-        return new PartyResource(
+        return PartyResource::make(
             $this->partyRepository->show($id)
-        );
+        )
+            ->withPermissions();
     }
 }
