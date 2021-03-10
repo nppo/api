@@ -26,6 +26,10 @@ abstract class Resource extends JsonResource
     {
         $array = parent::resolve($request);
 
+        if (!$this->withPermissions) {
+            return $array;
+        }
+
         return array_merge($array, [self::$permissionsKey => $this->aggregatePermissions()]);
     }
 
