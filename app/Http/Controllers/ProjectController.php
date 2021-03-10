@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Repositories\ProjectRepository;
 
@@ -18,6 +19,22 @@ class ProjectController extends Controller
 
     public function show($id): ProjectResource
     {
+        return new ProjectResource(
+            $this->projectRepository->show($id)
+        );
+    }
+
+    public function update(ProjectUpdateRequest $request, $id): ProjectResource
+    {
+        $this->authorize('update', $this->projectRepository->findOrFail($id));
+
+        $this
+            ->projectRepository
+            ->update(
+                $request->validated(),
+                $id
+            );
+
         return new ProjectResource(
             $this->projectRepository->show($id)
         );
