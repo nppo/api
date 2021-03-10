@@ -30,6 +30,8 @@ Route::group([
     'middleware' => 'auth:api',
 ], function (): void {
     Route::get('user', [UserController::class, 'current']);
+
+    Route::resource('products', ProductController::class)->only(['update']);
 });
 
 Route::group([
