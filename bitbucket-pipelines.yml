@@ -24,7 +24,7 @@ pipelines:
           - ./bitbucket-pipelines/php/analysis.sh
           - ./bitbucket-pipelines/php/migrations.sh
           - ./bitbucket-pipelines/php/bootstrap.sh
-          - ./bitbucket-pipelines/artisan passport:keys --ansi
+          - ./artisan passport:keys --ansi
           - ./bitbucket-pipelines/js/tests.sh
           - ./bitbucket-pipelines/js/build.sh
           - ./bitbucket-pipelines/php/tests.sh
