@@ -27,6 +27,7 @@
         "socialiteproviders/surfconext": "^4.1",
         "softcreatr/jsonpath": "^0.7.2",
         "spatie/laravel-medialibrary": "^9.4",
+        "spatie/laravel-permission": "^4.0",
         "way2web/force": "dev-develop"
     },
     "require-dev": {
