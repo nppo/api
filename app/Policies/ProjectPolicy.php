@@ -23,7 +23,7 @@ class ProjectPolicy
             return false;
         }
 
-        if (!$project->owner()->where('id', $user->person->id)->exists()) {
+        if (!$project->owner->contains($user->person)) {
             return false;
         }
 

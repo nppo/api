@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Way2Web\Force\AbstractModel;
 
@@ -39,7 +40,7 @@ class Person extends AbstractModel
         return $this->morphToMany(Theme::class, 'themeable');
     }
 
-    public function user()
+    public function user(): HasOne
     {
         return $this->hasOne(User::class);
     }

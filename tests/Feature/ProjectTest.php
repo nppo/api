@@ -19,7 +19,7 @@ class ProjectTest extends TestCase
     {
         parent::setUp();
 
-        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+        $this->app->make(PermissionRegistrar::class)->forgetCachedPermissions();
     }
 
     /** @test */
@@ -99,6 +99,7 @@ class ProjectTest extends TestCase
             ->givePermissionTo(
                 Permission::findOrCreate(Permissions::PROJECTS_UPDATE)
             );
+
         $project->people()->attach($user->person, ['is_owner' => true]);
 
         Passport::actingAs($user);
