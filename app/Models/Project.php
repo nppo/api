@@ -4,14 +4,22 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enumerators\Action;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Way2Web\Force\AbstractModel;
+use Way2Web\Force\Interfaces\IsProtected;
+use Way2Web\Force\Support\WithPermissions;
 
-class Project extends AbstractModel
+class Project extends AbstractModel implements IsProtected
 {
     use HasFactory;
+    use WithPermissions;
+
+    protected $permissions = [
+        Action::UPDATE,
+    ];
 
     public function likes(): MorphToMany
     {

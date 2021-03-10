@@ -18,8 +18,8 @@ class ProjectController extends Controller
 
     public function show($id): ProjectResource
     {
-        return new ProjectResource(
+        return ProjectResource::make(
             $this->projectRepository->show($id)
-        );
+        )->withPermissions();
     }
 }
