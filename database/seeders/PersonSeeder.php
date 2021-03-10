@@ -8,6 +8,7 @@ use App\Models\Party;
 use App\Models\Person;
 use App\Models\Tag;
 use App\Models\Theme;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
@@ -26,14 +27,16 @@ class PersonSeeder extends Seeder
         $tags = Tag::all();
         $themes = Theme::all();
         $parties = Party::all();
+        $users = User::all();
 
         Person::factory()
             ->times(self::MAX_PEOPLE)
             ->create()
-            ->each(function (Person $person) use ($parties, $tags, $themes): void {
+            ->each(function (Person $person) use ($parties, $tags, $themes, $users): void {
                 $this->attachTags($person, $tags);
                 $this->attachThemes($person, $themes);
                 $this->attachParty($person, $parties);
+                $this->attachUser($person, $users);
             });
     }
 
@@ -56,5 +59,16 @@ class PersonSeeder extends Seeder
         $person
             ->themes()
             ->saveMany($themes->random(mt_rand(1, self::MAX_THEMES)));
+    }
+
+    private function attachUser(Person $person, Collection $users): void
+    {
+        if ($users->count() === 0) {
+            return;
+        }
+
+        $person
+            ->user()
+            ->save($users->shift());
     }
 }
