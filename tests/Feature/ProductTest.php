@@ -25,6 +25,7 @@ class ProductTest extends TestCase
     /** @test */
     public function it_can_not_update_a_product_with_an_guest_user(): void
     {
+        $this->withoutExceptionHandling();
         /** @var Product $product */
         $product = Product::factory()->create();
 
