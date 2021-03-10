@@ -42,7 +42,7 @@ Route::group([
     Route::resource('types', EntityController::class)->only(['index']);
     Route::resource('products', ProductController::class)->only(['index', 'show']);
     Route::resource('projects', ProjectController::class)->only(['show', 'update']);
-    Route::resource('people', PersonController::class)->only(['show']);
+    Route::resource('people', PersonController::class)->only(['show', 'update']);
     Route::resource('parties', PartyController::class)->only(['show']);
 
     Route::get('discover', [HomeController::class, 'discover'])->name('discover');
