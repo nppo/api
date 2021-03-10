@@ -37,7 +37,7 @@ class ProductTest extends TestCase
                 route('api.products.update', ['product' => $product->id]),
                 $product->toArray()
             )
-            ->assertForbidden();
+            ->assertUnauthorized();
     }
 
     /** @test */

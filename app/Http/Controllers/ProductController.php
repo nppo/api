@@ -14,6 +14,8 @@ class ProductController extends Controller
 
     public function __construct(ProductRepository $productRepository)
     {
+        $this->middleware('auth:api')->only(['update']);
+
         $this->productRepository = $productRepository;
     }
 
