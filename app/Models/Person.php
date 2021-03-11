@@ -4,11 +4,18 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enumerators\Disks;
+use App\Enumerators\MediaCollections;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Way2Web\Force\AbstractModel;
 
-class Person extends AbstractModel
+class Person extends AbstractModel implements HasMedia
 {
+    use InteractsWithMedia;
+
     public function likes(): MorphToMany
     {
         return $this->morphToMany(User::class, 'likeable');
@@ -37,5 +44,23 @@ class Person extends AbstractModel
     public function themes(): MorphToMany
     {
         return $this->morphToMany(Theme::class, 'themeable');
+    }
+
+    public function getProfilePictureUrlAttribute(): ?string
+    {
+        return $this->getFirstMediaUrl(MediaCollections::PROFILE_PICTURE);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection(MediaCollections::PROFILE_PICTURE)
+            ->singleFile()
+            ->useDisk(Disks::SURF_PUBLIC);
+    }
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class);
     }
 }
