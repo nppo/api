@@ -33,6 +33,7 @@ class PersonRepository extends AbstractRepository
                 'projects',
                 'tags',
                 'themes',
+                'media',
             ])
             ->findOrFail($id);
     }
