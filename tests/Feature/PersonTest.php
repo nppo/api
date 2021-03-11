@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Enumerators\TagTypes;
 use App\Models\Person;
-use Illuminate\Http\UploadedFile;
 use App\Models\Tag;
+use App\Models\TagType;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class PersonTest extends TestCase
@@ -66,26 +68,28 @@ class PersonTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_person_with_tags(): void
+    public function it_can_update_a_person_with_skills(): void
     {
         $person = Person::factory()->create();
-        $tags = Tag::factory()->times(10)->create();
-        $formattedTags = $tags->map->only(['id', 'label'])->toArray();
 
-        $newAbout = '::about::';
+        $skillType = TagType::where('name', TagTypes::SKILL)->first()
+            ?: TagType::factory()->create(['name' => TagTypes::SKILL]);
 
-        $person->about = $newAbout;
+        $skills = Tag::factory()->times(10)->create([
+            'type_id' => $skillType->id,
+        ]);
+
+        $formattedSkills = $skills->map->only(['id', 'label'])->toArray();
 
         $this
             ->putJson(
                 route('api.people.update', [$person->id]),
                 $person->only(['first_name', 'last_name', 'about']) +
-                ['tags' => $formattedTags]
+                ['skills' => $formattedSkills]
             )
             ->assertOk()
             ->assertJsonFragment([
-                'about' => $newAbout,
-                'tags'  => $formattedTags,
+                'skills' => $formattedSkills,
             ]);
     }
 }

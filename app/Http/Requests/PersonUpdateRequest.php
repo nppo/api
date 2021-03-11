@@ -14,8 +14,8 @@ class PersonUpdateRequest extends FormRequest
             'first_name'      => ['string', 'nullable'],
             'last_name'       => ['string', 'nullable'],
             'about'           => ['string', 'nullable'],
-            'tags'            => ['array', 'nullable'],
-            'tags.*.id'       => ['required', 'integer'],
+            'skills'          => ['array', 'nullable'],
+            'skills.*.id'     => ['required', 'integer', ],
             'profile_picture' => [
                 'sometimes',
                 'image',

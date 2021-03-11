@@ -6,14 +6,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTagsTable extends Migration
+class CreateTagTypesTable extends Migration
 {
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table): void {
+        Schema::create('tag_types', function (Blueprint $table): void {
             $table->id();
-            $table->string('label');
-            $table->unsignedBigInteger('type_id')->nullable();
+            $table->string('name')->unique();
 
             $table->timestamps();
         });
@@ -21,6 +20,6 @@ class CreateTagsTable extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('tag_types');
     }
 }

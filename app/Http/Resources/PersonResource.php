@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Enumerators\TagTypes;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -42,8 +43,8 @@ class PersonResource extends JsonResource
                 return ProjectResource::collection($this->projects);
             }),
 
-            'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
-                return TagResource::collection($this->tags);
+            'skills' => $this->whenLoaded('skills', function (): AnonymousResourceCollection {
+                return TagResource::collection($this->skills);
             }),
 
             'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {

@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(ThemeSeeder::class);
+        $this->call(TagTypeSeeder::class);
         $this->call(TagSeeder::class);
         $this->call(PartySeeder::class);
         $this->call(PersonSeeder::class);

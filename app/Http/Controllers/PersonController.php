@@ -11,6 +11,7 @@ use App\Models\Person;
 use App\Repositories\MediaRepository;
 use App\Repositories\PersonRepository;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class PersonController extends Controller
 {
@@ -34,7 +35,7 @@ class PersonController extends Controller
         $this
             ->personRepository
             ->update(
-                Arr::except($request->validated(), ['profile_picture']),
+                Arr::except($request->validated(), ['profile_picture', 'skills']),
                 $id
             );
 
@@ -46,6 +47,15 @@ class PersonController extends Controller
                 ->addMediaFromRequest('profile_picture')
                 ->preservingOriginal()
                 ->toMediaCollection(MediaCollections::PROFILE_PICTURE);
+        }
+
+        if (isset($request->validated()['skills'])) {
+            /** @var Person $person */
+            $person = $this->personRepository->findOrFail($id);
+
+            $person->tags()->sync(
+                Collection::make($request->validated()['skills'])->map(fn ($skill) => $skill['id'])
+            );
         }
 
         return new PersonResource(
