@@ -87,7 +87,7 @@ return [
 
         Disks::SEEDING => [
             'driver' => 'local',
-            'root'   => app_path('.dev/seeding'),
+            'root'   => base_path('../.dev/seeding'),
         ],
     ],
 
