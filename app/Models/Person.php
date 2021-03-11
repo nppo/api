@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-<<<<<<< HEAD
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
-=======
 use Illuminate\Database\Eloquent\Relations\HasOne;
->>>>>>> origin/develop
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -49,7 +46,6 @@ class Person extends AbstractModel implements HasMedia
         return $this->morphToMany(Theme::class, 'themeable');
     }
 
-<<<<<<< HEAD
     public function getProfilePictureUrlAttribute(): ?string
     {
         return $this->getFirstMediaUrl(MediaCollections::PROFILE_PICTURE);
@@ -61,10 +57,10 @@ class Person extends AbstractModel implements HasMedia
             ->addMediaCollection(MediaCollections::PROFILE_PICTURE)
             ->singleFile()
             ->useDisk(Disks::SURF_PUBLIC);
-=======
+    }
+
     public function user(): HasOne
     {
         return $this->hasOne(User::class);
->>>>>>> origin/develop
     }
 }
