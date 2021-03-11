@@ -59,7 +59,7 @@ abstract class Resource extends JsonResource
         $permissions = [];
 
         foreach ($this->permissions as $permission) {
-            $permissions[$permission] = Gate::allows($permission, $this);
+            $permissions[$permission] = Gate::allows($permission, $this->resource);
         }
 
         return $permissions;

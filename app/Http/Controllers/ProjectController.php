@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enumerators\Action;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Repositories\ProjectRepository;
+use Way2Web\Force\Http\Controller;
 
 class ProjectController extends Controller
 {
@@ -15,6 +15,7 @@ class ProjectController extends Controller
 
     public function __construct(ProjectRepository $projectRepository)
     {
+        $this->protectActionRoutes(['api']);
         $this->projectRepository = $projectRepository;
     }
 
