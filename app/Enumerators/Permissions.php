@@ -9,4 +9,5 @@ use Way2Web\Force\Enum;
 class Permissions extends Enum
 {
     public const PROJECTS_UPDATE = 'update projects';
+    public const PEOPLE_UPDATE = 'update people';
 }
