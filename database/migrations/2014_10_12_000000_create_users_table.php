@@ -13,6 +13,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table): void {
             $table->id();
             $table->string('email')->unique();
+            $table->unsignedBigInteger('person_id')->nullable();
             $table->timestamps();
         });
     }
