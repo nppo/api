@@ -74,12 +74,14 @@ class PersonSeeder extends Seeder
 
     private function attachProfilePicture(Person $person): void
     {
+        $randomImage = Arr::random($this->getSeedingOptions());
+
         $person
             ->addMediaFromDisk(
-                Arr::random($this->getSeedingOptions()),
+                $randomImage,
                 Disks::SEEDING
             )
-            ->usingFileName(Str::uuid()->toString())
+            ->usingFileName(Str::uuid()->toString() . '.' . Str::afterLast($randomImage, '.'))
             ->preservingOriginal()
             ->toMediaCollection(MediaCollections::PROFILE_PICTURE);
     }
