@@ -25,14 +25,15 @@ class PersonResource extends Resource
     public function toArray($request): array
     {
         return [
-            'id'         => $this->getKey(),
-            'identifier' => $this->identifier,
-            'firstName'  => $this->first_name,
-            'lastName'   => $this->last_name,
-            'about'      => $this->about,
-            'email'      => $this->email,
-            'function'   => $this->function,
-            'phone'      => $this->phone,
+            'id'                  => $this->getKey(),
+            'identifier'          => $this->identifier,
+            'firstName'           => $this->first_name,
+            'lastName'            => $this->last_name,
+            'about'               => $this->about,
+            'email'               => $this->email,
+            'function'            => $this->function,
+            'phone'               => $this->phone,
+            'profile_picture_url' => $this->profile_picture_url,
 
             'parties' => $this->whenLoaded('parties', function (): AnonymousResourceCollection {
                 return PartyResource::collection($this->parties);
