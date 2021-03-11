@@ -119,8 +119,6 @@ class SearchTest extends TestCase
             ])
         );
 
-        dump($response->json());
-
         $response
             ->assertOk()
             ->assertJsonCount(1, 'data.products')
