@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Listeners\BootstrapApplication;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use Illuminate\Database\Events\MigrationsEnded;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use SocialiteProviders\Manager\SocialiteWasCalled;
@@ -24,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SocialiteWasCalled::class => [
             SURFconextExtendSocialite::class,
+        ],
+        MigrationsEnded::class => [
+            BootstrapApplication::class,
         ],
     ];
 
