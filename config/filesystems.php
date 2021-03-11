@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Enumerators\Disks;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -52,14 +54,40 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
-        'objectstore' => [
-            'driver'    => 'swift',
+        Disks::SURF_PUBLIC => [
+            'driver' => env('OS_DRIVER', 'local'),
+
+            'url' => env('OS_DRIVER', 'local') === 'local' ?
+                env('APP_URL') . '/' . env('OS_PUBLIC_PATH') :
+                env('OS_PUBLIC_CONTAINER_URL'),
+
             'authUrl'   => env('OS_AUTH_URL'),
             'region'    => env('OS_REGION_NAME'),
             'user'      => env('OS_USERNAME'),
             'domain'    => env('OS_USER_DOMAIN_NAME'),
             'password'  => env('OS_PASSWORD'),
-            'container' => env('OS_CONTAINER_NAME'),
+            'container' => env('OS_PUBLIC_CONTAINER_NAME'),
+
+            'root' => public_path(env('OS_PUBLIC_PATH')),
+        ],
+
+        Disks::SURF_PRIVATE => [
+            'driver' => env('OS_DRIVER', 'local'),
+
+            'authUrl'   => env('OS_AUTH_URL'),
+            'region'    => env('OS_REGION_NAME'),
+            'user'      => env('OS_USERNAME'),
+            'domain'    => env('OS_USER_DOMAIN_NAME'),
+            'password'  => env('OS_PASSWORD'),
+            'container' => env('OS_PRIVATE_CONTAINER_NAME'),
+            'url'       => env('OS_PRIVATE_CONTAINER_URL'),
+
+            'root' => storage_path(env('OS_PRIVATE_PATH')),
+        ],
+
+        Disks::SEEDING => [
+            'driver' => 'local',
+            'root'   => storage_path('seeding'),
         ],
     ],
 
