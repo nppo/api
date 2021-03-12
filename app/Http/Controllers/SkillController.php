@@ -4,25 +4,26 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enumerators\TagTypes;
 use App\Http\Resources\TagResource;
-use App\Repositories\TagRepository;
+use App\Repositories\SkillRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class TagController extends Controller
+class SkillController extends Controller
 {
-    private TagRepository $tagRepository;
+    private SkillRepository $skillRepository;
 
-    public function __construct(TagRepository $tagRepository)
+    public function __construct(SkillRepository $skillRepository)
     {
-        $this->tagRepository = $tagRepository;
+        $this->skillRepository = $skillRepository;
     }
 
     public function index(): AnonymousResourceCollection
     {
         return TagResource::collection(
-            $this->tagRepository
+            $this->skillRepository
                 ->makeQuery()
-                ->whereNull('type')
+                ->where('type', TagTypes::SKILL)
                 ->orderBy('label')
                 ->get()
         );

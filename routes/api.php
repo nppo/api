@@ -9,6 +9,7 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SkillController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThemeController;
@@ -47,6 +48,7 @@ Route::group([
     Route::resource('people', PersonController::class)->only(['show', 'update']);
     Route::resource('parties', PartyController::class)->only(['show']);
     Route::resource('tags', TagController::class)->only(['index']);
+    Route::resource('skills', SkillController::class)->only(['index']);
 
     Route::get('discover', [HomeController::class, 'discover'])->name('discover');
 });
