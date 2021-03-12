@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enumerators\Action;
 use App\Enumerators\MediaCollections;
 use App\Http\Requests\PersonUpdateRequest;
 use App\Http\Resources\PersonResource;
-use App\Models\Person;
 use App\Repositories\MediaRepository;
 use App\Repositories\PersonRepository;
 use Illuminate\Support\Arr;
+use Way2Web\Force\Http\Controller;
 
 class PersonController extends Controller
 {
@@ -20,17 +21,25 @@ class PersonController extends Controller
     {
         $this->personRepository = $personRepository;
         $this->mediaRepository = $mediaRepository;
+
+        $this
+            ->protectActionRoutes(['api']);
     }
 
     public function show($id): PersonResource
     {
-        return new PersonResource(
+        return PersonResource::make(
             $this->personRepository->show($id)
-        );
+        )
+            ->withPermissions();
     }
 
     public function update(PersonUpdateRequest $request, $id)
     {
+        $person = $this->personRepository->findOrFail($id);
+
+        $this->authorize(Action::UPDATE, $person);
+
         $this
             ->personRepository
             ->update(
@@ -39,17 +48,15 @@ class PersonController extends Controller
             );
 
         if ($request->hasFile('profile_picture')) {
-            /** @var Person $person */
-            $person = $this->personRepository->findOrFail($id);
-
             $person
                 ->addMediaFromRequest('profile_picture')
                 ->preservingOriginal()
                 ->toMediaCollection(MediaCollections::PROFILE_PICTURE);
         }
 
-        return new PersonResource(
+        return PersonResource::make(
             $this->personRepository->show($id)
-        );
+        )
+            ->withPermissions();
     }
 }

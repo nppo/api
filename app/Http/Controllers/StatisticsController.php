@@ -11,7 +11,7 @@ class StatisticsController extends Controller
 {
     public function entities(): EntityStatisticsResource
     {
-        return new EntityStatisticsResource(
+        return EntityStatisticsResource::make(
             (object) ['entities' => collect(Entities::asArray())]
         );
     }

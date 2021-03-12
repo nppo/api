@@ -6,6 +6,7 @@ namespace Tests;
 
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Foundation\Application;
+use Spatie\Permission\PermissionRegistrar;
 
 trait CreatesApplication
 {
@@ -14,6 +15,8 @@ trait CreatesApplication
         $app = require __DIR__ . '/../bootstrap/app.php';
 
         $app->make(Kernel::class)->bootstrap();
+
+        $app->make(PermissionRegistrar::class)->forgetCachedPermissions();
 
         return $app;
     }

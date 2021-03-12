@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Way2Web\Force\Http\Resource;
 
-class SearchResource extends JsonResource
+class SearchResource extends Resource
 {
     /**
      * @param Request $request

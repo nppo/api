@@ -26,10 +26,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group([
-    'as' => 'api.',
+    'as'         => 'api.',
+    'middleware' => 'auth:api',
 ], function (): void {
     Route::get('user', [UserController::class, 'current']);
+});
 
+Route::group([
+    'as'         => 'api.',
+    'middleware' => ['identify:api'],
+], function (): void {
     Route::get('search', [SearchController::class, 'search'])->name('search');
     Route::get('statistics/entities', [StatisticsController::class, 'entities'])->name('statistics.entities');
 
