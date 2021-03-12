@@ -26,16 +26,4 @@ class Tag extends AbstractModel
     {
         return $this->morphedByMany(Product::class, 'taggable');
     }
-
-    public function type(): BelongsTo
-    {
-        return $this->belongsTo(TagType::class, 'type_id');
-    }
-
-    public function scopeWithType(Builder $query, string $type): Builder
-    {
-        return $query->whereHas('type', function (Builder $query) use ($type): void {
-            $query->where('name', $type);
-        });
-    }
 }

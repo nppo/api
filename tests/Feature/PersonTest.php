@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Enumerators\TagTypes;
-use App\Models\Person;
 use App\Models\Tag;
-use App\Models\TagType;
 use Illuminate\Http\UploadedFile;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -77,21 +75,19 @@ class PersonTest extends TestCase
     /** @test */
     public function it_can_update_a_person_with_skills(): void
     {
-        $person = Person::factory()->create();
+        $user = $this->getUser();
 
-        $skillType = TagType::where('name', TagTypes::SKILL)->first()
-            ?: TagType::factory()->create(['name' => TagTypes::SKILL]);
+        Passport::actingAs($user);
 
         $skills = Tag::factory()->times(10)->create([
-            'type_id' => $skillType->id,
+            'type' => TagTypes::SKILL,
         ]);
 
         $formattedSkills = $skills->map->only(['id', 'label'])->toArray();
 
         $this
             ->putJson(
-                route('api.people.update', [$person->id]),
-                $person->only(['first_name', 'last_name', 'about']) +
+                route('api.people.update', [$user->person->id]),
                 ['skills' => $formattedSkills]
             )
             ->assertOk()

@@ -13,7 +13,7 @@ class CreateTagsTable extends Migration
         Schema::create('tags', function (Blueprint $table): void {
             $table->id();
             $table->string('label');
-            $table->unsignedBigInteger('type_id')->nullable();
+            $table->string('type')->nullable();
 
             $table->timestamps();
         });

@@ -44,7 +44,7 @@ class Person extends AbstractModel implements HasMedia
 
     public function skills(): MorphToMany
     {
-        return $this->tags()->withType(TagTypes::SKILL);
+        return $this->tags()->where('type', TagTypes::SKILL);
     }
 
     public function themes(): MorphToMany

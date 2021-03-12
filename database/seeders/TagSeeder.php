@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enumerators\TagTypes;
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class TagSeeder extends Seeder
@@ -15,6 +17,10 @@ class TagSeeder extends Seeder
     {
         Tag::factory()
             ->count(self::MAX_TAGS)
+            ->state(new Sequence(
+                ['type' => TagTypes::SKILL],
+                ['type' => null],
+            ))
             ->create();
     }
 }
