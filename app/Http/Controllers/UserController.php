@@ -14,8 +14,6 @@ class UserController extends Controller
 
     public function __construct(UserRepository $userRepository)
     {
-        $this->middleware('auth:api')->only(['current']);
-
         $this->userRepository = $userRepository;
     }
 

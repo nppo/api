@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
 use App\Repositories\ProductRepository;
+use Way2Web\Force\Http\Controller;
 
 class ProductController extends Controller
 {
@@ -14,8 +15,7 @@ class ProductController extends Controller
 
     public function __construct(ProductRepository $productRepository)
     {
-        $this->middleware('auth:api')->only(['update']);
-
+        $this->protectActionRoutes(['api']);
         $this->productRepository = $productRepository;
     }
 
@@ -23,7 +23,8 @@ class ProductController extends Controller
     {
         return ProductResource::make(
             $this->productRepository->findOrFail($id)
-        );
+        )
+            ->withPermissions();
     }
 
     public function update(ProductUpdateRequest $request, $id): ProductResource
@@ -37,8 +38,9 @@ class ProductController extends Controller
                 $id
             );
 
-        return new ProductResource(
+        return ProductResource::make(
             $this->productRepository->findOrFail($id)
-        );
+        )
+            ->withPermissions();
     }
 }

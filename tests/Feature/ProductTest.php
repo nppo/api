@@ -45,7 +45,8 @@ class ProductTest extends TestCase
     {
         /** @var Product $product */
         $product = Product::factory()->create();
-        $user = User::factory()->create();
+
+        $user = $this->getUser();
 
         Passport::actingAs($user);
 
@@ -67,11 +68,7 @@ class ProductTest extends TestCase
         /** @var Product $product */
         $product = Product::factory()->create();
 
-        $user = User::factory()
-            ->create()
-            ->givePermissionTo(
-                Permission::findOrCreate(Permissions::PROJECTS_UPDATE)
-            );
+        $user = $this->getUser();
 
         Passport::actingAs($user);
 
@@ -93,13 +90,7 @@ class ProductTest extends TestCase
         /** @var Product $product */
         $product = Product::factory()->create();
 
-        $user = User::factory()
-            ->create([
-                'person_id' => Person::factory(),
-            ])
-            ->givePermissionTo(
-                Permission::findOrCreate(Permissions::PRODUCTS_UPDATE)
-            );
+        $user = $this->getUser();
 
         $product->contributors()->attach($user->person);
 
