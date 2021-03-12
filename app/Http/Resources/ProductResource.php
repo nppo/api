@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Enumerators\Action;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Way2Web\Force\Http\Resource;
 
 class ProductResource extends Resource
 {
+    protected array $permissions = [
+        Action::UPDATE,
+    ];
+
     /**
      * @param Request $request
      *

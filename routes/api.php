@@ -43,7 +43,7 @@ Route::group([
 
     Route::resource('themes', ThemeController::class)->only(['index']);
     Route::resource('types', EntityController::class)->only(['index']);
-    Route::resource('products', ProductController::class)->only(['index', 'show']);
+    Route::resource('products', ProductController::class)->only(['index', 'show', 'update']);
     Route::resource('projects', ProjectController::class)->only(['show', 'update']);
     Route::resource('people', PersonController::class)->only(['show', 'update']);
     Route::resource('parties', PartyController::class)->only(['show']);
