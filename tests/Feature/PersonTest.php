@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use App\Enumerators\TagTypes;
 use App\Models\Tag;
+use App\Models\Theme;
 use Illuminate\Http\UploadedFile;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -93,6 +94,28 @@ class PersonTest extends TestCase
             ->assertOk()
             ->assertJsonFragment([
                 'skills' => $formattedSkills,
+            ]);
+    }
+
+    /** @test */
+    public function it_can_update_a_person_with_themes(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $skills = Theme::factory()->times(10)->create();
+
+        $formattedThemes = $skills->map->only(['id', 'label'])->toArray();
+
+        $this
+            ->putJson(
+                route('api.people.update', [$user->person->id]),
+                ['themes' => $formattedThemes]
+            )
+            ->assertOk()
+            ->assertJsonFragment([
+                'themes' => $formattedThemes,
             ]);
     }
 }
