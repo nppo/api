@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function current(Request $request): UserResource
     {
-        return new UserResource(
+        return UserResource::make(
             $request->user()->load(['roles', 'permissions'])
         );
     }

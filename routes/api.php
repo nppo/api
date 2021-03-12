@@ -34,7 +34,8 @@ Route::group([
 });
 
 Route::group([
-    'as' => 'api.',
+    'as'         => 'api.',
+    'middleware' => ['identify:api'],
 ], function (): void {
     Route::get('search', [SearchController::class, 'search'])->name('search');
     Route::get('statistics/entities', [StatisticsController::class, 'entities'])->name('statistics.entities');

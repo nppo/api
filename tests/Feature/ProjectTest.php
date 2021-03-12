@@ -28,6 +28,16 @@ class ProjectTest extends TestCase
         /** @var Project $project */
         $project = Project::factory()->create();
 
+        $person = Person::factory()->create();
+
+        $project->people()->save($person, ['is_owner' => 1]);
+
+        $user = User::factory()->create([
+            'person_id' => $person->id,
+        ]);
+
+        Passport::actingAs($user);
+
         $newTitle = '::new title::';
 
         $project->title = $newTitle;
