@@ -57,10 +57,14 @@ class PersonController extends Controller
                 ->toMediaCollection(MediaCollections::PROFILE_PICTURE);
         }
 
-        if (isset($validated['skills'])) {
-            $person->tags()->sync(
-                Collection::make($validated['skills'])->map(fn ($skill) => $skill['id'])
-            );
+        if (array_key_exists('skills', $validated)) {
+            if (is_null($validated['skills'])) {
+                $person->skills()->detach();
+            } else {
+                $person->skills()->sync(
+                    Collection::make($validated['skills'])->map(fn ($skill) => $skill['id'])
+                );
+            }
         }
 
         if (isset($validated['themes'])) {
