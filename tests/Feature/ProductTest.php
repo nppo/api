@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Enumerators\Permissions;
-use App\Models\Person;
 use App\Models\Product;
-use App\Models\User;
 use Laravel\Passport\Passport;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
