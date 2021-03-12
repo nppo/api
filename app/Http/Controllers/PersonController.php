@@ -11,6 +11,7 @@ use App\Http\Resources\PersonResource;
 use App\Repositories\MediaRepository;
 use App\Repositories\PersonRepository;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Way2Web\Force\Http\Controller;
 
 class PersonController extends Controller
@@ -43,7 +44,7 @@ class PersonController extends Controller
         $this
             ->personRepository
             ->update(
-                Arr::except($request->validated(), ['profile_picture']),
+                Arr::except($request->validated(), ['profile_picture', 'skills']),
                 $id
             );
 
@@ -52,6 +53,12 @@ class PersonController extends Controller
                 ->addMediaFromRequest('profile_picture')
                 ->preservingOriginal()
                 ->toMediaCollection(MediaCollections::PROFILE_PICTURE);
+        }
+
+        if (isset($request->validated()['skills'])) {
+            $person->tags()->sync(
+                Collection::make($request->validated()['skills'])->map(fn ($skill) => $skill['id'])
+            );
         }
 
         return PersonResource::make(

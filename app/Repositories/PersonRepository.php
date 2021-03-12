@@ -30,7 +30,7 @@ class PersonRepository extends AbstractRepository
                 'parties',
                 'products',
                 'projects',
-                'tags',
+                'skills',
                 'themes',
                 'media',
             ])

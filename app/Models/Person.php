@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
+use App\Enumerators\TagTypes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia;
@@ -39,6 +40,11 @@ class Person extends AbstractModel implements HasMedia
     public function tags(): MorphToMany
     {
         return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    public function skills(): MorphToMany
+    {
+        return $this->tags()->where('type', TagTypes::SKILL);
     }
 
     public function themes(): MorphToMany
