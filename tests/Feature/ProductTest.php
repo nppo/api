@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Enumerators\Action;
 use App\Models\Product;
 use Laravel\Passport\Passport;
 use Spatie\Permission\PermissionRegistrar;
@@ -103,5 +104,31 @@ class ProductTest extends TestCase
             )
             ->assertOk()
             ->assertJsonFragment(['title' => $newTitle]);
+    }
+
+    /** @test */
+    public function it_can_see_can_permission_on_allowed_user(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->create();
+
+        $user = $this->getUser();
+
+        $product->contributors()->attach($user->person);
+
+        Passport::actingAs($user);
+
+        $newTitle = '::new title::';
+
+        $product->title = $newTitle;
+
+        $this
+            ->getJson(
+                route('api.products.show', ['product' => $product->id])
+            )
+            ->assertOk()
+            ->assertJsonFragment(['can' => [
+                Action::UPDATE => true,
+            ]]);
     }
 }
