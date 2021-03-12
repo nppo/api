@@ -44,7 +44,7 @@ class PersonController extends Controller
         $this
             ->personRepository
             ->update(
-                Arr::except($request->validated(), ['profile_picture', 'skills']),
+                Arr::except($request->validated(), ['profile_picture', 'skills', 'themes']),
                 $id
             );
 
@@ -58,6 +58,12 @@ class PersonController extends Controller
         if (isset($request->validated()['skills'])) {
             $person->tags()->sync(
                 Collection::make($request->validated()['skills'])->map(fn ($skill) => $skill['id'])
+            );
+        }
+
+        if (isset($request->validated()['themes'])) {
+            $person->themes()->sync(
+                Collection::make($request->validated()['themes'])->map(fn ($theme) => $theme['id'])
             );
         }
 
