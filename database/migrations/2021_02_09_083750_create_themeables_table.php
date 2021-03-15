@@ -12,8 +12,8 @@ class CreateThemeablesTable extends Migration
     {
         Schema::create('themeables', function (Blueprint $table): void {
             $table->foreignId('theme_id')->constrained()->onDelete('cascade');
-            $table->unsignedBigInteger('themeable_id');
-            $table->string('themeable_type');
+
+            $table->morphs('themeable');
         });
     }
 

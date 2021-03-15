@@ -41,6 +41,8 @@ class PersonController extends Controller
 
         $this->authorize(Action::UPDATE, $person);
 
+        $validated = $request->validated();
+
         $this
             ->personRepository
             ->update(
@@ -55,15 +57,15 @@ class PersonController extends Controller
                 ->toMediaCollection(MediaCollections::PROFILE_PICTURE);
         }
 
-        if (isset($request->validated()['skills'])) {
+        if (isset($validated['skills'])) {
             $person->tags()->sync(
-                Collection::make($request->validated()['skills'])->map(fn ($skill) => $skill['id'])
+                Collection::make($validated['skills'])->map(fn ($skill) => $skill['id'])
             );
         }
 
-        if (isset($request->validated()['themes'])) {
+        if (isset($validated['themes'])) {
             $person->themes()->sync(
-                Collection::make($request->validated()['themes'])->map(fn ($theme) => $theme['id'])
+                Collection::make($validated['themes'])->map(fn ($theme) => $theme['id'])
             );
         }
 
