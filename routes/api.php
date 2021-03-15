@@ -40,6 +40,7 @@ Route::group([
 ], function (): void {
     Route::get('search', [SearchController::class, 'search'])->name('search');
     Route::get('statistics/entities', [StatisticsController::class, 'entities'])->name('statistics.entities');
+    Route::get('discover', [HomeController::class, 'discover'])->name('discover');
 
     Route::resource('themes', ThemeController::class)->only(['index']);
     Route::resource('types', EntityController::class)->only(['index']);
@@ -49,6 +50,4 @@ Route::group([
     Route::resource('parties', PartyController::class)->only(['show']);
     Route::resource('tags', TagController::class)->only(['index']);
     Route::resource('skills', SkillController::class)->only(['index']);
-
-    Route::get('discover', [HomeController::class, 'discover'])->name('discover');
 });

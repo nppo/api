@@ -22,7 +22,7 @@ class ProductController extends Controller
     public function show($id): ProductResource
     {
         return ProductResource::make(
-            $this->productRepository->findOrFail($id)
+            $this->productRepository->show($id)
         )
             ->withPermissions();
     }

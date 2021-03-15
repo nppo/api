@@ -13,9 +13,9 @@ class CreateCooperablesTable extends Migration
         Schema::create('cooperables', function (Blueprint $table): void {
             $table->foreignId('project_id')->constrained()->onDelete('cascade');
 
-            $table->unsignedBigInteger('cooperable_id');
-            $table->string('cooperable_type');
-            $table->boolean('is_owner')->default(false);
+            $table->morphs('cooperable');
+
+            $table->boolean('is_owner');
         });
     }
 

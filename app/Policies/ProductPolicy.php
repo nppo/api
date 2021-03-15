@@ -23,7 +23,7 @@ class ProductPolicy
             return false;
         }
 
-        if (!$product->contributors->contains($user->person)) {
+        if (!$product->people->contains($user->person)) {
             return false;
         }
 
