@@ -89,7 +89,7 @@ class ProductTest extends TestCase
 
         $user = $this->getUser();
 
-        $product->contributors()->attach($user->person);
+        $product->people()->attach($user->person);
 
         Passport::actingAs($user);
 
@@ -114,7 +114,7 @@ class ProductTest extends TestCase
 
         $user = $this->getUser();
 
-        $product->contributors()->attach($user->person);
+        $product->people()->attach($user->person);
 
         Passport::actingAs($user);
 
