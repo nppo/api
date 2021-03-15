@@ -31,8 +31,16 @@ class ProductResource extends Resource
             'likes'       => $this->likes_count,
             'publishedAt' => $this->published_at,
 
+            'owner' => $this->whenLoaded('owner', function (): PersonResource {
+                return PersonResource::make($this->owner->first());
+            }),
+
             'parties' => $this->whenLoaded('parties', function (): AnonymousResourceCollection {
                 return PartyResource::collection($this->parties);
+            }),
+
+            'people' => $this->whenLoaded('people', function (): AnonymousResourceCollection {
+                return PersonResource::collection($this->people);
             }),
 
             'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {

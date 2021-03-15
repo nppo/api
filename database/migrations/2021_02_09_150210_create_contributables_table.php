@@ -14,6 +14,8 @@ class CreateContributablesTable extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
 
             $table->morphs('contributable');
+
+            $table->boolean('is_owner');
         });
     }
 

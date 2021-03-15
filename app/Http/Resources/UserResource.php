@@ -6,6 +6,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Way2Web\Force\Http\Resource;
 
 class UserResource extends Resource
@@ -22,6 +23,10 @@ class UserResource extends Resource
         return [
             'id'    => $this->getKey(),
             'email' => $this->email,
+
+            'person' => $this->whenLoaded('person', function (): JsonResource {
+                return PersonResource::make($this->person);
+            }),
 
             'roles' => $this->whenLoaded('roles', function (): AnonymousResourceCollection {
                 return RoleResource::collection($this->roles);
