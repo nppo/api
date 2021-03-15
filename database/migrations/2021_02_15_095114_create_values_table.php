@@ -18,6 +18,8 @@ class CreateValuesTable extends Migration
             $table->text('value');
 
             $table->timestamps();
+
+            $table->unique(['attribute_id', 'entity_type', 'entity_id']);
         });
     }
 

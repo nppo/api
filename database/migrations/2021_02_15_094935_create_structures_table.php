@@ -13,7 +13,7 @@ class CreateStructuresTable extends Migration
         Schema::create('structures', function (Blueprint $table): void {
             $table->id();
 
-            $table->string('label');
+            $table->string('label')->unique();
 
             $table->timestamps();
         });

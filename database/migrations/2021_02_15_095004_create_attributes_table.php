@@ -17,6 +17,8 @@ class CreateAttributesTable extends Migration
             $table->string('label');
 
             $table->timestamps();
+
+            $table->unique(['structure_id', 'label']);
         });
     }
 

@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Models\Support;
 
 use App\Interfaces\HasMetaData;
+use App\Models\Attribute;
 use App\Models\Structure;
 use App\Models\Value;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait HasMeta
@@ -30,9 +31,16 @@ trait HasMeta
         return $this->morphMany(Value::class, 'entity');
     }
 
-    public function attributes(): HasMany
+    public function attributes(): HasManyThrough
     {
-        return $this->structure->attributes();
+        return $this->hasManyThrough(
+            Attribute::class,
+            Structure::class,
+            'id',
+            'structure_id',
+            'structure_id',
+            'id'
+        );
     }
 
     public function resolveStructure(): Structure

@@ -14,7 +14,7 @@ class AttributeFactory extends Factory
     public function definition(): array
     {
         return [
-            'label' => $this->faker->word,
+            'label' => $this->faker->unique()->word,
         ];
     }
 }
