@@ -32,6 +32,9 @@ class ProductRepository extends AbstractRepository
                 'tags',
                 'attributes',
                 'values',
+                'parties',
+                'people.tags',
+                'owner.tags',
             ])
             ->findOrFail($id);
     }
@@ -68,19 +71,6 @@ class ProductRepository extends AbstractRepository
         $this->builder->orderBy($column, $order);
 
         return $this;
-    }
-
-    public function show($id)
-    {
-        return $this
-            ->with([
-                'themes',
-                'tags',
-                'parties',
-                'people.tags',
-                'owner.tags',
-            ])
-            ->findOrFail($id);
     }
 
     public function get()
