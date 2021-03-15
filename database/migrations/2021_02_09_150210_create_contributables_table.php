@@ -14,6 +14,8 @@ class CreateContributablesTable extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('contributable_id');
             $table->string('contributable_type');
+
+            $table->boolean('is_owner');
         });
     }
 

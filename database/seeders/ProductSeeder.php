@@ -19,7 +19,7 @@ class ProductSeeder extends Seeder
 
     private const MAX_TAGS_PER_PRODUCT = 10;
 
-    private const MAX_CONTRIBUTORS = 10;
+    private const MAX_PEOPLE = 10;
 
     private const MAX_THEMES = 3;
 
@@ -41,7 +41,7 @@ class ProductSeeder extends Seeder
             ->each(function (Product $product) use ($themes, $tags, $people, $parties, $users): void {
                 $this->attachThemes($product, $themes);
                 $this->attachTags($product, $tags);
-                $this->attachContributors($product, $people);
+                $this->attachPeople($product, $people);
                 $this->attachParties($product, $parties);
                 $this->attachLikes($product, $users);
 
@@ -58,22 +58,41 @@ class ProductSeeder extends Seeder
             ->saveMany($themes->random(mt_rand(1, self::MAX_THEMES)));
     }
 
-    private function attachContributors(Product $product, Collection $people): void
+    /**
+     * @param Product    $product
+     * @param Collection $people
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
+    private function attachPeople(Product $product, Collection $people): void
     {
+        $pivotAttributes = [];
+
+        // Women and children first
+        $peopleToSave = $people
+            ->random(mt_rand(1, self::MAX_PEOPLE))
+            ->each(function (Person $person, $key) use (&$pivotAttributes): void {
+                $pivotAttributes[] = ['is_owner' => ($key === 0)];
+            });
+
         $product
-            ->contributors()
-            ->saveMany(
-                $people->random(mt_rand(1, self::MAX_CONTRIBUTORS))
-            );
+            ->people()
+            ->saveMany($peopleToSave, $pivotAttributes);
     }
 
     private function attachParties(Product $product, Collection $parties): void
     {
+        $pivotAttributes = [];
+
+        $partiesToSave = $parties
+            ->random(mt_rand(1, self::MAX_PARTIES))
+            ->each(function () use (&$pivotAttributes): void {
+                $pivotAttributes[] = ['is_owner' => false];
+            });
+
         $product
             ->parties()
-            ->saveMany(
-                $parties->random(mt_rand(1, self::MAX_PARTIES))
-            );
+            ->saveMany($partiesToSave, $pivotAttributes);
     }
 
     private function attachTags(Product $product, Collection $tags): void

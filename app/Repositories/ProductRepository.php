@@ -57,6 +57,19 @@ class ProductRepository extends AbstractRepository
         return $this;
     }
 
+    public function show($id)
+    {
+        return $this
+            ->with([
+                'themes',
+                'tags',
+                'parties',
+                'people.tags',
+                'owner.tags',
+            ])
+            ->findOrFail($id);
+    }
+
     public function get()
     {
         return $this->builder->get();
