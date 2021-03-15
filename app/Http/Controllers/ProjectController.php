@@ -38,6 +38,8 @@ class ProjectController extends Controller
             Collection::make($request->id)
         );
 
+        $project->people()->update(['is_owner' => true]);
+
         $project->save();
     }
 
