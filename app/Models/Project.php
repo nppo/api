@@ -13,6 +13,13 @@ class Project extends AbstractModel
 {
     use HasFactory;
 
+    /** @var array */
+    protected $fillable = [
+        'title',
+        'description',
+        'purpose',
+    ];
+
     public function likes(): MorphToMany
     {
         return $this->morphToMany(User::class, 'likeable');
