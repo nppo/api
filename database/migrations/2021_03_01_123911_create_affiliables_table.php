@@ -12,13 +12,13 @@ class CreateAffiliablesTable extends Migration
     {
         Schema::create('affiliables', function (Blueprint $table): void {
             $table->foreignId('party_id')->constrained()->cascadeOnDelete();
-            $table->unsignedBigInteger('affiliable_id');
-            $table->string('affiliable_type');
+
+            $table->morphs('affiliable');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('affiliable');
+        Schema::dropIfExists('affiliables');
     }
 }

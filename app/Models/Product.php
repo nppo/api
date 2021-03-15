@@ -30,7 +30,7 @@ class Product extends AbstractModel implements HasMetaData
                 return $tag->id;
             })->toArray(),
 
-            'contributors' => $this->tags->map(function (Person $person): int {
+            'people' => $this->tags->map(function (Person $person): int {
                 return $person->id;
             })->toArray(),
 
@@ -55,7 +55,7 @@ class Product extends AbstractModel implements HasMetaData
         return $this->morphToMany(User::class, 'likeable');
     }
 
-    public function contributors(): MorphToMany
+    public function people(): MorphToMany
     {
         return $this->morphedByMany(Person::class, 'contributable');
     }
@@ -69,5 +69,10 @@ class Product extends AbstractModel implements HasMetaData
     {
         return Structure::where('label', StructureHelper::labelForProductType($this->type))
             ->sole();
+    }
+
+    public function owner(): MorphToMany
+    {
+        return $this->people()->wherePivot('is_owner', true);
     }
 }

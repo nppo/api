@@ -12,8 +12,8 @@ class CreateLikeablesTable extends Migration
     {
         Schema::create('likeables', function (Blueprint $table): void {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->unsignedBigInteger('likeable_id');
-            $table->string('likeable_type');
+
+            $table->morphs('likeable');
         });
     }
 
