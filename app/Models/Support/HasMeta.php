@@ -47,17 +47,4 @@ trait HasMeta
     {
         return Structure::where('label', static::class)->sole();
     }
-
-    public function metaAsArray(): array
-    {
-        $data = [];
-
-        $this->with(['values.attribute']);
-
-        foreach ($this->values as $value) {
-            $data[$value->attribute->label] = $value->value;
-        }
-
-        return $data;
-    }
 }
