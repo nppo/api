@@ -55,6 +55,10 @@ class ProjectResource extends Resource
             'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {
                 return ThemeResource::collection($this->themes);
             }),
+
+            'meta' => $this->whenLoaded('values', function (): array {
+                return $this->metaAsArray();
+            }),
         ];
     }
 }

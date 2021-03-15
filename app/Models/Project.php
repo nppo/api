@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Interfaces\HasMetaData;
+use App\Models\Support\HasMeta;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Way2Web\Force\AbstractModel;
 
-class Project extends AbstractModel
+class Project extends AbstractModel implements HasMetaData
 {
-    use HasFactory;
+    use HasMeta;
 
     public function likes(): MorphToMany
     {

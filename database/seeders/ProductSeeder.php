@@ -10,11 +10,14 @@ use App\Models\Product;
 use App\Models\Tag;
 use App\Models\Theme;
 use App\Models\User;
+use Database\Seeders\Support\SeedsMetadata;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
 class ProductSeeder extends Seeder
 {
+    use SeedsMetadata;
+
     private const MAX_PRODUCTS = 250;
 
     private const MAX_TAGS_PER_PRODUCT = 10;
@@ -44,6 +47,7 @@ class ProductSeeder extends Seeder
                 $this->attachContributors($product, $people);
                 $this->attachParties($product, $parties);
                 $this->attachLikes($product, $users);
+                $this->seedMetadata($product);
 
                 $this->command->getOutput()->progressAdvance(1);
             });

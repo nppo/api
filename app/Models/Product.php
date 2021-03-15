@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Helpers\Structure as StructureHelper;
+use App\Interfaces\HasMetaData;
+use App\Models\Support\HasMeta;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Way2Web\Force\AbstractModel;
 
-class Product extends AbstractModel
+class Product extends AbstractModel implements HasMetaData
 {
-    use Searchable;
+    use Searchable, HasMeta;
 
     public function toSearchableArray(): array
     {
@@ -60,5 +63,11 @@ class Product extends AbstractModel
     public function parties(): MorphToMany
     {
         return $this->morphedByMany(Party::class, 'contributable');
+    }
+
+    public function resolveStructure(): Structure
+    {
+        return Structure::where('label', StructureHelper::labelForProductType($this->type))
+            ->sole();
     }
 }

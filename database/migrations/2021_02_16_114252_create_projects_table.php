@@ -13,6 +13,8 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table): void {
             $table->id();
 
+            $table->foreignId('structure_id');
+
             $table->string('title');
             $table->text('purpose')->nullable();
             $table->text('description')->nullable();

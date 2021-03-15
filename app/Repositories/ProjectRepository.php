@@ -33,6 +33,7 @@ class ProjectRepository extends AbstractRepository
                 'products',
                 'tags',
                 'themes',
+                'values.attribute',
             ])
             ->withCount('likes')
             ->findOrFail($id);
