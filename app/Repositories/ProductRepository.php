@@ -23,6 +23,19 @@ class ProductRepository extends AbstractRepository
         return Product::class;
     }
 
+    public function show($id)
+    {
+        return $this
+            ->with([
+                'parties',
+                'themes',
+                'tags',
+                'attributes',
+                'values',
+            ])
+            ->findOrFail($id);
+    }
+
     public function search(string $query): self
     {
         $this
