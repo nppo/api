@@ -129,7 +129,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_person_and_remove_all_parties(): void
+    public function it_can_update_a_project_and_remove_all_parties(): void
     {
         $user = $this->getUser();
 
@@ -154,7 +154,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_person_and_add_parties(): void
+    public function it_can_update_a_project_and_add_parties(): void
     {
         $user = $this->getUser();
 
