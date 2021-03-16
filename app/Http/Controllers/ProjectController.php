@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enumerators\MediaCollections;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
+use App\Repositories\MediaRepository;
 use App\Repositories\ProjectRepository;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Way2Web\Force\Http\Controller;
 
@@ -16,10 +19,13 @@ class ProjectController extends Controller
 {
     private ProjectRepository $projectRepository;
 
-    public function __construct(ProjectRepository $projectRepository)
+    public function __construct(ProjectRepository $projectRepository, MediaRepository $mediaRepository)
     {
-        $this->protectActionRoutes(['api']);
         $this->projectRepository = $projectRepository;
+        $this->mediaRepository = $mediaRepository;
+
+        $this
+            ->protectActionRoutes(['api']);
     }
 
     public function show($id): ProjectResource
@@ -39,12 +45,21 @@ class ProjectController extends Controller
         /** @var Project */
         $project = $this
             ->projectRepository
-            ->create($validated);
+            ->create(
+                Arr::except($request->validated(), ['project_picture'])
+            );
+
+        if ($request->hasFile('project_picture')) {
+            $project
+                ->addMediaFromRequest('project_picture')
+                ->preservingOriginal()
+                ->toMediaCollection(MediaCollections::PROJECT_PICTURE);
+        }
 
         if (isset($validated['people'])) {
             $project->people()->syncWithPivotValues(
                 Collection::make($validated['people'])
-                    ->map(fn ($person) => $person['id']),
+                    ->map(fn ($project) => $project['id']),
                 [
                     'is_owner' => false,
                 ]

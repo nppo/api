@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enumerators\Disks;
+use App\Enumerators\MediaCollections;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasMeta;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Way2Web\Force\AbstractModel;
 
-class Project extends AbstractModel implements HasMetaData
+class Project extends AbstractModel implements HasMedia, HasMetaData
 {
-    use HasMeta;
+    use InteractsWithMedia, HasMeta;
 
     /** @var array */
     protected $fillable = [
@@ -57,5 +61,18 @@ class Project extends AbstractModel implements HasMetaData
     public function themes(): MorphToMany
     {
         return $this->morphToMany(Theme::class, 'themeable');
+    }
+
+    public function getProjectPictureUrlAttribute(): ?string
+    {
+        return $this->getFirstMediaUrl(MediaCollections::PROJECT_PICTURE);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection(MediaCollections::PROJECT_PICTURE)
+            ->singleFile()
+            ->useDisk(Disks::SURF_PUBLIC);
     }
 }
