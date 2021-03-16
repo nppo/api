@@ -6,11 +6,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Way2Web\Force\AbstractModel;
 
-class Product extends AbstractModel
+class Product extends AbstractModel implements HasMedia
 {
-    use Searchable;
+    use Searchable, InteractsWithMedia;
+
+    protected $fillable = [
+        'type',
+        'title',
+        'description',
+    ];
 
     public function toSearchableArray(): array
     {
