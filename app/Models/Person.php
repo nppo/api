@@ -7,15 +7,17 @@ namespace App\Models;
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
 use App\Enumerators\TagTypes;
+use App\Interfaces\HasMetaData;
+use App\Models\Support\HasMeta;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Way2Web\Force\AbstractModel;
 
-class Person extends AbstractModel implements HasMedia
+class Person extends AbstractModel implements HasMedia, HasMetaData
 {
-    use InteractsWithMedia;
+    use InteractsWithMedia, HasMeta;
 
     public function likes(): MorphToMany
     {

@@ -6,15 +6,18 @@ namespace App\Models;
 
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
+use App\Helpers\Structure as StructureHelper;
+use App\Interfaces\HasMetaData;
+use App\Models\Support\HasMeta;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Way2Web\Force\AbstractModel;
 
-class Product extends AbstractModel implements HasMedia
+class Product extends AbstractModel implements HasMedia, HasMetaData
 {
-    use Searchable, InteractsWithMedia;
+    use Searchable, InteractsWithMedia, HasMeta;
 
     protected $fillable = [
         'type',
@@ -78,6 +81,12 @@ class Product extends AbstractModel implements HasMedia
     public function parties(): MorphToMany
     {
         return $this->morphedByMany(Party::class, 'contributable');
+    }
+
+    public function resolveStructure(): Structure
+    {
+        return Structure::where('label', StructureHelper::labelForProductType($this->type))
+            ->sole();
     }
 
     public function owner(): MorphToMany
