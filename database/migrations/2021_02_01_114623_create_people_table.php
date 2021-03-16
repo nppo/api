@@ -12,6 +12,7 @@ class CreatePeopleTable extends Migration
     {
         Schema::create('people', function (Blueprint $table): void {
             $table->id();
+            $table->foreignId('structure_id');
 
             $table->string('identifier');
             $table->string('first_name');
