@@ -67,21 +67,8 @@ class PersonController extends Controller
                 ->toMediaCollection(MediaCollections::PROFILE_PICTURE);
         }
 
-        if (array_key_exists('skills', $validated)) {
-            if (is_null($validated['skills'])) {
-                $person->skills()->detach();
-            } else {
-                $person->skills()->sync(
-                    Collection::make($validated['skills'])->map(fn ($skill) => $skill['id'])
-                );
-            }
-        }
-
-        if (isset($validated['themes'])) {
-            $person->themes()->sync(
-                Collection::make($validated['themes'])->map(fn ($theme) => $theme['id'])
-            );
-        }
+        $this->syncRelation($person, 'skills', Arr::get($validated, 'skills') ?: []);
+        $this->syncRelation($person, 'themes', Arr::get($validated, 'themes') ?: []);
 
         return PersonResource::make(
             $this->personRepository->show($id)
