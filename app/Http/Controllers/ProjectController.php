@@ -39,11 +39,12 @@ class ProjectController extends Controller
         $this
             ->projectRepository
             ->update(
-                Arr::except($request->validated(), ['parties']),
+                Arr::except($request->validated(), ['parties', 'products']),
                 $id
             );
 
         $this->syncRelation($project, 'parties', Arr::get($validated, 'parties') ?: []);
+        $this->syncRelation($project, 'products', Arr::get($validated, 'products') ?: []);
 
         return ProjectResource::make(
             $this->projectRepository->show($id)

@@ -18,6 +18,10 @@ class ProjectUpdateRequest extends FormRequest
             'parties'      => ['nullable'],
             'parties.*'    => ['array', 'required'],
             'parties.*.id' => ['required', 'integer'],
+
+            'products'      => ['nullable'],
+            'products.*'    => ['array', 'required'],
+            'products.*.id' => ['required', 'integer'],
         ];
     }
 }

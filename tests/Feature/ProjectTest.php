@@ -7,6 +7,7 @@ namespace Tests\Feature;
 use App\Enumerators\Permissions;
 use App\Models\Party;
 use App\Models\Person;
+use App\Models\Product;
 use App\Models\Project;
 use App\Models\User;
 use Laravel\Passport\Passport;
@@ -180,6 +181,62 @@ class ProjectTest extends TestCase
 
         foreach ($parties as $party) {
             $response->assertJsonFragment($party);
+        }
+    }
+
+    /** @test */
+    public function it_can_update_a_person_and_remove_all_products(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        /** @var Project $project */
+        $project = Project::factory()->hasAttached($user->person, ['is_owner' => true])->create();
+
+        $project->products()->sync(
+            Product::factory()->times(7)->create()->pluck('id')
+        );
+
+        $this
+            ->putJson(
+                route('api.projects.update', [$project->id]),
+                ['products' => null]
+            )
+            ->assertOk()
+            ->assertJsonFragment([
+                'products' => [],
+            ]);
+    }
+
+    /** @test */
+    public function it_can_update_a_person_and_add_products(): void
+    {
+        $this->withoutExceptionHandling();
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        /** @var Project $project */
+        $project = Project::factory()
+            ->hasAttached($user->person, ['is_owner' => true])
+            ->create();
+
+        $products = Product::factory()
+            ->times(7)
+            ->create()
+            ->map->only(['id', 'title']);
+
+        $response = $this
+            ->putJson(
+                route('api.projects.update', [$project->id]),
+                ['products' => $products]
+            )
+            ->assertOk()
+            ->assertJsonCount(7, 'data.products');
+
+        foreach ($products as $product) {
+            $response->assertJsonFragment($product);
         }
     }
 }
