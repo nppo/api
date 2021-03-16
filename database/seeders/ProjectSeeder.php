@@ -11,11 +11,14 @@ use App\Models\Project;
 use App\Models\Tag;
 use App\Models\Theme;
 use App\Models\User;
+use Database\Seeders\Support\SeedsMetadata;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
 class ProjectSeeder extends Seeder
 {
+    use SeedsMetadata;
+
     private const MAX_PROJECTS = 250;
 
     private const MAX_TAGS = 10;
@@ -49,6 +52,7 @@ class ProjectSeeder extends Seeder
                 $this->attachParties($project, $parties);
                 $this->attachLikes($project, $users);
                 $this->attachProducts($project, $products);
+                $this->seedMetadata($project);
 
                 $this->command->getOutput()->progressAdvance(1);
             });

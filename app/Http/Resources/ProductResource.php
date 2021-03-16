@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Enumerators\Action;
+use App\Http\Resources\Support\WithMetaData;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Way2Web\Force\Http\Resource;
 
 class ProductResource extends Resource
 {
+    use WithMetaData;
+
     protected array $permissions = [
         Action::UPDATE,
     ];
@@ -49,6 +52,14 @@ class ProductResource extends Resource
 
             'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
                 return TagResource::collection($this->tags);
+            }),
+
+            'meta' => $this->whenLoaded('attributes', function (): AnonymousResourceCollection {
+                if ($this->whenLoaded('values')) {
+                    return AttributeResource::collection($this->aggregateAttributes());
+                }
+
+                return AttributeResource::collection($this->attributes);
             }),
         ];
     }
