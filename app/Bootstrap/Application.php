@@ -11,6 +11,7 @@ class Application
     protected array $bootstrappers = [
         Permissions::class,
         Roles::class,
+        Structures::class,
     ];
 
     public function bootstrap(): void

@@ -13,11 +13,18 @@ class Enum
 
     private const DEFAULT_KEY = 'name';
 
+    private const ARRAY_DELIMITER = ',';
+
     public static function asArray(): array
     {
         $class = get_called_class();
 
         return (new ReflectionClass(new $class()))->getConstants();
+    }
+
+    public static function asArrayString(string $delimiter = self::ARRAY_DELIMITER): string
+    {
+        return implode($delimiter, self::asArray());
     }
 
     public static function asReferableArray(string $valueKey = self::DEFAULT_KEY): array

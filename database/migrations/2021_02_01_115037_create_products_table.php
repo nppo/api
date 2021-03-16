@@ -13,6 +13,8 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table): void {
             $table->id();
 
+            $table->foreignId('structure_id');
+            $table->string('type');
             $table->string('title');
             $table->text('description');
 
