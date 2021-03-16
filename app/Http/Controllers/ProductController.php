@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
 use App\Repositories\ProductRepository;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Way2Web\Force\Http\Controller;
 
 class ProductController extends Controller
@@ -17,6 +18,13 @@ class ProductController extends Controller
     {
         $this->protectActionRoutes(['api']);
         $this->productRepository = $productRepository;
+    }
+
+    public function index(): AnonymousResourceCollection
+    {
+        return ProductResource::collection(
+            $this->productRepository->index()
+        );
     }
 
     public function show($id): ProductResource
