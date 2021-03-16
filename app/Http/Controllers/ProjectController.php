@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProjectRequest;
+use App\Http\Requests\ProjectStoreRequest;
+use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
-use App\Models\Person;
 use App\Models\Project;
 use App\Repositories\ProjectRepository;
 use Illuminate\Support\Collection;
@@ -30,20 +30,35 @@ class ProjectController extends Controller
             ->withPermissions();
     }
 
-    public function store(ProjectRequest $request, Person $person)
+    public function store(ProjectStoreRequest $request): ProjectResource
     {
-        $project = Project::create($request->all());
+        $this->authorize('create', Project::class);
 
-        $project->people()->sync(
-            Collection::make($request->id)
+        $validated = $request->validated();
+
+        /** @var Project */
+        $project = $this
+            ->projectRepository
+            ->create($validated);
+
+        if (isset($validated['people'])) {
+            $project->people()->syncWithPivotValues(
+                Collection::make($validated['people'])
+                    ->map(fn ($person) => $person['id']),
+                [
+                    'is_owner' => false,
+                ]
+            );
+        }
+
+        $project->people()->attach($request->user()->person, ['is_owner' => true]);
+
+        return ProjectResource::make(
+            $this->projectRepository->show($project->getKey())
         );
-
-        $project->people()->update(['is_owner' => true]);
-
-        $project->save();
     }
 
-    public function update(ProjectRequest $request, $id): ProjectResource
+    public function update(ProjectUpdateRequest $request, $id): ProjectResource
     {
         $this->authorize('update', $this->projectRepository->findOrFail($id));
 
