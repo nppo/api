@@ -13,7 +13,6 @@ use App\Repositories\MediaRepository;
 use App\Repositories\PersonRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Way2Web\Force\Http\Controller;
 
 class PersonController extends Controller
