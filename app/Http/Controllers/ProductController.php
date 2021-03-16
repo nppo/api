@@ -43,7 +43,7 @@ class ProductController extends Controller
             );
 
         return ProductResource::make(
-            $this->productRepository->findOrFail($id)
+            $this->productRepository->show($id)
         )
             ->withPermissions();
     }
