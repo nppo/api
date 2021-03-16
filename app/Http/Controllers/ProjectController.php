@@ -12,7 +12,6 @@ use App\Models\Project;
 use App\Repositories\MediaRepository;
 use App\Repositories\ProjectRepository;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Way2Web\Force\Http\Controller;
 
 class ProjectController extends Controller
@@ -54,16 +53,6 @@ class ProjectController extends Controller
                 ->addMediaFromRequest('project_picture')
                 ->preservingOriginal()
                 ->toMediaCollection(MediaCollections::PROJECT_PICTURE);
-        }
-
-        if (isset($validated['people'])) {
-            $project->people()->syncWithPivotValues(
-                Collection::make($validated['people'])
-                    ->map(fn ($project) => $project['id']),
-                [
-                    'is_owner' => false,
-                ]
-            );
         }
 
         $project->people()->attach($request->user()->person, ['is_owner' => true]);
