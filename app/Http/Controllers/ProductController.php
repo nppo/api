@@ -11,7 +11,6 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Way2Web\Force\Http\Controller;
 
 class ProductController extends Controller
@@ -58,7 +57,7 @@ class ProductController extends Controller
         /** @var Product */
         $product = $this
             ->productRepository
-            ->create(Arr::except($validated, ['file', 'tags', 'themes']));
+            ->create($validated);
 
         if ($request->hasFile('file')) {
             $product
@@ -67,37 +66,11 @@ class ProductController extends Controller
                 ->toMediaCollection(MediaCollections::PRODUCT_OBJECT);
         }
 
-        if (isset($validated['tags'])) {
-            $product->tags()->sync(
-                Collection::make($validated['tags'])->map(fn ($tag) => $tag['id'])
-            );
-        }
-
-        if (isset($validated['themes'])) {
-            $product->themes()->sync(
-                Collection::make($validated['themes'])->map(fn ($theme) => $theme['id'])
-            );
-        }
-
-        if (isset($validated['parties'])) {
-            $product->parties()->syncWithPivotValues(
-                Collection::make($validated['parties'])
-                    ->map(fn ($party) => $party['id']),
-                [
-                    'is_owner' => false,
-                ]
-            );
-        }
-
-        if (isset($validated['people'])) {
-            $product->people()->syncWithPivotValues(
-                Collection::make($validated['people'])
-                    ->map(fn ($person) => $person['id']),
-                [
-                    'is_owner' => false,
-                ]
-            );
-        }
+        $this
+            ->syncRelation($product, 'tags', Arr::get($validated, 'tags', []))
+            ->syncRelation($product, 'themes', Arr::get($validated, 'themes', []))
+            ->syncRelation($product, 'people', Arr::get($validated, 'people', []), ['is_owner' => false])
+            ->syncRelation($product, 'parties', Arr::get($validated, 'parties', []), ['is_owner' => false]);
 
         $product->people()->attach($request->user()->person, ['is_owner' => true]);
 

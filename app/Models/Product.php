@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enumerators\Disks;
+use App\Enumerators\MediaCollections;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
@@ -43,6 +45,14 @@ class Product extends AbstractModel implements HasMedia
                 return $party->id;
             })->toArray(),
         ];
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection(MediaCollections::PRODUCT_OBJECT)
+            ->singleFile()
+            ->useDisk(Disks::SURF_PRIVATE);
     }
 
     public function themes(): MorphToMany
