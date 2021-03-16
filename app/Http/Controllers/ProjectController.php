@@ -44,13 +44,7 @@ class ProjectController extends Controller
                 $id
             );
 
-        if (array_key_exists('parties', $validated)) {
-            $parties = $validated['parties'] ?: [];
-
-            $project->parties()->sync(
-                Collection::make($parties)->pluck('id')
-            );
-        }
+        $this->syncRelation($project, 'parties', Arr::get($validated, 'parties') ?: []);
 
         return ProjectResource::make(
             $this->projectRepository->show($id)

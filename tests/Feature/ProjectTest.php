@@ -131,7 +131,6 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_can_update_a_person_and_remove_all_parties(): void
     {
-        $this->withoutExceptionHandling();
         $user = $this->getUser();
 
         Passport::actingAs($user);
@@ -157,7 +156,6 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_can_update_a_person_and_add_parties(): void
     {
-        $this->withoutExceptionHandling();
         $user = $this->getUser();
 
         Passport::actingAs($user);
