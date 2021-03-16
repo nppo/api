@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Enumerators\Action;
+use App\Enumerators\ProductTypes;
 use App\Models\Product;
 use Laravel\Passport\Passport;
 use Spatie\Permission\PermissionRegistrar;
@@ -130,5 +131,29 @@ class ProductTest extends TestCase
             ->assertJsonFragment(['can' => [
                 Action::UPDATE => true,
             ]]);
+    }
+
+    /** @test */
+    public function a_new_product_can_be_created(): void
+    {
+        Passport::actingAs($this->getUser());
+
+        $original = Product::count();
+
+        $this
+            ->postJson(
+                route('api.products.store'),
+                [
+                    'type'        => ProductTypes::VIDEO,
+                    'title'       => '::STRING::',
+                    'description' => '::TEXT::',
+                ]
+            )
+            ->assertOk();
+
+        $this->assertEquals(
+            $original + 1,
+            Product::count()
+        );
     }
 }

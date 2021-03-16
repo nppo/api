@@ -11,6 +11,7 @@ class Roles extends Enum
     public const RESEARCHER = [
         Permissions::PROJECTS_CREATE,
         Permissions::PROJECTS_UPDATE,
+        Permissions::PRODUCTS_CREATE,
         Permissions::PRODUCTS_UPDATE,
         Permissions::PEOPLE_UPDATE,
     ];
@@ -18,6 +19,7 @@ class Roles extends Enum
     public const PLATFORM_ADMIN = [
         Permissions::PROJECTS_CREATE,
         Permissions::PROJECTS_UPDATE,
+        Permissions::PRODUCTS_CREATE,
         Permissions::PRODUCTS_UPDATE,
         Permissions::PEOPLE_UPDATE,
     ];

@@ -11,6 +11,7 @@ use App\Models\Person;
 use App\Models\Tag;
 use App\Models\Theme;
 use App\Models\User;
+use Database\Seeders\Support\SeedsMetadata;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -19,6 +20,8 @@ use Illuminate\Support\Str;
 
 class PersonSeeder extends Seeder
 {
+    use SeedsMetadata;
+
     private const MAX_PEOPLE = 100;
 
     private const MAX_TAGS = 10;
@@ -47,7 +50,9 @@ class PersonSeeder extends Seeder
                 if (rand(0, 1)) {
                     $this->attachProfilePicture($person);
                 }
+
                 $this->attachUser($person, $users);
+                $this->seedMetadata($person);
             });
     }
 
