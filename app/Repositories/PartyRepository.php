@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Models\Party;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Way2Web\Force\Repository\AbstractRepository;
 
 class PartyRepository extends AbstractRepository
@@ -49,5 +50,13 @@ class PartyRepository extends AbstractRepository
                 'products',
             ])
             ->findOrFail($id);
+    }
+
+    public function index(): Collection
+    {
+        return $this
+            ->makeQuery()
+            ->orderBy('name')
+            ->get();
     }
 }

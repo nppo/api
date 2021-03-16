@@ -7,6 +7,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Repositories\ProjectRepository;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Way2Web\Force\Http\Controller;
 
 class ProjectController extends Controller
@@ -29,14 +31,26 @@ class ProjectController extends Controller
 
     public function update(ProjectUpdateRequest $request, $id): ProjectResource
     {
-        $this->authorize('update', $this->projectRepository->findOrFail($id));
+        $project = $this->projectRepository->findOrFail($id);
+
+        $this->authorize('update', $project);
+
+        $validated = $request->validated();
 
         $this
             ->projectRepository
             ->update(
-                $request->validated(),
+                Arr::except($request->validated(), ['parties']),
                 $id
             );
+
+        if (array_key_exists('parties', $validated)) {
+            $parties = $validated['parties'] ?: [];
+
+            $project->parties()->sync(
+                Collection::make($parties)->pluck('id')
+            );
+        }
 
         return ProjectResource::make(
             $this->projectRepository->show($id)
