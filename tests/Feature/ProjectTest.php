@@ -8,6 +8,7 @@ use App\Enumerators\Permissions;
 use App\Models\Person;
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Laravel\Passport\Passport;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
@@ -125,5 +126,26 @@ class ProjectTest extends TestCase
             )
             ->assertOk()
             ->assertJsonFragment(['title' => $newTitle]);
+    }
+
+    /** @test */
+    public function updating_will_associate_media_with_the_project(): void
+    {
+        $project = Project::factory()->create();
+
+        $this->assertEmpty($project->media);
+
+        $this
+
+            ->putJson(
+                route('api.projects.update', [$project->id]),
+                [
+                    'profile_picture' => UploadedFile::fake()->image('avatar.jpg', 1440, 350),
+                ]
+            )
+
+            ->assertOk();
+
+        $this->assertNotEmpty($project->media()->get());
     }
 }
