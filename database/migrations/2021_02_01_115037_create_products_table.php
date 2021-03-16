@@ -16,6 +16,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('structure_id');
             $table->string('type');
             $table->string('title');
+            $table->text('summary');
             $table->text('description');
 
             $table->timestamp('published_at')->nullable();
