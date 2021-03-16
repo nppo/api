@@ -43,7 +43,7 @@ Route::group([
     Route::get('statistics/entities', [StatisticsController::class, 'entities'])->name('statistics.entities');
     Route::get('discover', [HomeController::class, 'discover'])->name('discover');
 
-    Route::resource('producttypes', ProductTypeController::class)->only(['index']);
+    Route::resource('product-types', ProductTypeController::class)->only(['index']);
     Route::resource('themes', ThemeController::class)->only(['index']);
     Route::resource('types', EntityController::class)->only(['index']);
     Route::resource('products', ProductController::class)->only(['index', 'show', 'update', 'store']);
