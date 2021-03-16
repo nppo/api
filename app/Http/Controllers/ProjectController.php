@@ -8,6 +8,7 @@ use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Repositories\ProjectRepository;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Way2Web\Force\Http\Controller;
 
 class ProjectController extends Controller
@@ -32,9 +33,14 @@ class ProjectController extends Controller
     {
         $project = $this->projectRepository->findOrFail($id);
 
-        $this->authorize('update', $project);
-
         $validated = $request->validated();
+
+        $this->authorize('update', [
+            $project,
+            Collection::make(
+                Arr::get($validated, 'products') ?: []
+            )->pluck('id')
+        ]);
 
         $this
             ->projectRepository

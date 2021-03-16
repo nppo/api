@@ -185,7 +185,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_person_and_remove_all_products(): void
+    public function it_can_update_a_project_and_remove_all_products(): void
     {
         $user = $this->getUser();
 
@@ -210,9 +210,42 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_person_and_add_products(): void
+    public function it_can_update_a_project_and_add_products(): void
     {
         $this->withoutExceptionHandling();
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        /** @var Project $project */
+        $project = Project::factory()
+            ->hasAttached($user->person, ['is_owner' => true])
+            ->create();
+
+        $products = Product::factory()
+            ->times(7)
+            ->create();
+
+        $user->person->products()->attach($products);
+
+        $products = $products->map->only(['id', 'title']);
+
+        $response = $this
+            ->putJson(
+                route('api.projects.update', [$project->id]),
+                ['products' => $products]
+            )
+            ->assertOk()
+            ->assertJsonCount(7, 'data.products');
+
+        foreach ($products as $product) {
+            $response->assertJsonFragment($product);
+        }
+    }
+
+    /** @test */
+    public function it_can_not_update_a_project_and_add_a_product_where_the_user_has_not_contributed_to(): void
+    {
         $user = $this->getUser();
 
         Passport::actingAs($user);
@@ -227,16 +260,11 @@ class ProjectTest extends TestCase
             ->create()
             ->map->only(['id', 'title']);
 
-        $response = $this
+        $this
             ->putJson(
                 route('api.projects.update', [$project->id]),
                 ['products' => $products]
             )
-            ->assertOk()
-            ->assertJsonCount(7, 'data.products');
-
-        foreach ($products as $product) {
-            $response->assertJsonFragment($product);
-        }
+            ->assertForbidden();
     }
 }

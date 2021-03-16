@@ -13,7 +13,7 @@ class ProjectPolicy
 {
     use HandlesAuthorization;
 
-    public function update(User $user, Project $project): bool
+    public function update(User $user, Project $project, $productIds = []): bool
     {
         if (!$user->can(Permissions::PROJECTS_UPDATE)) {
             return false;
@@ -24,6 +24,10 @@ class ProjectPolicy
         }
 
         if (!$project->owner->contains($user->person)) {
+            return false;
+        }
+
+        if ($productIds && $user->person->products()->whereIn('id', $productIds)->count() !== count($productIds)) {
             return false;
         }
 
