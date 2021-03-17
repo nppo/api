@@ -15,7 +15,7 @@ class CreateContributablesTable extends Migration
 
             $table->morphs('contributable');
 
-            $table->boolean('is_owner');
+            $table->boolean('is_owner')->default(false);
         });
     }
 

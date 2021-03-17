@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Enumerators\Permissions;
+use App\Models\Party;
 use App\Models\Person;
 use App\Models\Project;
 use App\Models\User;
@@ -152,5 +153,60 @@ class ProjectTest extends TestCase
             ->assertOk();
 
         $this->assertNotEmpty($project->media()->get());
+    }
+
+    /** @test */
+    public function it_can_update_a_project_and_remove_all_parties(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        /** @var Project $project */
+        $project = Project::factory()->hasAttached($user->person, ['is_owner' => true])->create();
+
+        $project->parties()->sync(
+            Party::factory()->times(7)->create()->pluck('id')
+        );
+
+        $this
+            ->putJson(
+                route('api.projects.update', [$project->id]),
+                ['parties' => null]
+            )
+            ->assertOk()
+            ->assertJsonFragment([
+                'parties' => [],
+            ]);
+    }
+
+    /** @test */
+    public function it_can_update_a_project_and_add_parties(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        /** @var Project $project */
+        $project = Project::factory()
+            ->hasAttached($user->person, ['is_owner' => true])
+            ->create();
+
+        $parties = Party::factory()
+            ->times(7)
+            ->create()
+            ->map->only(['id', 'name', 'description']);
+
+        $response = $this
+            ->putJson(
+                route('api.projects.update', [$project->id]),
+                ['parties' => $parties]
+            )
+            ->assertOk()
+            ->assertJsonCount(7, 'data.parties');
+
+        foreach ($parties as $party) {
+            $response->assertJsonFragment($party);
+        }
     }
 }

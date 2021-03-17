@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PartyResource;
 use App\Repositories\PartyRepository;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PartyController extends Controller
 {
@@ -22,5 +23,12 @@ class PartyController extends Controller
             $this->partyRepository->show($id)
         )
             ->withPermissions();
+    }
+
+    public function index(): AnonymousResourceCollection
+    {
+        return PartyResource::collection(
+            $this->partyRepository->index()
+        );
     }
 }

@@ -11,9 +11,14 @@ class ProjectUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'           => ['string', 'nullable'],
-            'description'     => ['string', 'nullable'],
-            'purpose'         => ['string', 'nullable'],
+            'title'       => ['string', 'nullable'],
+            'description' => ['string', 'nullable'],
+            'purpose'     => ['string', 'nullable'],
+
+            'parties'      => ['nullable'],
+            'parties.*'    => ['array', 'required'],
+            'parties.*.id' => ['required', 'integer'],
+
             'project_picture' => [
                 'sometimes',
                 'image',

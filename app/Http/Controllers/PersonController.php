@@ -77,11 +77,7 @@ class PersonController extends Controller
             );
         }
 
-        if (isset($validated['themes'])) {
-            $person->themes()->sync(
-                Collection::make($validated['themes'])->map(fn ($theme) => $theme['id'])
-            );
-        }
+        $this->syncRelation($person, 'themes', Arr::get($validated, 'themes') ?: []);
 
         return PersonResource::make(
             $this->personRepository->show($id)
