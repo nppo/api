@@ -62,19 +62,23 @@ class ProjectController extends Controller
 
     public function update(ProjectUpdateRequest $request, $id)
     {
-        $this->authorize('update', $this->projectRepository->findOrFail($id));
+        /** @var Project $project */
+        $project = $this->projectRepository->findOrFail($id);
+
+        $this->authorize('update', $project);
+
+        $validated = $request->validated();
 
         $this
             ->projectRepository
             ->update(
-                Arr::except($request->validated(), ['project_picture']),
+                Arr::except($request->validated(), ['parties', 'project_picture']),
                 $id
             );
 
-        if ($request->hasFile('project_picture')) {
-            /** @var Project $project */
-            $project = $this->projectRepository->findOrFail($id);
+        $this->syncRelation($project, 'parties', Arr::get($validated, 'parties') ?: []);
 
+        if ($request->hasFile('project_picture')) {
             $project
                 ->addMediaFromRequest('project_picture')
                 ->preservingOriginal()
