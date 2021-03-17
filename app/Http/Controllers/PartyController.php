@@ -17,18 +17,18 @@ class PartyController extends Controller
         $this->partyRepository = $personRepository;
     }
 
+    public function index(): AnonymousResourceCollection
+    {
+        return PartyResource::collection(
+            $this->partyRepository->index()
+        );
+    }
+
     public function show($id): PartyResource
     {
         return PartyResource::make(
             $this->partyRepository->show($id)
         )
             ->withPermissions();
-    }
-
-    public function index(): AnonymousResourceCollection
-    {
-        return PartyResource::collection(
-            $this->partyRepository->index()
-        );
     }
 }
