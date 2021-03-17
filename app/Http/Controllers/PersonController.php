@@ -68,14 +68,12 @@ class PersonController extends Controller
                 ->toMediaCollection(MediaCollections::PROFILE_PICTURE);
         }
 
-        if (isset($validated['skills'])) {
-            $person->syncTags(
-                Collection::make($validated['skills'])
-                    ->map(fn ($skill) => $skill['label'])
-                    ->toArray(),
-                TagTypes::SKILL,
-            );
-        }
+        $person->syncTags(
+            Collection::make(Arr::get($validated, 'skills') ?? [])
+                ->map(fn ($skill) => $skill['label'])
+                ->toArray(),
+            TagTypes::SKILL,
+        );
 
         $this->syncRelation($person, 'themes', Arr::get($validated, 'themes') ?: []);
 
