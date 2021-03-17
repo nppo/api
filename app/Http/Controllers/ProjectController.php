@@ -39,8 +39,6 @@ class ProjectController extends Controller
     {
         $this->authorize('create', Project::class);
 
-        $validated = $request->validated();
-
         /** @var Project */
         $project = $this
             ->projectRepository
