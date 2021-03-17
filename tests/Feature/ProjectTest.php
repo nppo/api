@@ -135,7 +135,7 @@ class ProjectTest extends TestCase
 
         /** @var Project */
         $project = Project::factory()->create();
-        $project->people()->syncWithPivotValues($user, ['is_owner' => true]);
+        $project->people()->syncWithPivotValues($user->person, ['is_owner' => true]);
 
         $this->assertEmpty($project->media);
 
