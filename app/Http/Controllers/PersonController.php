@@ -13,7 +13,6 @@ use App\Repositories\MediaRepository;
 use App\Repositories\PersonRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Way2Web\Force\Http\Controller;
 
 class PersonController extends Controller
@@ -67,17 +66,8 @@ class PersonController extends Controller
                 ->toMediaCollection(MediaCollections::PROFILE_PICTURE);
         }
 
-        if (isset($validated['skills'])) {
-            $person->tags()->sync(
-                Collection::make($validated['skills'])->map(fn ($skill) => $skill['id'])
-            );
-        }
-
-        if (isset($validated['themes'])) {
-            $person->themes()->sync(
-                Collection::make($validated['themes'])->map(fn ($theme) => $theme['id'])
-            );
-        }
+        $this->syncRelation($person, 'skills', Arr::get($validated, 'skills') ?: []);
+        $this->syncRelation($person, 'themes', Arr::get($validated, 'themes') ?: []);
 
         return PersonResource::make(
             $this->personRepository->show($id)
