@@ -39,7 +39,7 @@ class ProjectController extends Controller
             $project,
             Collection::make(
                 Arr::get($validated, 'products') ?: []
-            )->pluck('id')
+            )->pluck('id'),
         ]);
 
         $this
