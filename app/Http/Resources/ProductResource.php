@@ -30,6 +30,7 @@ class ProductResource extends Resource
         return [
             'id'          => $this->getKey(),
             'title'       => $this->title,
+            'summary'     => $this->summary,
             'description' => $this->description,
             'likes'       => $this->likes_count,
             'publishedAt' => $this->published_at,
