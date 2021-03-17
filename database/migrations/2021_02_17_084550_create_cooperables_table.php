@@ -15,7 +15,7 @@ class CreateCooperablesTable extends Migration
 
             $table->morphs('cooperable');
 
-            $table->boolean('is_owner');
+            $table->boolean('is_owner')->default(false);
         });
     }
 

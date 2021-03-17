@@ -36,6 +36,7 @@ class ProjectRepository extends AbstractRepository
                 'values',
                 'attributes',
                 'values',
+                'media',
             ])
             ->withCount('likes')
             ->findOrFail($id);
