@@ -6,14 +6,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProjectUpdateRequest extends FormRequest
+class ProjectStoreRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'title'           => ['string', 'nullable'],
-            'description'     => ['string', 'nullable'],
-            'purpose'         => ['string', 'nullable'],
+            'title'           => ['required'],
+            'description'     => ['nullable'],
+            'purpose'         => ['nullable'],
             'project_picture' => [
                 'sometimes',
                 'image',
