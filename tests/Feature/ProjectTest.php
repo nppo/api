@@ -9,6 +9,7 @@ use App\Models\Party;
 use App\Models\Person;
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Laravel\Passport\Passport;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
@@ -126,6 +127,32 @@ class ProjectTest extends TestCase
             )
             ->assertOk()
             ->assertJsonFragment(['title' => $newTitle]);
+    }
+
+    /** @test */
+    public function updating_will_associate_media_with_the_project(): void
+    {
+        $user = $this->getUser();
+
+        /** @var Project */
+        $project = Project::factory()->create();
+        $project->people()->syncWithPivotValues($user->person, ['is_owner' => true]);
+
+        $this->assertEmpty($project->media);
+
+        Passport::actingAs($user);
+
+        $this
+            ->putJson(
+                route('api.projects.update', [$project->id]),
+                [
+                    'project_picture' => UploadedFile::fake()->image('avatar.jpg', 1440, 350),
+                ]
+            )
+
+            ->assertOk();
+
+        $this->assertNotEmpty($project->media()->get());
     }
 
     /** @test */

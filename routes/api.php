@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SkillController;
@@ -42,11 +43,12 @@ Route::group([
     Route::get('statistics/entities', [StatisticsController::class, 'entities'])->name('statistics.entities');
     Route::get('discover', [HomeController::class, 'discover'])->name('discover');
 
+    Route::resource('product-types', ProductTypeController::class)->only(['index']);
     Route::resource('themes', ThemeController::class)->only(['index']);
     Route::resource('types', EntityController::class)->only(['index']);
-    Route::resource('products', ProductController::class)->only(['index', 'show', 'update']);
-    Route::resource('projects', ProjectController::class)->only(['show', 'update']);
-    Route::resource('people', PersonController::class)->only(['show', 'update']);
+    Route::resource('products', ProductController::class)->only(['show', 'update', 'store']);
+    Route::resource('projects', ProjectController::class)->only(['show', 'store', 'update']);
+    Route::resource('people', PersonController::class)->only(['show', 'update', 'index']);
     Route::resource('parties', PartyController::class)->only(['index', 'show']);
     Route::resource('tags', TagController::class)->only(['index']);
     Route::resource('skills', SkillController::class)->only(['index']);
