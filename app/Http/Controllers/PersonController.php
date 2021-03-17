@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Enumerators\Action;
 use App\Enumerators\MediaCollections;
+use App\Enumerators\TagTypes;
 use App\Http\Requests\PersonUpdateRequest;
 use App\Http\Resources\PersonResource;
 use App\Models\Person;
@@ -68,8 +69,11 @@ class PersonController extends Controller
         }
 
         if (isset($validated['skills'])) {
-            $person->tags()->sync(
-                Collection::make($validated['skills'])->map(fn ($skill) => $skill['id'])
+            $person->syncTags(
+                Collection::make($validated['skills'])
+                    ->map(fn ($skill) => $skill['label'])
+                    ->toArray(),
+                TagTypes::SKILL,
             );
         }
 
