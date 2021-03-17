@@ -35,6 +35,7 @@ class ProductRepository extends AbstractRepository
                 'parties',
                 'people.tags',
                 'owner.tags',
+                'media'
             ])
             ->findOrFail($id);
     }

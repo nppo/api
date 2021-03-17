@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enumerators\Disks;
+use App\Enumerators\MediaCollections;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
 use App\Models\Tag;
 use App\Models\Theme;
 use App\Models\User;
+use Database\Seeders\Support\SeedsMedia;
 use Database\Seeders\Support\SeedsMetadata;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
 class ProductSeeder extends Seeder
 {
-    use SeedsMetadata;
+    use SeedsMetadata, SeedsMedia;
 
     private const MAX_PRODUCTS = 250;
 
@@ -47,6 +50,7 @@ class ProductSeeder extends Seeder
                 $this->attachPeople($product, $people);
                 $this->attachParties($product, $parties);
                 $this->attachLikes($product, $users);
+                $this->seedMedia($product);
                 $this->seedMetadata($product);
 
                 $this->command->getOutput()->progressAdvance(1);
@@ -115,5 +119,15 @@ class ProductSeeder extends Seeder
             ->saveMany(
                 $users->random(mt_rand(0, $users->count()))
             );
+    }
+
+    private function seedMedia(Product $product): void
+    {
+        $file = $this->getRandomMediaFile($product->type);
+
+        $product
+            ->addMediaFromDisk($file, Disks::SEEDING)
+            ->preservingOriginal()
+            ->toMediaCollection(MediaCollections::PRODUCT_OBJECT);
     }
 }
