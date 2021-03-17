@@ -4,16 +4,26 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enumerators\Disks;
+use App\Enumerators\MediaCollections;
 use App\Helpers\Structure as StructureHelper;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasMeta;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Way2Web\Force\AbstractModel;
 
-class Product extends AbstractModel implements HasMetaData
+class Product extends AbstractModel implements HasMedia, HasMetaData
 {
-    use Searchable, HasMeta;
+    use Searchable, InteractsWithMedia, HasMeta;
+
+    protected $fillable = [
+        'type',
+        'title',
+        'description',
+    ];
 
     public function toSearchableArray(): array
     {
@@ -38,6 +48,14 @@ class Product extends AbstractModel implements HasMetaData
                 return $party->id;
             })->toArray(),
         ];
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection(MediaCollections::PRODUCT_OBJECT)
+            ->singleFile()
+            ->useDisk(Disks::SURF_PRIVATE);
     }
 
     public function themes(): MorphToMany

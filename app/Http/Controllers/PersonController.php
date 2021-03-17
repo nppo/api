@@ -8,10 +8,11 @@ use App\Enumerators\Action;
 use App\Enumerators\MediaCollections;
 use App\Http\Requests\PersonUpdateRequest;
 use App\Http\Resources\PersonResource;
+use App\Models\Person;
 use App\Repositories\MediaRepository;
 use App\Repositories\PersonRepository;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Way2Web\Force\Http\Controller;
 
 class PersonController extends Controller
@@ -27,6 +28,13 @@ class PersonController extends Controller
             ->protectActionRoutes(['api']);
     }
 
+    public function index(): AnonymousResourceCollection
+    {
+        return PersonResource::collection(
+            $this->personRepository->all()
+        );
+    }
+
     public function show($id): PersonResource
     {
         return PersonResource::make(
@@ -35,8 +43,9 @@ class PersonController extends Controller
             ->withPermissions();
     }
 
-    public function update(PersonUpdateRequest $request, $id)
+    public function update(PersonUpdateRequest $request, $id): PersonResource
     {
+        /** @var Person */
         $person = $this->personRepository->findOrFail($id);
 
         $this->authorize(Action::UPDATE, $person);
@@ -57,17 +66,8 @@ class PersonController extends Controller
                 ->toMediaCollection(MediaCollections::PROFILE_PICTURE);
         }
 
-        if (isset($validated['skills'])) {
-            $person->tags()->sync(
-                Collection::make($validated['skills'])->map(fn ($skill) => $skill['id'])
-            );
-        }
-
-        if (isset($validated['themes'])) {
-            $person->themes()->sync(
-                Collection::make($validated['themes'])->map(fn ($theme) => $theme['id'])
-            );
-        }
+        $this->syncRelation($person, 'skills', Arr::get($validated, 'skills') ?: []);
+        $this->syncRelation($person, 'themes', Arr::get($validated, 'themes') ?: []);
 
         return PersonResource::make(
             $this->personRepository->show($id)

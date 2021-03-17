@@ -22,6 +22,18 @@ class ProjectUpdateRequest extends FormRequest
             'products'      => ['nullable'],
             'products.*'    => ['array', 'required'],
             'products.*.id' => ['required', 'integer'],
+
+            'project_picture' => [
+                'sometimes',
+                'image',
+                'mimes:jpg,jpeg,bmp,png,gif',
+                'max:' . $this->getMaxFileSize(),
+            ],
         ];
+    }
+
+    private function getMaxFileSize(): string
+    {
+        return (string) config('media-library.max_file_size');
     }
 }

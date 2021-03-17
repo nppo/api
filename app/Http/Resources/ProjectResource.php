@@ -28,12 +28,13 @@ class ProjectResource extends Resource
     public function toArray($request): array
     {
         return [
-            'id'          => $this->getKey(),
-            'title'       => $this->title,
-            'purpose'     => $this->purpose,
-            'description' => $this->description,
-            'likes'       => $this->likes_count,
-            'createdAt'   => $this->created_at,
+            'id'                => $this->getKey(),
+            'title'             => $this->title,
+            'purpose'           => $this->purpose,
+            'description'       => $this->description,
+            'likes'             => $this->likes_count,
+            'createdAt'         => $this->created_at,
+            'projectPictureUrl' => $this->project_picture_url,
 
             'owner' => $this->whenLoaded('owner', function (): PersonResource {
                 return PersonResource::make($this->owner->first());

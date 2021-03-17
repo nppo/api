@@ -11,13 +11,18 @@ class PersonUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name'      => ['string', 'nullable'],
-            'last_name'       => ['string', 'nullable'],
-            'about'           => ['string', 'nullable'],
-            'skills'          => ['array', 'nullable'],
-            'skills.*.id'     => ['required', 'integer'],
-            'themes'          => ['array', 'nullable'],
-            'themes.*.id'     => ['required', 'integer'],
+            'first_name' => ['string', 'nullable'],
+            'last_name'  => ['string', 'nullable'],
+            'about'      => ['string', 'nullable'],
+
+            'skills'      => ['nullable'],
+            'skills.*'    => ['array', 'required'],
+            'skills.*.id' => ['required', 'integer'],
+
+            'themes'      => ['array', 'min:1'],
+            'themes.*'    => ['array', 'required'],
+            'themes.*.id' => ['required', 'integer'],
+
             'profile_picture' => [
                 'sometimes',
                 'image',

@@ -13,6 +13,15 @@ class ProjectPolicy
 {
     use HandlesAuthorization;
 
+    public function create(User $user)
+    {
+        if (!$user->can(Permissions::PROJECTS_CREATE)) {
+            return false;
+        }
+
+        return !is_null($user->person);
+    }
+
     public function update(User $user, Project $project, $productIds = []): bool
     {
         if (!$user->can(Permissions::PROJECTS_UPDATE)) {
