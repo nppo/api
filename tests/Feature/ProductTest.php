@@ -147,6 +147,7 @@ class ProductTest extends TestCase
                     'type'        => ProductTypes::VIDEO,
                     'title'       => '::STRING::',
                     'description' => '::TEXT::',
+                    'summary'     => '::TEXT::',
                 ]
             )
             ->assertOk();

@@ -17,6 +17,7 @@ class ProductFactory extends Factory
         return [
             'title'        => $this->faker->sentence(mt_rand(2, 6)),
             'type'         => $this->faker->randomElement(ProductTypes::asArray()),
+            'summary'      => $this->faker->text,
             'description'  => $this->faker->text,
             'published_at' => $this->faker->dateTimeBetween('-10 years', now()),
         ];

@@ -23,6 +23,7 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
         'type',
         'title',
         'description',
+        'summary',
     ];
 
     public function toSearchableArray(): array
