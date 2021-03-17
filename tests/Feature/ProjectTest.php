@@ -131,16 +131,21 @@ class ProjectTest extends TestCase
     /** @test */
     public function updating_will_associate_media_with_the_project(): void
     {
+        $user = $this->getUser();
+
+        /** @var Project */
         $project = Project::factory()->create();
+        $project->people()->syncWithPivotValues($user, ['is_owner' => true]);
 
         $this->assertEmpty($project->media);
 
-        $this
+        Passport::actingAs($user);
 
+        $this
             ->putJson(
                 route('api.projects.update', [$project->id]),
                 [
-                    'profile_picture' => UploadedFile::fake()->image('avatar.jpg', 1440, 350),
+                    'project_picture' => UploadedFile::fake()->image('avatar.jpg', 1440, 350),
                 ]
             )
 
