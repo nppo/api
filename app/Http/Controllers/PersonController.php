@@ -71,8 +71,6 @@ class PersonController extends Controller
             $person->tags()->sync(
                 Collection::make($validated['skills'])->map(fn ($skill) => $skill['id'])
             );
-        } else {
-            Collection::make();
         }
 
         if (isset($validated['themes'])) {
