@@ -6,7 +6,6 @@ use App\Http\Controllers\EntityController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PartyController;
 use App\Http\Controllers\PersonController;
-use App\Http\Controllers\PersonProductController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectController;
@@ -50,7 +49,6 @@ Route::group([
     Route::resource('products', ProductController::class)->only(['index', 'show', 'update', 'store']);
     Route::resource('projects', ProjectController::class)->only(['show', 'store', 'update']);
     Route::resource('people', PersonController::class)->only(['show', 'update', 'index']);
-    Route::resource('people.products', PersonProductController::class)->only(['index']);
     Route::resource('parties', PartyController::class)->only(['index', 'show']);
     Route::resource('tags', TagController::class)->only(['index']);
     Route::resource('skills', SkillController::class)->only(['index']);
