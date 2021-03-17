@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enumerators\Disks;
+use App\Enumerators\MediaCollections;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
@@ -13,7 +15,10 @@ use App\Models\Theme;
 use App\Models\User;
 use Database\Seeders\Support\SeedsMetadata;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProjectSeeder extends Seeder
 {
@@ -30,6 +35,8 @@ class ProjectSeeder extends Seeder
     private const MAX_PARTIES = 3;
 
     private const MAX_PRODUCTS = 2;
+
+    private ?array $seedingOptions = null;
 
     public function run(): void
     {
@@ -52,6 +59,11 @@ class ProjectSeeder extends Seeder
                 $this->attachParties($project, $parties);
                 $this->attachLikes($project, $users);
                 $this->attachProducts($project, $products);
+
+                if (rand(0, 1)) {
+                    $this->attachProjectPicture($project);
+                }
+
                 $this->seedMetadata($project);
 
                 $this->command->getOutput()->progressAdvance(1);
@@ -129,5 +141,29 @@ class ProjectSeeder extends Seeder
             ->saveMany(
                 $products->random(mt_rand(1, self::MAX_PRODUCTS))
             );
+    }
+
+    private function attachProjectPicture(Project $project): void
+    {
+        $randomImage = Arr::random($this->getSeedingOptions());
+
+        $project
+            ->addMediaFromDisk(
+                $randomImage,
+                Disks::SEEDING
+            )
+            ->usingFileName(Str::uuid()->toString() . '.' . Str::afterLast($randomImage, '.'))
+            ->preservingOriginal()
+            ->toMediaCollection(MediaCollections::PROJECT_PICTURE);
+    }
+
+    private function getSeedingOptions(): array
+    {
+        if (is_null($this->seedingOptions)) {
+            $this->seedingOptions = Storage::disk(Disks::SEEDING)
+                ->files('projects');
+        }
+
+        return $this->seedingOptions;
     }
 }
