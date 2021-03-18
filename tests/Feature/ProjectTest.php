@@ -239,7 +239,6 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_can_update_a_project_and_add_products(): void
     {
-        $this->withoutExceptionHandling();
         $user = $this->getUser();
 
         Passport::actingAs($user);
