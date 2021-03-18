@@ -34,6 +34,7 @@ class ProductRepository extends AbstractRepository
                 'values',
                 'parties',
                 'people.tags',
+                'projects',
                 'owner.tags',
             ])
             ->findOrFail($id);

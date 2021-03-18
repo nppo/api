@@ -47,6 +47,10 @@ class ProductResource extends Resource
                 return PersonResource::collection($this->people);
             }),
 
+            'projects' => $this->whenLoaded('projects', function (): AnonymousResourceCollection {
+                return ProjectResource::collection($this->projects);
+            }),
+
             'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {
                 return ThemeResource::collection($this->themes);
             }),
