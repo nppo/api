@@ -9,6 +9,7 @@ use App\Enumerators\MediaCollections;
 use App\Helpers\Structure as StructureHelper;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasMeta;
+use App\Models\Support\HasTags;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
@@ -17,7 +18,7 @@ use Way2Web\Force\AbstractModel;
 
 class Product extends AbstractModel implements HasMedia, HasMetaData
 {
-    use Searchable, InteractsWithMedia, HasMeta;
+    use Searchable, InteractsWithMedia, HasMeta, HasTags;
 
     protected $fillable = [
         'type',

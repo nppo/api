@@ -22,7 +22,7 @@ class ProductStoreRequest extends FormRequest
             'summary'      => ['nullable'],
 
             'tags'      => ['array', 'nullable'],
-            'tags.*.id' => ['required', 'integer'],
+            'tags.*.label' => ['required', 'strings'],
 
             'themes'      => ['array', 'nullable'],
             'themes.*.id' => ['required', 'integer'],

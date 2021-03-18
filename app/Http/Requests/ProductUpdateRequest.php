@@ -21,8 +21,8 @@ class ProductUpdateRequest extends FormRequest
             'published_at' => ['nullable', 'date'],
             'summary'      => ['nullable'],
 
-            'tags'      => ['array', 'nullable'],
-            'tags.*.id' => ['required', 'integer'],
+            'tags'         => ['array', 'nullable'],
+            'tags.*.label' => ['required', 'string'],
 
             'themes'      => ['array', 'nullable'],
             'themes.*.id' => ['required', 'integer'],
