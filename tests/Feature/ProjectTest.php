@@ -293,4 +293,136 @@ class ProjectTest extends TestCase
             )
             ->assertForbidden();
     }
+
+    /** @test */
+    public function it_can_create_a_project_and_add_parties(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $parties = Party::factory()
+            ->times(7)
+            ->create()
+            ->map->only(['id', 'name', 'description']);
+
+        $project = Project::factory()
+            ->make([
+                'parties' => $parties
+            ])
+            ->toArray();
+
+        $response = $this
+            ->postJson(
+                route('api.projects.store'),
+                $project
+            )
+            ->assertOk()
+            ->assertJsonCount(7, 'data.parties');
+
+        foreach ($parties as $party) {
+            $response->assertJsonFragment($party);
+        }
+    }
+
+    /** @test */
+    public function it_can_not_create_a_project_and_add_a_product_where_the_user_has_not_contributed_to(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $project = Project::factory()
+            ->make([
+                'products' => Product::factory()
+                    ->times(7)
+                    ->create()
+                    ->map->only(['id', 'title'])
+            ])
+            ->toArray();
+
+        $this
+            ->postJson(
+                route('api.projects.store'),
+                $project
+            )
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function it_can_create_a_project_and_add_products(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $products = Product::factory()
+            ->times(7)
+            ->create();
+
+        $user->person->products()->attach($products);
+
+        $products = $products->map->only(['id', 'title']);
+
+        $project = Project::factory()
+            ->make([
+                'products' => $products
+            ])
+            ->toArray();
+
+        $response = $this
+            ->postJson(
+                route('api.projects.store'),
+                $project
+            )
+            ->assertOk()
+            ->assertJsonCount(7, 'data.products');
+
+        foreach ($products as $product) {
+            $response->assertJsonFragment($product);
+        }
+    }
+
+    /** @test */
+    public function it_can_not_create_a_project_with_an_guest_user(): void
+    {
+        /** @var Project $project */
+        $project = Project::factory()->make();
+
+        $person = Person::factory()->create();
+
+        $user = User::factory()->create([
+            'person_id' => $person->id,
+        ]);
+
+        Passport::actingAs($user);
+
+        $this
+            ->postJson(
+                route('api.projects.store'),
+                $project->toArray()
+            )
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function it_can_not_create_a_project_with_an_logged_in_user_without_permission(): void
+    {
+        /** @var Project $project */
+        $project = Project::factory()->create();
+        $user = User::factory()->create();
+
+        Passport::actingAs($user);
+
+        $newTitle = '::new title::';
+
+        $project->title = $newTitle;
+
+        $this
+            ->putJson(
+                route('api.projects.update', ['project' => $project->id]),
+                $project->toArray()
+            )
+            ->assertForbidden();
+    }
 }

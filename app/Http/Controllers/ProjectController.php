@@ -38,14 +38,28 @@ class ProjectController extends Controller
 
     public function store(ProjectStoreRequest $request): ProjectResource
     {
-        $this->authorize('create', Project::class);
+        $validated = $request->validated();
+
+        $this->authorize('create', [
+            Project::class,
+            Collection::make(
+                Arr::get($validated, 'products') ?: []
+            )->pluck('id'),
+        ]);
+
+//        $this->authorize('create', [Project::class]);
 
         /** @var Project */
         $project = $this
             ->projectRepository
             ->create(
-                Arr::except($request->validated(), ['project_picture'])
+                Arr::except($request->validated(), ['project_picture', 'parties', 'products'])
             );
+
+        $this->syncRelation($project, 'parties', Arr::get($validated, 'parties') ?: []);
+        $this->syncRelation($project, 'products', Arr::get($validated, 'products') ?: []);
+
+        $project->people()->attach($request->user()->person, ['is_owner' => true]);
 
         if ($request->hasFile('project_picture')) {
             $project
@@ -53,8 +67,6 @@ class ProjectController extends Controller
                 ->preservingOriginal()
                 ->toMediaCollection(MediaCollections::PROJECT_PICTURE);
         }
-
-        $project->people()->attach($request->user()->person, ['is_owner' => true]);
 
         return ProjectResource::make(
             $this->projectRepository->show($project->getKey())
