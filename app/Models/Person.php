@@ -9,6 +9,7 @@ use App\Enumerators\MediaCollections;
 use App\Enumerators\TagTypes;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasMeta;
+use App\Models\Support\HasTags;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia;
@@ -17,7 +18,7 @@ use Way2Web\Force\AbstractModel;
 
 class Person extends AbstractModel implements HasMedia, HasMetaData
 {
-    use InteractsWithMedia, HasMeta;
+    use InteractsWithMedia, HasMeta, HasTags;
 
     public function likes(): MorphToMany
     {
@@ -37,11 +38,6 @@ class Person extends AbstractModel implements HasMedia, HasMetaData
     public function projects(): MorphToMany
     {
         return $this->morphToMany(Project::class, 'cooperable')->withCount('likes');
-    }
-
-    public function tags(): MorphToMany
-    {
-        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function skills(): MorphToMany
