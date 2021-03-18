@@ -24,6 +24,14 @@ class ProductRepository extends AbstractRepository
         return Product::class;
     }
 
+    public function index(): Collection
+    {
+        return $this
+            ->makeQuery()
+            ->orderBy('title')
+            ->get();
+    }
+
     public function show($id)
     {
         return $this
@@ -77,13 +85,5 @@ class ProductRepository extends AbstractRepository
     public function get()
     {
         return $this->builder->get();
-    }
-
-    public function index(): Collection
-    {
-        return $this
-            ->makeQuery()
-            ->orderBy('title')
-            ->get();
     }
 }

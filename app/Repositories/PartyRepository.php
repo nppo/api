@@ -41,6 +41,14 @@ class PartyRepository extends AbstractRepository
         return $this->builder->get();
     }
 
+    public function index(): Collection
+    {
+        return $this
+            ->makeQuery()
+            ->orderBy('name')
+            ->get();
+    }
+
     public function show($id)
     {
         return $this
@@ -50,13 +58,5 @@ class PartyRepository extends AbstractRepository
                 'products',
             ])
             ->findOrFail($id);
-    }
-
-    public function index(): Collection
-    {
-        return $this
-            ->makeQuery()
-            ->orderBy('name')
-            ->get();
     }
 }
