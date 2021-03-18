@@ -33,7 +33,8 @@ class ProductStoreRequest extends FormRequest
             'parties'      => ['array', 'nullable'],
             'parties.*.id' => ['required', 'integer'],
 
-            'file' => ['nullable', 'mimes:' . Mimes::asArrayString()],
+            'link' => ['required_without:file', 'string', 'url'],
+            'file' => ['required_without:link', 'mimes:' . Mimes::asArrayString()],
         ];
     }
 }
