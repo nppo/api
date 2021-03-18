@@ -308,7 +308,7 @@ class ProjectTest extends TestCase
 
         $project = Project::factory()
             ->make([
-                'parties' => $parties
+                'parties' => $parties,
             ])
             ->toArray();
 
@@ -337,7 +337,7 @@ class ProjectTest extends TestCase
                 'products' => Product::factory()
                     ->times(7)
                     ->create()
-                    ->map->only(['id', 'title'])
+                    ->map->only(['id', 'title']),
             ])
             ->toArray();
 
@@ -366,7 +366,7 @@ class ProjectTest extends TestCase
 
         $project = Project::factory()
             ->make([
-                'products' => $products
+                'products' => $products,
             ])
             ->toArray();
 
