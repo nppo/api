@@ -47,8 +47,6 @@ class ProjectController extends Controller
             )->pluck('id'),
         ]);
 
-//        $this->authorize('create', [Project::class]);
-
         /** @var Project */
         $project = $this
             ->projectRepository
