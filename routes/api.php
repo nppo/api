@@ -46,7 +46,7 @@ Route::group([
     Route::resource('product-types', ProductTypeController::class)->only(['index']);
     Route::resource('themes', ThemeController::class)->only(['index']);
     Route::resource('types', EntityController::class)->only(['index']);
-    Route::resource('products', ProductController::class)->only(['show', 'update', 'store']);
+    Route::resource('products', ProductController::class)->only(['index', 'show', 'update', 'store']);
     Route::resource('projects', ProjectController::class)->only(['show', 'store', 'update']);
     Route::resource('people', PersonController::class)->only(['show', 'update', 'index']);
     Route::resource('parties', PartyController::class)->only(['index', 'show']);

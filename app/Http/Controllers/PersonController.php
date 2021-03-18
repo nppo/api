@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Enumerators\Action;
 use App\Enumerators\MediaCollections;
+use App\Enumerators\TagTypes;
 use App\Http\Requests\PersonUpdateRequest;
 use App\Http\Resources\PersonResource;
 use App\Models\Person;
@@ -13,6 +14,7 @@ use App\Repositories\MediaRepository;
 use App\Repositories\PersonRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Way2Web\Force\Http\Controller;
 
 class PersonController extends Controller
@@ -66,7 +68,13 @@ class PersonController extends Controller
                 ->toMediaCollection(MediaCollections::PROFILE_PICTURE);
         }
 
-        $this->syncRelation($person, 'skills', Arr::get($validated, 'skills') ?: []);
+        $person->syncTags(
+            Collection::make(Arr::get($validated, 'skills') ?? [])
+                ->map(fn ($skill) => $skill['label'])
+                ->toArray(),
+            TagTypes::SKILL,
+        );
+
         $this->syncRelation($person, 'themes', Arr::get($validated, 'themes') ?: []);
 
         return PersonResource::make(

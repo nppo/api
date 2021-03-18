@@ -12,6 +12,7 @@ use App\Models\Project;
 use App\Repositories\MediaRepository;
 use App\Repositories\ProjectRepository;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Way2Web\Force\Http\Controller;
 
 class ProjectController extends Controller
@@ -60,23 +61,29 @@ class ProjectController extends Controller
         );
     }
 
-    public function update(ProjectUpdateRequest $request, $id)
+    public function update(ProjectUpdateRequest $request, $id): ProjectResource
     {
         /** @var Project $project */
         $project = $this->projectRepository->findOrFail($id);
 
-        $this->authorize('update', $project);
-
         $validated = $request->validated();
+
+        $this->authorize('update', [
+            $project,
+            Collection::make(
+                Arr::get($validated, 'products') ?: []
+            )->pluck('id'),
+        ]);
 
         $this
             ->projectRepository
             ->update(
-                Arr::except($request->validated(), ['parties', 'project_picture']),
+                Arr::except($request->validated(), ['parties', 'products', 'project_picture']),
                 $id
             );
 
         $this->syncRelation($project, 'parties', Arr::get($validated, 'parties') ?: []);
+        $this->syncRelation($project, 'products', Arr::get($validated, 'products') ?: []);
 
         if ($request->hasFile('project_picture')) {
             $project
