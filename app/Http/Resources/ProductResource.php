@@ -34,6 +34,7 @@ class ProductResource extends Resource
             'description' => $this->description,
             'likes'       => $this->likes_count,
             'publishedAt' => $this->published_at,
+            'type'        => $this->type,
 
             'owner' => $this->whenLoaded('owner', function (): PersonResource {
                 return PersonResource::make($this->owner->first());
