@@ -28,7 +28,7 @@ class ProductRepository extends AbstractRepository
     {
         return $this
             ->makeQuery()
-            ->orderByDesc('published_at')
+            ->orderBy('title')
             ->get();
     }
 
@@ -85,13 +85,5 @@ class ProductRepository extends AbstractRepository
     public function get()
     {
         return $this->builder->get();
-    }
-
-    public function index(): Collection
-    {
-        return $this
-            ->makeQuery()
-            ->orderBy('title')
-            ->get();
     }
 }
