@@ -36,7 +36,7 @@ class ProjectPolicy
             return false;
         }
 
-        if ($productIds && $user->person->products()->whereIn('id', $productIds)->count() !== count($productIds)) {
+        if ($productIds && $user->person->products->whereIn('id', $productIds)->count() !== count($productIds)) {
             return false;
         }
 
