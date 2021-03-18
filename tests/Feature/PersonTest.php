@@ -80,7 +80,7 @@ class PersonTest extends TestCase
 
         Passport::actingAs($user);
 
-        $skills = Tag::factory()->times(10)->create([
+        $skills = Tag::factory()->times(2)->create([
             'type' => TagTypes::SKILL,
         ]);
 
@@ -128,7 +128,7 @@ class PersonTest extends TestCase
 
         Passport::actingAs($user);
 
-        $skills = Theme::factory()->times(10)->create();
+        $skills = Theme::factory()->times(2)->create();
 
         $formattedThemes = $skills->map->only(['id', 'label'])->toArray();
 
@@ -156,5 +156,31 @@ class PersonTest extends TestCase
                 ['themes' => null]
             )
             ->assertJsonValidationErrors('themes');
+    }
+
+    /** @test */
+    public function when_skills_are_provided_during_update_that_do_not_exist_yet_it_will_create_them(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $skills = Tag::factory()->times(2)->make([
+            'type' => TagTypes::SKILL,
+        ]);
+
+        $original = Tag::count();
+
+        $this
+            ->putJson(
+                route('api.people.update', [$user->person->id]),
+                ['skills' => $skills]
+            )
+            ->assertOk();
+
+        $this->assertEquals(
+            $original + 2,
+            Tag::count()
+        );
     }
 }

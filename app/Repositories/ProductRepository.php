@@ -7,7 +7,7 @@ namespace App\Repositories;
 use App\Enumerators\Filters;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Way2Web\Force\Repository\AbstractRepository;
 
 class ProductRepository extends AbstractRepository
@@ -85,5 +85,13 @@ class ProductRepository extends AbstractRepository
     public function get()
     {
         return $this->builder->get();
+    }
+
+    public function index(): Collection
+    {
+        return $this
+            ->makeQuery()
+            ->orderBy('title')
+            ->get();
     }
 }
