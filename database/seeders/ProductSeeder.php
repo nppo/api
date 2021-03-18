@@ -128,6 +128,7 @@ class ProductSeeder extends Seeder
         $product
             ->addMediaFromDisk($file, Disks::SEEDING)
             ->preservingOriginal()
+            ->usingFileName($this->randomFileName($file))
             ->toMediaCollection(MediaCollections::PRODUCT_OBJECT);
     }
 }
