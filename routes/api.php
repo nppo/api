@@ -52,4 +52,7 @@ Route::group([
     Route::resource('parties', PartyController::class)->only(['index', 'show']);
     Route::resource('tags', TagController::class)->only(['index']);
     Route::resource('skills', SkillController::class)->only(['index']);
+
+    Route::get('products/{id}/download', [ProductController::class, 'download'])
+        ->name('products.download');
 });

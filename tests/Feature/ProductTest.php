@@ -144,7 +144,7 @@ class ProductTest extends TestCase
             ->postJson(
                 route('api.products.store'),
                 [
-                    'type'        => ProductTypes::VIDEO,
+                    'type'        => ProductTypes::IMAGE,
                     'title'       => '::STRING::',
                     'description' => '::TEXT::',
                     'summary'     => '::TEXT::',
