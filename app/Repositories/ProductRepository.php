@@ -28,7 +28,7 @@ class ProductRepository extends AbstractRepository
     {
         return $this
             ->makeQuery()
-            ->orderBy('title')
+            ->orderByDesc('published_at')
             ->get();
     }
 
