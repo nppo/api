@@ -20,9 +20,10 @@ class PartyResource extends Resource
     public function toArray($request): array
     {
         return [
-            'id'          => $this->getKey(),
-            'name'        => $this->name,
-            'description' => $this->description,
+            'id'              => $this->getKey(),
+            'name'            => $this->name,
+            'description'     => $this->description,
+            'partyPictureUrl' => $this->party_picture_url,
 
             'parties' => $this->whenLoaded('parties', function (): AnonymousResourceCollection {
                 return self::collection($this->parties);
