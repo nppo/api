@@ -10,6 +10,7 @@ use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -116,5 +117,11 @@ class ProductController extends Controller
         return ProductResource::make(
             $this->productRepository->show($product->getKey())
         );
+    }
+
+    public function download($id): Responsable
+    {
+        return $this->productRepository->findOrFail($id)
+            ->getFirstMedia(MediaCollections::PRODUCT_OBJECT);
     }
 }

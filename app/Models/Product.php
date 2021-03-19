@@ -10,6 +10,7 @@ use App\Helpers\Structure as StructureHelper;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasMeta;
 use App\Models\Support\HasTags;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
@@ -83,6 +84,11 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
     public function parties(): MorphToMany
     {
         return $this->morphedByMany(Party::class, 'contributable');
+    }
+
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class);
     }
 
     public function resolveStructure(): Structure

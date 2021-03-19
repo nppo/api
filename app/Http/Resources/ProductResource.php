@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Enumerators\Action;
+use App\Enumerators\MediaCollections;
 use App\Http\Resources\Support\WithMetaData;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -29,6 +30,7 @@ class ProductResource extends Resource
     {
         return [
             'id'          => $this->getKey(),
+            'type'        => $this->type,
             'title'       => $this->title,
             'summary'     => $this->summary,
             'description' => $this->description,
@@ -48,6 +50,10 @@ class ProductResource extends Resource
                 return PersonResource::collection($this->people);
             }),
 
+            'projects' => $this->whenLoaded('projects', function (): AnonymousResourceCollection {
+                return ProjectResource::collection($this->projects);
+            }),
+
             'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {
                 return ThemeResource::collection($this->themes);
             }),
@@ -62,6 +68,17 @@ class ProductResource extends Resource
                 }
 
                 return AttributeResource::collection($this->attributes);
+            }),
+
+            'links' => $this->whenLoaded('media', function (): ?array {
+                if (!$this->resource->hasMedia(MediaCollections::PRODUCT_OBJECT)) {
+                    return null;
+                }
+
+                return [
+                    'preview'  => route('api.products.download', $this->resource->getRouteKey()),
+                    'download' => route('api.products.download', $this->resource->getRouteKey()),
+                ];
             }),
         ];
     }
