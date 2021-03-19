@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enumerators\Disks;
+use App\Enumerators\MediaCollections;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Way2Web\Force\AbstractModel;
 
-class Party extends AbstractModel
+class Party extends AbstractModel implements HasMedia
 {
+    use InteractsWithMedia;
+
     public function parties(): MorphToMany
     {
         return $this->morphToMany(self::class, 'affiliable');
@@ -27,5 +33,18 @@ class Party extends AbstractModel
     public function projects(): MorphToMany
     {
         return $this->morphToMany(Project::class, 'cooperable');
+    }
+
+    public function getPartyPictureUrlAttribute(): ?string
+    {
+        return $this->getFirstMediaUrl(MediaCollections::PARTY_PICTURE);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection(MediaCollections::PARTY_PICTURE)
+            ->singleFile()
+            ->useDisk(Disks::SURF_PUBLIC);
     }
 }

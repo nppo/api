@@ -12,5 +12,7 @@ class MediaCollections extends Enum
 
     public const PROJECT_PICTURE = 'project_picture';
 
+    public const PARTY_PICTURE = 'party_picture';
+
     public const PRODUCT_OBJECT = 'product_object';
 }
