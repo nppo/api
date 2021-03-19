@@ -18,11 +18,11 @@ class ProductStoreRequest extends FormRequest
 
             'title'        => ['required'],
             'description'  => ['nullable'],
-            'published_at' => ['nullable', 'date'],
+//            'published_at' => ['nullable', 'date'],
             'summary'      => ['nullable'],
 
             'tags'         => ['array', 'nullable'],
-            'tags.*.label' => ['required', 'strings'],
+            'tags.*.label' => ['required', 'string'],
 
             'themes'      => ['array', 'nullable'],
             'themes.*.id' => ['required', 'integer'],
