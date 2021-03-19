@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enumerators\Permissions;
+use App\Models\Person;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -13,13 +14,21 @@ class ProjectPolicy
 {
     use HandlesAuthorization;
 
-    public function create(User $user)
+    public function create(User $user, $productIds = []): bool
     {
         if (!$user->can(Permissions::PROJECTS_CREATE)) {
             return false;
         }
 
-        return !is_null($user->person);
+        if (!$user->person) {
+            return false;
+        }
+
+        if ($productIds && $this->validateProducts($user->person, $productIds)) {
+            return false;
+        }
+
+        return true;
     }
 
     public function update(User $user, Project $project, $productIds = []): bool
@@ -36,10 +45,15 @@ class ProjectPolicy
             return false;
         }
 
-        if ($productIds && $user->person->products->whereIn('id', $productIds)->count() !== count($productIds)) {
+        if ($productIds && $this->validateProducts($user->person, $productIds)) {
             return false;
         }
 
         return true;
+    }
+
+    protected function validateProducts(Person $person, $productIds): bool
+    {
+        return $person->products->whereIn('id', $productIds)->count() !== count($productIds);
     }
 }
