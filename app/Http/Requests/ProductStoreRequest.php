@@ -16,10 +16,10 @@ class ProductStoreRequest extends FormRequest
         return [
             'type' => [Rule::in(ProductTypes::asArray())],
 
-            'title'        => ['required'],
-            'description'  => ['nullable'],
+            'title'       => ['required'],
+            'description' => ['nullable'],
 //            'published_at' => ['nullable', 'date'],
-            'summary'      => ['nullable'],
+            'summary' => ['nullable'],
 
             'tags'         => ['array', 'nullable'],
             'tags.*.label' => ['required', 'string'],
