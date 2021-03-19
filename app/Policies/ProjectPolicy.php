@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enumerators\Permissions;
+use App\Models\Person;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -23,7 +24,7 @@ class ProjectPolicy
             return false;
         }
 
-        if ($productIds && $user->person->products->whereIn('id', $productIds)->count() !== count($productIds)) {
+        if ($productIds && $this->validateProducts($user->person, $productIds)) {
             return false;
         }
 
@@ -44,10 +45,15 @@ class ProjectPolicy
             return false;
         }
 
-        if ($productIds && $user->person->products->whereIn('id', $productIds)->count() !== count($productIds)) {
+        if ($productIds && $this->validateProducts($user->person, $productIds)) {
             return false;
         }
 
         return true;
+    }
+
+    protected function validateProducts(Person $person, $productIds): bool
+    {
+        return $person->products->whereIn('id', $productIds)->count() !== count($productIds);
     }
 }
