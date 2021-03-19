@@ -8,6 +8,7 @@ use App\Enumerators\Action;
 use App\Enumerators\ProductTypes;
 use App\Models\Product;
 use App\Models\User;
+use Carbon\Carbon;
 use Laravel\Passport\Passport;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
@@ -156,5 +157,62 @@ class ProductTest extends TestCase
             $original + 1,
             Product::count()
         );
+    }
+
+    /** @test */
+    public function it_can_create_a_product(): void
+    {
+        Passport::actingAs($this->getUser());
+
+        /** @var Product $product */
+        $product = Product::factory()->make();
+
+        $response = $this->postJson(
+            route('api.products.store'),
+            array_merge(
+                $product->toArray(),
+                ['published_at' => $product->published_at->toDatetimeString()],
+            )
+        )->assertOk();
+
+        $response->assertJsonFragment([
+            'title'       => $product->title,
+            'type'        => $product->type,
+            'summary'     => $product->summary,
+            'description' => $product->description,
+            'publishedAt' => $product->published_at->toJSON(),
+        ]);
+    }
+
+    /** @test */
+    public function it_can_update_a_product(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        /** @var Product $product */
+        $product = Product::factory()->create();
+
+        $product->people()->attach($user->person, ['is_owner' => false]);
+
+        $product->title = '::TITLE::';
+        $product->published_at = now();
+
+        $response = $this->putJson(
+            route('api.products.update', $product->id),
+            array_merge(
+                $product->toArray(),
+                ['published_at' => $product->published_at->toDatetimeString()],
+            )
+        )->assertOk();
+
+        $response->assertJsonFragment([
+            'title'       => $product->title,
+            'type'        => $product->type,
+            'summary'     => $product->summary,
+            'description' => $product->description,
+            'publishedAt' => $product->published_at->toJSON(),
+        ]);
     }
 }
