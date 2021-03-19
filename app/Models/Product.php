@@ -28,6 +28,10 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
         'summary',
     ];
 
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
+
     public function toSearchableArray(): array
     {
         return [
