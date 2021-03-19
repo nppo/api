@@ -7,6 +7,7 @@ namespace Tests\Feature;
 use App\Enumerators\Action;
 use App\Enumerators\ProductTypes;
 use App\Models\Product;
+use App\Models\User;
 use Laravel\Passport\Passport;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
@@ -43,8 +44,7 @@ class ProductTest extends TestCase
     {
         /** @var Product $product */
         $product = Product::factory()->create();
-
-        $user = $this->getUser();
+        $user = User::factory()->create();
 
         Passport::actingAs($user);
 
