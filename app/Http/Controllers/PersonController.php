@@ -69,13 +69,18 @@ class PersonController extends Controller
         }
 
         $person->syncTags(
-            Collection::make(Arr::get($validated, 'skills') ?? [])
-                ->map(fn ($skill) => $skill['label'])
+            Collection::make(Arr::get($validated, 'skills') ?: [])
+                ->map(fn ($tag) => $tag['label'])
                 ->toArray(),
             TagTypes::SKILL,
         );
 
-        $this->syncRelation($person, 'themes', Arr::get($validated, 'themes') ?: []);
+        $person->syncTags(
+            Collection::make(Arr::get($validated, 'themes') ?: [])
+                ->map(fn ($tag) => $tag['label'])
+                ->toArray(),
+            TagTypes::THEME,
+        );
 
         return PersonResource::make(
             $this->personRepository->show($id)
