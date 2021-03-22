@@ -62,7 +62,6 @@ class SearchTest extends TestCase
     /** @test */
     public function it_can_filter_by_multiple_themes(): void
     {
-        $this->withoutExceptionHandling();
         $products = Product::factory()
             ->count(3)
             ->create();

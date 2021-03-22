@@ -85,7 +85,6 @@ class ProductTest extends TestCase
     /** @test */
     public function it_can_update_a_product_with_an_logged_in_user_with_permission_and_is_owner(): void
     {
-        $this->withoutExceptionHandling();
         /** @var Product $product */
         $product = Product::factory()->create();
 

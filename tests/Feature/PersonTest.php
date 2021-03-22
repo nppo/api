@@ -75,7 +75,6 @@ class PersonTest extends TestCase
     /** @test */
     public function it_can_update_a_person_with_themes(): void
     {
-        $this->withoutExceptionHandling();
         $user = $this->getUser();
 
         Passport::actingAs($user);
