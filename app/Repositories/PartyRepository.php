@@ -56,6 +56,7 @@ class PartyRepository extends AbstractRepository
                 'parties',
                 'projects',
                 'products',
+                'media',
             ])
             ->findOrFail($id);
     }

@@ -11,9 +11,18 @@ class ProjectStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'           => ['required'],
-            'description'     => ['nullable'],
-            'purpose'         => ['nullable'],
+            'title'       => ['required'],
+            'description' => ['nullable'],
+            'purpose'     => ['nullable'],
+
+            'parties'      => ['nullable'],
+            'parties.*'    => ['array', 'required'],
+            'parties.*.id' => ['required', 'integer'],
+
+            'products'      => ['nullable'],
+            'products.*'    => ['array', 'required'],
+            'products.*.id' => ['required', 'integer'],
+
             'project_picture' => [
                 'sometimes',
                 'image',

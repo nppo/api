@@ -35,6 +35,7 @@ class ProductResource extends Resource
             'description' => $this->description,
             'likes'       => $this->likes_count,
             'publishedAt' => $this->published_at,
+            'type'        => $this->type,
 
             'owner' => $this->whenLoaded('owner', function (): PersonResource {
                 return PersonResource::make($this->owner->first());
@@ -46,6 +47,10 @@ class ProductResource extends Resource
 
             'people' => $this->whenLoaded('people', function (): AnonymousResourceCollection {
                 return PersonResource::collection($this->people);
+            }),
+
+            'projects' => $this->whenLoaded('projects', function (): AnonymousResourceCollection {
+                return ProjectResource::collection($this->projects);
             }),
 
             'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {

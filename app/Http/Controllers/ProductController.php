@@ -13,6 +13,7 @@ use App\Repositories\ProductRepository;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Way2Web\Force\Http\Controller;
 
 class ProductController extends Controller
@@ -42,14 +43,39 @@ class ProductController extends Controller
 
     public function update(ProductUpdateRequest $request, $id): ProductResource
     {
-        $this->authorize('update', $this->productRepository->findOrFail($id));
+        /** @var Product $product */
+        $product = $this->productRepository->findOrFail($id);
+
+        $this->authorize('update', $product);
+
+        $validated = $request->validated();
 
         $this
             ->productRepository
             ->update(
-                $request->validated(),
+                Arr::except($request->validated(), ['file', 'tags', 'themes', 'people', 'parties']),
                 $id
             );
+
+        if ($request->hasFile('file')) {
+            $product
+                ->addMediaFromRequest('file')
+                ->preservingOriginal()
+                ->toMediaCollection(MediaCollections::PRODUCT_OBJECT);
+        }
+
+        $product->syncTags(
+            Collection::make(Arr::get($validated, 'tags') ?? [])
+                ->map(fn ($tag) => $tag['label'])
+                ->toArray()
+        );
+
+        $this
+            ->syncRelation($product, 'themes', Arr::get($validated, 'themes', []))
+            ->syncRelation($product, 'people', Arr::get($validated, 'people', []), ['is_owner' => false])
+            ->syncRelation($product, 'parties', Arr::get($validated, 'parties', []), ['is_owner' => false]);
+
+        $product->people()->attach($request->user()->person, ['is_owner' => true]);
 
         return ProductResource::make(
             $this->productRepository->show($id)
@@ -75,8 +101,13 @@ class ProductController extends Controller
                 ->toMediaCollection(MediaCollections::PRODUCT_OBJECT);
         }
 
+        $product->syncTags(
+            Collection::make(Arr::get($validated, 'tags') ?? [])
+                ->map(fn ($tag) => $tag['label'])
+                ->toArray()
+        );
+
         $this
-            ->syncRelation($product, 'tags', Arr::get($validated, 'tags', []))
             ->syncRelation($product, 'themes', Arr::get($validated, 'themes', []))
             ->syncRelation($product, 'people', Arr::get($validated, 'people', []), ['is_owner' => false])
             ->syncRelation($product, 'parties', Arr::get($validated, 'parties', []), ['is_owner' => false]);
