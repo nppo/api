@@ -172,9 +172,10 @@ class ProductTest extends TestCase
             route('api.products.store'),
             array_merge(
                 $product->toArray(),
-                ['published_at' => $product->published_at->toDatetimeString()],
+                ['publishedAt' => $product->published_at->toDatetimeString()],
             )
-        )->assertOk();
+        )
+        ->assertOk();
 
         $response->assertJsonFragment([
             'title'       => $product->title,
@@ -204,7 +205,7 @@ class ProductTest extends TestCase
             route('api.products.update', $product->id),
             array_merge(
                 $product->toArray(),
-                ['published_at' => $product->published_at->toDatetimeString()],
+                ['publishedAt' => $product->published_at->toDatetimeString()],
             )
         )->assertOk();
 
