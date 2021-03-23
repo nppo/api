@@ -26,7 +26,7 @@ class PersonUpdateRequest extends FormRequest
             'meta'         => ['nullable'],
             'meta.*'       => ['array', 'required'],
             'meta.*.id'    => ['required', 'integer'],
-            'meta.*.value' => ['required', 'string'],
+            'meta.*.value' => ['nullable', 'string'],
 
             'profile_picture' => [
                 'sometimes',

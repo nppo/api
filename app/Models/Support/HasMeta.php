@@ -64,6 +64,9 @@ trait HasMeta
 
                 throw new InvalidArgumentException('Provided information could not be casted to a Value');
             })
+            ->filter(function (Value $value) {
+                return $this->attributes()->get()->contains($value->attribute);
+            })
             ->each(function (Value $value): void {
                 if (is_null($value->value)) {
                     $this->values()->where('attribute_id', $value->attribute_id)->delete();
