@@ -36,4 +36,11 @@ class ProductUpdateRequest extends FormRequest
             'file' => ['nullable', 'mimes:' . Mimes::asArrayString()],
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'published_at' => $this->get('publishedAt'),
+        ]);
+    }
 }
