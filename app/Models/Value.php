@@ -12,7 +12,7 @@ class Value extends AbstractModel
 {
     protected $fillable = [
         'value',
-        'attribute_id'
+        'attribute_id',
     ];
 
     public function attribute(): BelongsTo
