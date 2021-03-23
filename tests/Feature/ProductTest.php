@@ -413,7 +413,7 @@ class ProductTest extends TestCase
                 array_merge(
                     $product->toArray(),
                     [
-                        'file'    => UploadedFile::fake()->create('test.jpg'),
+                        'file'     => UploadedFile::fake()->create('test.jpg'),
                         'parents'  => $parents->map->only('id'),
                         'children' => $children->map->only('id'),
                     ]
