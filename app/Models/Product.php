@@ -10,7 +10,9 @@ use App\Helpers\Structure as StructureHelper;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasMeta;
 use App\Models\Support\HasTags;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
@@ -60,6 +62,16 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
             ->addMediaCollection(MediaCollections::PRODUCT_OBJECT)
             ->singleFile()
             ->useDisk(Disks::SURF_PRIVATE);
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(self::class);
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id');
     }
 
     public function themes(): MorphToMany

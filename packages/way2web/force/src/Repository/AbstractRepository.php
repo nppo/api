@@ -280,6 +280,19 @@ abstract class AbstractRepository
     }
 
     /**
+     * @param \Illuminate\Contracts\Support\Arrayable|array $ids
+     * @param array                                         $columns
+     *
+     * @return Collection
+     *
+     * @throws RuntimeException
+     */
+    public function findMany($ids, array $columns = ['*'])
+    {
+        return $this->makeQuery()->findMany($ids, $columns);
+    }
+
+    /**
      * @param array $criteria
      * @param array $columns
      *

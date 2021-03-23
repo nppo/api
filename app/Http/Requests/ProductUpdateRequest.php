@@ -33,6 +33,12 @@ class ProductUpdateRequest extends FormRequest
             'parties'      => ['array', 'nullable'],
             'parties.*.id' => ['required', 'integer'],
 
+            'parent'    => ['nullable'],
+            'parent.id' => ['integer'],
+
+            'children'      => ['array', 'nullable'],
+            'children.*.id' => ['required', 'integer'],
+
             'file' => ['nullable', 'mimes:' . Mimes::asArrayString()],
         ];
     }

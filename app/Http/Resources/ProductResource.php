@@ -8,6 +8,7 @@ use App\Enumerators\Action;
 use App\Http\Resources\Support\WithMetaData;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Way2Web\Force\Http\Resource;
 
 class ProductResource extends Resource
@@ -35,7 +36,6 @@ class ProductResource extends Resource
             'description' => $this->description,
             'likes'       => $this->likes_count,
             'publishedAt' => $this->published_at,
-            'type'        => $this->type,
 
             'owner' => $this->whenLoaded('owner', function (): PersonResource {
                 return PersonResource::make($this->owner->first());
@@ -59,6 +59,14 @@ class ProductResource extends Resource
 
             'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
                 return TagResource::collection($this->tags);
+            }),
+
+            'children' => $this->whenLoaded('children', function (): AnonymousResourceCollection {
+                return self::collection($this->children);
+            }),
+
+            'parent' => $this->whenLoaded('parent', function (): JsonResource {
+                return self::make($this->parent);
             }),
 
             'meta' => $this->whenLoaded('attributes', function (): AnonymousResourceCollection {

@@ -9,7 +9,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as RoutingController;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Way2Web\Force\Repository\AbstractRepository;
 
 abstract class Controller extends RoutingController
 {
@@ -40,6 +42,48 @@ abstract class Controller extends RoutingController
                 Collection::make($entities)->pluck('id'),
                 $values
             );
+
+        return $this;
+    }
+
+    protected function syncHasManyRelation(
+        Model $model,
+        AbstractRepository $repository,
+        string $relation,
+        array $validated
+    ): self {
+        if (!array_key_exists('children', $validated)) {
+            return $this;
+        }
+
+        $ids = Collection::make(Arr::get($validated, $relation) ?? [])->pluck('id');
+
+        if ($ids->count() === 0) {
+            $model->{$relation}()->update(['parent_id' => null]);
+        } else {
+            $model->{$relation}()->saveMany($repository->findMany($ids));
+        }
+
+        return $this;
+    }
+
+    protected function syncBelongsToRelation(
+        Model $model,
+        AbstractRepository $productRepository,
+        string $relation,
+        array $validated
+    ): self {
+        if (!array_key_exists('parent', $validated)) {
+            return $this;
+        }
+
+        if (isset($validated['parent']['id']) && $validated['parent']['id'] !== $model->{"{$relation}_id"}) {
+            $model->parent()->associate($productRepository->findOrFail($validated['parent']['id']));
+        } else {
+            $model->parent()->dissociate();
+        }
+
+        $model->save();
 
         return $this;
     }

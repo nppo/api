@@ -14,6 +14,7 @@ class CreateProductsTable extends Migration
             $table->id();
 
             $table->foreignId('structure_id');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('type');
             $table->string('title');
             $table->text('summary')->nullable();

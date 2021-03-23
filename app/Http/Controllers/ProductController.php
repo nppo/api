@@ -53,7 +53,10 @@ class ProductController extends Controller
         $this
             ->productRepository
             ->update(
-                Arr::except($request->validated(), ['file', 'tags', 'themes', 'people', 'parties']),
+                Arr::except(
+                    $request->validated(),
+                    ['file', 'tags', 'themes', 'people', 'parties', 'children', 'parent']
+                ),
                 $id
             );
 
@@ -69,6 +72,9 @@ class ProductController extends Controller
                 ->map(fn ($tag) => $tag['label'])
                 ->toArray()
         );
+
+        $this->syncHasManyRelation($product, $this->productRepository, 'children', $validated);
+        $this->syncBelongsToRelation($product, $this->productRepository, 'parent', $validated);
 
         $this
             ->syncRelation($product, 'themes', Arr::get($validated, 'themes') ?? [])

@@ -159,4 +159,123 @@ class ProductTest extends TestCase
             Product::count()
         );
     }
+
+    /** @test */
+    public function it_can_update_a_product_to_have_children(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->create();
+
+        $children = Product::factory()->times(2)->create();
+
+        $user = $this->getUser();
+
+        $product->people()->attach($user->person, ['is_owner' => false]);
+
+        Passport::actingAs($user);
+
+        $newTitle = '::new title::';
+
+        $product->title = $newTitle;
+
+        $response = $this
+            ->putJson(
+                route('api.products.update', ['product' => $product->id]),
+                array_merge($product->toArray(), ['children' => $children->map->only('id')])
+            )
+            ->assertOk();
+
+        $this->assertCount(2, $response->json('data.children'));
+
+        foreach ($children->pluck('id') as $key => $id) {
+            $this->assertEquals($response->json('data.children')[$key]['id'], $id);
+        }
+    }
+
+    /** @test */
+    public function it_can_update_a_product_to_remove_children(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->create();
+
+        $children = Product::factory()->times(2)->create();
+
+        $product->children()->saveMany($children);
+
+        $user = $this->getUser();
+
+        $product->people()->attach($user->person, ['is_owner' => false]);
+
+        Passport::actingAs($user);
+
+        $newTitle = '::new title::';
+
+        $product->title = $newTitle;
+
+        $response = $this
+            ->putJson(
+                route('api.products.update', ['product' => $product->id]),
+                array_merge($product->toArray(), ['children' => null])
+            )
+            ->assertOk();
+
+        $this->assertCount(0, $response->json('data.children'));
+        $this->assertCount(2, Product::findMany($children->pluck('id')));
+    }
+
+    /** @test */
+    public function it_can_update_a_product_to_have_a_parent(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->create();
+
+        $parent = Product::factory()->create();
+
+        $user = $this->getUser();
+
+        $product->people()->attach($user->person, ['is_owner' => false]);
+
+        Passport::actingAs($user);
+
+        $newTitle = '::new title::';
+
+        $product->title = $newTitle;
+
+        $response = $this
+            ->putJson(
+                route('api.products.update', ['product' => $product->id]),
+                array_merge($product->toArray(), ['parent' => ['id' => $parent->id]])
+            )
+            ->assertOk();
+
+        $this->assertEquals($response->json('data.parent.id'), $parent->id);
+    }
+
+    /** @test */
+    public function it_can_update_a_product_to_remove_a_parent(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->create([
+            'parent_id' => Product::factory()->create(),
+        ]);
+
+        $user = $this->getUser();
+
+        $product->people()->attach($user->person, ['is_owner' => false]);
+
+        Passport::actingAs($user);
+
+        $newTitle = '::new title::';
+
+        $product->title = $newTitle;
+
+        $response = $this
+            ->putJson(
+                route('api.products.update', ['product' => $product->id]),
+                array_merge($product->toArray(), ['parent' => null])
+            )
+            ->assertOk();
+
+        $this->assertEquals($response->json('data.parent'), null);
+    }
 }
