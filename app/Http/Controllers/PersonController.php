@@ -69,14 +69,14 @@ class PersonController extends Controller
         }
 
         $person->syncTags(
-            Collection::make(Arr::get($validated, 'skills') ?: [])
+            Collection::make(Arr::get($validated, 'skills') ?? [])
                 ->map(fn ($tag) => $tag['label'])
                 ->toArray(),
             TagTypes::SKILL,
         );
 
         $person->syncTags(
-            Collection::make(Arr::get($validated, 'themes') ?: [])
+            Collection::make(Arr::get($validated, 'themes') ?? [])
                 ->map(fn ($tag) => $tag['label'])
                 ->toArray(),
             TagTypes::THEME,
