@@ -161,6 +161,38 @@ class ProductTest extends TestCase
     }
 
     /** @test */
+    public function it_can_create_a_product_to_have_a_children(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->make();
+
+        $children = Product::factory()->times(2)->create();
+
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $response = $this
+            ->postJson(
+                route('api.products.store'),
+                array_merge(
+                    $product->toArray(),
+                    [
+                        'children' => $children->map->only('id'),
+                        'file'     => UploadedFile::fake()->create('test.jpg'),
+                    ]
+                )
+            )
+            ->assertOk();
+
+        $this->assertCount(2, $response->json('data.children'));
+
+        foreach ($children->pluck('id') as $key => $id) {
+            $this->assertEquals($response->json('data.children')[$key]['id'], $id);
+        }
+    }
+
+    /** @test */
     public function it_can_update_a_product_to_have_children(): void
     {
         /** @var Product $product */
@@ -221,6 +253,34 @@ class ProductTest extends TestCase
 
         $this->assertCount(0, $response->json('data.children'));
         $this->assertCount(2, Product::findMany($children->pluck('id')));
+    }
+
+    /** @test */
+    public function it_can_create_a_product_to_have_a_parent(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->make();
+
+        $parent = Product::factory()->create();
+
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $response = $this
+            ->postJson(
+                route('api.products.store'),
+                array_merge(
+                    $product->toArray(),
+                    [
+                        'parent' => ['id' => $parent->id],
+                        'file'   => UploadedFile::fake()->create('test.jpg'),
+                    ]
+                )
+            )
+            ->assertOk();
+
+        $this->assertEquals($response->json('data.parent.id'), $parent->id);
     }
 
     /** @test */

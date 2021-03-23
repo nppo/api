@@ -73,10 +73,9 @@ class ProductController extends Controller
                 ->toArray()
         );
 
-        $this->syncHasManyRelation($product, $this->productRepository, 'children', $validated);
-        $this->syncBelongsToRelation($product, $this->productRepository, 'parent', $validated);
-
         $this
+            ->syncHasManyRelation($product, $this->productRepository, 'children', $validated)
+            ->syncBelongsToRelation($product, $this->productRepository, 'parent', $validated)
             ->syncRelation($product, 'themes', Arr::get($validated, 'themes') ?? [])
             ->syncRelation($product, 'people', Arr::get($validated, 'people') ?? [], ['is_owner' => false])
             ->syncRelation($product, 'parties', Arr::get($validated, 'parties') ?? [], ['is_owner' => false]);
@@ -114,6 +113,8 @@ class ProductController extends Controller
         );
 
         $this
+            ->syncHasManyRelation($product, $this->productRepository, 'children', $validated)
+            ->syncBelongsToRelation($product, $this->productRepository, 'parent', $validated)
             ->syncRelation($product, 'themes', Arr::get($validated, 'themes') ?? [])
             ->syncRelation($product, 'people', Arr::get($validated, 'people') ?? [], ['is_owner' => false])
             ->syncRelation($product, 'parties', Arr::get($validated, 'parties') ?? [], ['is_owner' => false]);
