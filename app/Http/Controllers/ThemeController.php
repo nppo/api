@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enumerators\TagTypes;
 use App\Http\Resources\ThemeResource;
 use App\Repositories\ThemeRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -21,11 +20,7 @@ class ThemeController extends Controller
     public function index(): AnonymousResourceCollection
     {
         return ThemeResource::collection(
-            $this->themeRepository
-                ->makeQuery()
-                ->where('type', TagTypes::THEME)
-                ->orderBy('label')
-                ->get()
+            $this->themeRepository->index()
         );
     }
 }

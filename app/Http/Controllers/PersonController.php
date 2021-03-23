@@ -47,7 +47,7 @@ class PersonController extends Controller
 
     public function update(PersonUpdateRequest $request, $id): PersonResource
     {
-        /** @var Person */
+        /** @var $person Person */
         $person = $this->personRepository->findOrFail($id);
 
         $this->authorize(Action::UPDATE, $person);
@@ -80,6 +80,7 @@ class PersonController extends Controller
                 ->map(fn ($tag) => $tag['label'])
                 ->toArray(),
             TagTypes::THEME,
+            true
         );
 
         return PersonResource::make(
