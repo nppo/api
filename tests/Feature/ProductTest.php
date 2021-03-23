@@ -380,8 +380,8 @@ class ProductTest extends TestCase
             );
 
         $response->assertJsonValidationErrors([
-            'parents.0.id'  => 'validation.prohibited_unless',
-            'children.0.id' => 'validation.prohibited_unless',
+            'parents'  => 'validation.prohibited_unless',
+            'children' => 'validation.prohibited_unless',
         ]);
     }
 
@@ -419,8 +419,8 @@ class ProductTest extends TestCase
             );
 
         $response->assertJsonValidationErrors([
-            'parents.0.id'  => 'validation.prohibited_unless',
-            'children.0.id' => 'validation.prohibited_unless',
+            'parents'  => 'validation.prohibited_unless',
+            'children' => 'validation.prohibited_unless',
         ]);
     }
 }
