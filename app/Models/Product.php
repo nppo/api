@@ -26,6 +26,7 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
         'title',
         'description',
         'summary',
+        'link',
     ];
 
     public function toSearchableArray(): array
@@ -100,5 +101,14 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
     public function owner(): MorphToMany
     {
         return $this->people()->wherePivot('is_owner', true);
+    }
+
+    public function getObjectUrlAttribute(): ?string
+    {
+        if ($this->hasMedia(MediaCollections::PRODUCT_OBJECT)) {
+            return route('api.products.download', $this);
+        }
+
+        return $this->link;
     }
 }

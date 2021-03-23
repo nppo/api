@@ -11,6 +11,11 @@ use Illuminate\Support\Str;
 
 trait SeedsMedia
 {
+    public function hasMediaOptions(string $type): bool
+    {
+        return ! empty($this->getMediaOptions($type));
+    }
+
     protected function getRandomMediaFile(string $type)
     {
         return Arr::random($this->getMediaOptions($type));

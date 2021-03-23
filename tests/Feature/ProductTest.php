@@ -8,6 +8,7 @@ use App\Enumerators\Action;
 use App\Enumerators\ProductTypes;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Laravel\Passport\Passport;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
@@ -148,6 +149,7 @@ class ProductTest extends TestCase
                     'title'       => '::STRING::',
                     'description' => '::TEXT::',
                     'summary'     => '::TEXT::',
+                    'file'        => UploadedFile::fake()->create('test.jpg'),
                 ]
             )
             ->assertOk();
