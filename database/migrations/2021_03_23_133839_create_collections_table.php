@@ -16,9 +16,10 @@ class CreateCollectionsTable extends Migration
     public function up(): void
     {
         Schema::create('product_content', function (Blueprint $table): void {
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('child_id');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('child_id')->constrained('products')->onDelete('cascade');
 
+            $table->unique(['product_id', 'child_id']);
             $table->timestamps();
         });
     }
