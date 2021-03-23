@@ -137,7 +137,6 @@ class ProductTest extends TestCase
     /** @test */
     public function a_new_product_can_be_created(): void
     {
-        $this->withoutExceptionHandling();
         Passport::actingAs($this->getUser());
 
         $original = Product::count();
@@ -164,7 +163,6 @@ class ProductTest extends TestCase
     /** @test */
     public function it_can_create_a_product_to_have_children(): void
     {
-        $this->withoutExceptionHandling();
         /** @var Product $product */
         $product = Product::factory()->make();
 
