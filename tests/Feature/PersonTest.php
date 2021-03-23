@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Enumerators\TagTypes;
+use App\Models\Attribute;
 use App\Models\Tag;
 use App\Models\Theme;
 use App\Models\Value;
@@ -192,7 +193,11 @@ class PersonTest extends TestCase
 
         Passport::actingAs($user);
 
-        $meta = Value::factory()->times(2)->make()
+        $meta = Value::factory()->times(2)
+            ->for(Attribute::factory()->times(2)->create([
+                'structure_id' => $user->person->structure,
+            ]))
+            ->make()
             ->map(function (Value $value): array {
                 return [
                     'id'    => $value->attribute_id,
