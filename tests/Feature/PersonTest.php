@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Enumerators\TagTypes;
+use App\Models\Attribute;
 use App\Models\Tag;
 use App\Models\Theme;
 use App\Models\Value;
@@ -195,7 +196,9 @@ class PersonTest extends TestCase
         $meta = Value::factory()->times(2)
             ->state([
                 'attribute_id' => function () use ($user) {
-                    return $user->person->attributes->random();
+                    return Attribute::factory()->state([
+                        'structure_id' => $user->person->structure_id,
+                    ]);
                 },
             ])
             ->make()
