@@ -348,4 +348,81 @@ class ProductTest extends TestCase
 
         $this->assertEquals($response->json('data.parent'), null);
     }
+
+    /** @test */
+    public function it_can_not_update_a_product_if_both_children_and_parents_are_filled(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->create();
+
+        $parents = Product::factory()->times(2)->create();
+
+        $children = Product::factory()->times(2)->create();
+
+        $user = $this->getUser();
+
+        $product->people()->attach($user->person, ['is_owner' => false]);
+
+        Passport::actingAs($user);
+
+        $newTitle = '::new title::';
+
+        $product->title = $newTitle;
+
+        $response = $this
+            ->putJson(
+                route('api.products.update', ['product' => $product->id]),
+                array_merge(
+                    $product->toArray(),
+                    [
+                        'parents'  => $parents->map->only('id'),
+                        'children' => $children->map->only('id'),
+                    ]
+                )
+            );
+
+        $response->assertJsonValidationErrors([
+            'parents.0.id'  => 'validation.prohibited_unless',
+            'children.0.id' => 'validation.prohibited_unless',
+        ]);
+    }
+
+    /** @test */
+    public function it_can_not_create_a_product_if_both_children_and_parents_are_filled(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->create();
+
+        $parents = Product::factory()->times(2)->create();
+
+        $children = Product::factory()->times(2)->create();
+
+        $user = $this->getUser();
+
+        $product->people()->attach($user->person, ['is_owner' => false]);
+
+        Passport::actingAs($user);
+
+        $newTitle = '::new title::';
+
+        $product->title = $newTitle;
+
+        $response = $this
+            ->postJson(
+                route('api.products.store'),
+                array_merge(
+                    $product->toArray(),
+                    [
+                        'file'    => UploadedFile::fake()->create('test.jpg'),
+                        'parents'  => $parents->map->only('id'),
+                        'children' => $children->map->only('id'),
+                    ]
+                )
+            );
+
+        $response->assertJsonValidationErrors([
+            'parents.0.id'  => 'validation.prohibited_unless',
+            'children.0.id' => 'validation.prohibited_unless',
+        ]);
+    }
 }

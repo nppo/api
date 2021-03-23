@@ -34,10 +34,10 @@ class ProductStoreRequest extends FormRequest
             'parties.*.id' => ['required', 'integer'],
 
             'parents'      => ['array', 'nullable'],
-            'parents.*.id' => ['required', 'integer'],
+            'parents.*.id' => ['required', 'integer', 'prohibited_unless:children,null'],
 
             'children'      => ['array', 'nullable'],
-            'children.*.id' => ['required', 'integer'],
+            'children.*.id' => ['required', 'integer', 'prohibited_unless:parents,null'],
 
             'link' => ['required_without:file', 'string', 'url'],
             'file' => ['required_without:link', 'mimes:' . Mimes::asArrayString()],
