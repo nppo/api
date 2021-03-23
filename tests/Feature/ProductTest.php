@@ -137,6 +137,7 @@ class ProductTest extends TestCase
     /** @test */
     public function a_new_product_can_be_created(): void
     {
+        $this->withoutExceptionHandling();
         Passport::actingAs($this->getUser());
 
         $original = Product::count();
@@ -161,8 +162,9 @@ class ProductTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_product_to_have_a_children(): void
+    public function it_can_create_a_product_to_have_children(): void
     {
+        $this->withoutExceptionHandling();
         /** @var Product $product */
         $product = Product::factory()->make();
 
@@ -256,12 +258,12 @@ class ProductTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_product_to_have_a_parent(): void
+    public function it_can_create_a_product_to_have_parents(): void
     {
         /** @var Product $product */
         $product = Product::factory()->make();
 
-        $parent = Product::factory()->create();
+        $parents = Product::factory()->times(2)->create();
 
         $user = $this->getUser();
 
@@ -273,23 +275,27 @@ class ProductTest extends TestCase
                 array_merge(
                     $product->toArray(),
                     [
-                        'parent' => ['id' => $parent->id],
-                        'file'   => UploadedFile::fake()->create('test.jpg'),
+                        'parents' => $parents->map->only('id'),
+                        'file'    => UploadedFile::fake()->create('test.jpg'),
                     ]
                 )
             )
             ->assertOk();
 
-        $this->assertEquals($response->json('data.parent.id'), $parent->id);
+        $this->assertCount(2, $response->json('data.parents'));
+
+        foreach ($parents->pluck('id') as $key => $id) {
+            $this->assertEquals($response->json('data.parents')[$key]['id'], $id);
+        }
     }
 
     /** @test */
-    public function it_can_update_a_product_to_have_a_parent(): void
+    public function it_can_update_a_product_to_have_parents(): void
     {
         /** @var Product $product */
         $product = Product::factory()->create();
 
-        $parent = Product::factory()->create();
+        $parents = Product::factory()->times(2)->create();
 
         $user = $this->getUser();
 
@@ -304,15 +310,19 @@ class ProductTest extends TestCase
         $response = $this
             ->putJson(
                 route('api.products.update', ['product' => $product->id]),
-                array_merge($product->toArray(), ['parent' => ['id' => $parent->id]])
+                array_merge($product->toArray(), ['parents' => $parents->map->only('id')])
             )
             ->assertOk();
 
-        $this->assertEquals($response->json('data.parent.id'), $parent->id);
+        $this->assertCount(2, $response->json('data.parents'));
+
+        foreach ($parents->pluck('id') as $key => $id) {
+            $this->assertEquals($response->json('data.parents')[$key]['id'], $id);
+        }
     }
 
     /** @test */
-    public function it_can_update_a_product_to_remove_a_parent(): void
+    public function it_can_update_a_product_to_remove_parents(): void
     {
         /** @var Product $product */
         $product = Product::factory()->create([

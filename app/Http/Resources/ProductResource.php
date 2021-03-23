@@ -65,8 +65,8 @@ class ProductResource extends Resource
                 return self::collection($this->children);
             }),
 
-            'parent' => $this->whenLoaded('parent', function (): JsonResource {
-                return self::make($this->parent);
+            'parents' => $this->whenLoaded('parents', function (): JsonResource {
+                return self::collection($this->parents);
             }),
 
             'meta' => $this->whenLoaded('attributes', function (): AnonymousResourceCollection {

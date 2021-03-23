@@ -55,7 +55,7 @@ class ProductController extends Controller
             ->update(
                 Arr::except(
                     $request->validated(),
-                    ['file', 'tags', 'themes', 'people', 'parties', 'children', 'parent']
+                    ['file', 'tags', 'themes', 'people', 'parties', 'children', 'parents']
                 ),
                 $id
             );
@@ -74,8 +74,8 @@ class ProductController extends Controller
         );
 
         $this
-            ->syncHasManyRelation($product, $this->productRepository, 'children', $validated)
-            ->syncBelongsToRelation($product, $this->productRepository, 'parent', $validated)
+            ->syncRelation($product, 'children', Arr::get($validated, 'children') ?? [])
+            ->syncRelation($product, 'parents', Arr::get($validated, 'parents') ?? [])
             ->syncRelation($product, 'themes', Arr::get($validated, 'themes') ?? [])
             ->syncRelation($product, 'people', Arr::get($validated, 'people') ?? [], ['is_owner' => false])
             ->syncRelation($product, 'parties', Arr::get($validated, 'parties') ?? [], ['is_owner' => false]);
@@ -113,8 +113,8 @@ class ProductController extends Controller
         );
 
         $this
-            ->syncHasManyRelation($product, $this->productRepository, 'children', $validated)
-            ->syncBelongsToRelation($product, $this->productRepository, 'parent', $validated)
+            ->syncRelation($product, 'children', Arr::get($validated, 'children') ?? [])
+            ->syncRelation($product, 'parents', Arr::get($validated, 'parents') ?? [])
             ->syncRelation($product, 'themes', Arr::get($validated, 'themes') ?? [])
             ->syncRelation($product, 'people', Arr::get($validated, 'people') ?? [], ['is_owner' => false])
             ->syncRelation($product, 'parties', Arr::get($validated, 'parties') ?? [], ['is_owner' => false]);

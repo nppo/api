@@ -45,46 +45,4 @@ abstract class Controller extends RoutingController
 
         return $this;
     }
-
-    protected function syncHasManyRelation(
-        Model $model,
-        AbstractRepository $repository,
-        string $relation,
-        array $validated
-    ): self {
-        if (!array_key_exists('children', $validated)) {
-            return $this;
-        }
-
-        $ids = Collection::make(Arr::get($validated, $relation) ?? [])->pluck('id');
-
-        if ($ids->count() === 0) {
-            $model->{$relation}()->update(['parent_id' => null]);
-        } else {
-            $model->{$relation}()->saveMany($repository->findMany($ids));
-        }
-
-        return $this;
-    }
-
-    protected function syncBelongsToRelation(
-        Model $model,
-        AbstractRepository $productRepository,
-        string $relation,
-        array $validated
-    ): self {
-        if (!array_key_exists('parent', $validated)) {
-            return $this;
-        }
-
-        if (isset($validated['parent']['id']) && $validated['parent']['id'] !== $model->{"{$relation}_id"}) {
-            $model->parent()->associate($productRepository->findOrFail($validated['parent']['id']));
-        } else {
-            $model->parent()->dissociate();
-        }
-
-        $model->save();
-
-        return $this;
-    }
 }
