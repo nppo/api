@@ -11,6 +11,8 @@ use App\Models\Value;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Collection;
+use InvalidArgumentException;
 
 trait HasMeta
 {
@@ -46,5 +48,36 @@ trait HasMeta
     public function resolveStructure(): Structure
     {
         return Structure::where('label', static::class)->sole();
+    }
+
+    public function syncMeta(Collection $metaData): self
+    {
+        $metaData
+            ->map(function ($data): Value {
+                if ($data instanceof Value) {
+                    return $data;
+                }
+
+                if (is_array($data)) {
+                    return new Value($data);
+                }
+
+                throw new InvalidArgumentException('Provided information could not be casted to a Value');
+            })
+            ->each(function (Value $value): void {
+                if (is_null($value->value)) {
+                    $this->values()->where('attribute_id', $value->attribute_id)->delete();
+
+                    return;
+                }
+
+                $this->values()
+                    ->updateOrCreate(
+                        ['attribute_id' => $value->attribute_id],
+                        ['value' => $value->value]
+                    );
+            });
+
+        return $this;
     }
 }
