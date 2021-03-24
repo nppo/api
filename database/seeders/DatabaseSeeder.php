@@ -25,16 +25,16 @@ class DatabaseSeeder extends Seeder
         $this->call(StructureSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(ThemeSeeder::class);
-        $this->call(PartySeeder::class);
 
         $choice = $this->command->choice(
-            'Use Seeder or Import for: Tags, People, Products, Projects',
+            'Use Seeder or Import for: Tags, People, Products, Projects, Parties',
             [self::SEEDER, self::IMPORT],
             0
         );
 
         if ($choice === self::SEEDER) {
             $this->call(TagSeeder::class);
+            $this->call(PartySeeder::class);
             $this->call(PersonSeeder::class);
             $this->call(ProductSeeder::class);
             $this->call(ProjectSeeder::class);

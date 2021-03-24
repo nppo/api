@@ -163,7 +163,7 @@ class ImportAll extends Command
     {
         $output = [];
 
-        $this->partyMapping($repoItem, $output);
+        $this->partyMapping()->apply($repoItem->getAttributes(), $output);
 
         if ($publisher = $repoItem->getAttribute('publisher')) {
             return $this
@@ -190,7 +190,7 @@ class ImportAll extends Command
                     $this
                         ->tagRepository
                         ->updateOrCreate([
-                            'label' => ucfirst($tag)
+                            'label' => ucfirst($tag),
                         ])
                 );
         }
