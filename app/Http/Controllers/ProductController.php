@@ -50,12 +50,7 @@ class ProductController extends Controller
 
         $validated = $request->validated();
 
-        $this
-            ->productRepository
-            ->update(
-                Arr::except($request->validated(), ['file', 'tags', 'themes', 'people', 'parties']),
-                $id
-            );
+        $product->update($validated);
 
         if ($request->hasFile('file')) {
             $product
