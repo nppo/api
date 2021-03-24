@@ -6,6 +6,7 @@ namespace App\Bootstrap;
 
 use App\Enumerators\ProductTypes;
 use App\Helpers\Structure as StructureHelper;
+use App\Models\Attribute;
 use App\Models\Person;
 use App\Models\Project;
 use App\Models\Structure;
@@ -24,8 +25,13 @@ class Structures
         }
 
         foreach (ProductTypes::asArray() as $type) {
-            Structure::updateOrCreate([
+            $structure = Structure::updateOrCreate([
                 'label' => StructureHelper::labelForProductType($type),
+            ]);
+
+            Attribute::updateOrCreate([
+                'label'        => 'identifier',
+                'structure_id' => $structure->id,
             ]);
         }
     }

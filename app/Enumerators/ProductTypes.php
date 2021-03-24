@@ -8,5 +8,7 @@ use Way2Web\Force\Enum;
 
 class ProductTypes extends Enum
 {
+    public const EMPTY = 'empty';
+
     public const IMAGE = 'image';
 }

@@ -11,6 +11,11 @@ use Way2Web\Force\AbstractModel;
 
 class Attribute extends AbstractModel
 {
+    public $fillable = [
+        'label',
+        'structure_id',
+    ];
+
     public function structure(): BelongsTo
     {
         return $this->belongsTo(Structure::class);
