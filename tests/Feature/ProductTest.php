@@ -222,7 +222,9 @@ class ProductTest extends TestCase
     public function it_can_create_a_product_to_have_children(): void
     {
         /** @var Product $product */
-        $product = Product::factory()->make();
+        $product = Product::factory()->make([
+            'type' => ProductTypes::COLLECTION,
+        ]);
 
         $children = Product::factory()->times(2)->create();
 
@@ -308,5 +310,33 @@ class ProductTest extends TestCase
 
         $this->assertCount(0, $response->json('data.children'));
         $this->assertCount(2, Product::findMany($children->pluck('id')));
+    }
+
+    /** @test */
+    public function it_can_not_create_a_product_and_add_children_if_not_correct_type(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->make([
+            'type' => ProductTypes::IMAGE,
+        ]);
+
+        $children = Product::factory()->times(2)->create();
+
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $response = $this
+            ->postJson(
+                route('api.products.store'),
+                array_merge(
+                    $product->toArray(),
+                    ['children' => $children->map->only('id')]
+                )
+            );
+
+        $response->assertJsonValidationErrors([
+            'children' => 'validation.prohibited_unless'
+        ]);
     }
 }

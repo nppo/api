@@ -69,12 +69,21 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
 
     public function parents(): BelongsToMany
     {
-        return $this->belongsToMany(self::class, 'product_content', 'child_id');
+        return $this
+            ->belongsToMany(self::class, 'product_content', 'child_id')
+            ->withTimestamps();
     }
 
     public function children(): BelongsToMany
     {
-        return $this->belongsToMany(self::class, 'product_content', 'product_id', 'child_id');
+        return $this
+            ->belongsToMany(
+                self::class,
+                'product_content',
+                'product_id',
+                'child_id'
+            )
+            ->withTimestamps();
     }
 
     public function themes(): MorphToMany
