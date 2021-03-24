@@ -19,10 +19,7 @@ class SkillRepository extends AbstractRepository
 
     public function makeQuery(bool $timestamps = true): Builder
     {
-        $model = $this->makeModel();
-        $model->timestamps = $model->timestamps ? $timestamps : false;
-
-        return $model->newQuery()->where('type', TagTypes::SKILL);
+        return parent::makeQuery()->where('type', TagTypes::SKILL);
     }
 
     public function index(): Collection

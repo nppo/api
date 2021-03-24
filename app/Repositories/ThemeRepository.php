@@ -19,10 +19,7 @@ class ThemeRepository extends AbstractRepository
 
     public function makeQuery(bool $timestamps = true): Builder
     {
-        $model = $this->makeModel();
-        $model->timestamps = $model->timestamps ? $timestamps : false;
-
-        return $model->newQuery()->where('type', TagTypes::THEME);
+        return parent::makeQuery()->where('type', TagTypes::THEME);
     }
 
     public function index(): Collection
