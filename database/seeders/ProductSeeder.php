@@ -18,7 +18,6 @@ use Database\Seeders\Support\SeedsMetadata;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use InvalidArgumentException;
 
 class ProductSeeder extends Seeder
 {

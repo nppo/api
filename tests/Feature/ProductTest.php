@@ -336,7 +336,7 @@ class ProductTest extends TestCase
             );
 
         $response->assertJsonValidationErrors([
-            'children' => 'validation.prohibited_unless'
+            'children' => 'validation.prohibited_unless',
         ]);
     }
 }
