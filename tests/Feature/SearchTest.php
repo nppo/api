@@ -167,11 +167,11 @@ class SearchTest extends TestCase
             ])
         );
 
-        $products = Product::orderBy('published_at', 'desc')
+        $publishedAtDates = Product::orderBy('published_at', 'desc')
             ->get()
-            ->pluck('published_at')
+            ->map(fn ($product) => $product->published_at->toJSON())
             ->toArray();
 
-        $this->assertEquals($products, Arr::pluck($response['data']['products'], 'publishedAt'));
+        $this->assertEquals($publishedAtDates, Arr::pluck($response['data']['products'], 'publishedAt'));
     }
 }

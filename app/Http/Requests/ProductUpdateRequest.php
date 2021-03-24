@@ -16,10 +16,10 @@ class ProductUpdateRequest extends FormRequest
         return [
             'type' => [Rule::in(ProductTypes::asArray())],
 
-            'title'       => ['required'],
-            'description' => ['nullable'],
-//            'published_at' => ['nullable', 'date'],
-            'summary' => ['nullable'],
+            'title'        => ['required'],
+            'description'  => ['nullable'],
+            'published_at' => ['nullable', 'date'],
+            'summary'      => ['nullable'],
 
             'tags'         => ['array', 'nullable'],
             'tags.*.label' => ['required', 'string'],
@@ -38,5 +38,12 @@ class ProductUpdateRequest extends FormRequest
 
             'file' => ['nullable', 'mimes:' . Mimes::asArrayString()],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'published_at' => $this->get('publishedAt'),
+        ]);
     }
 }
