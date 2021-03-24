@@ -11,4 +11,6 @@ class ProductTypes extends Enum
     public const EMPTY = 'empty';
 
     public const IMAGE = 'image';
+
+    public const YOUTUBE = 'youtube';
 }

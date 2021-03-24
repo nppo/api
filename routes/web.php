@@ -35,3 +35,6 @@ if (App::environment('local')) {
 
     Route::get('surfconext', [AuthController::class, 'surfconext']);
 }
+
+Route::get('logout', [AuthController::class, 'logout'])
+    ->name('logout');
