@@ -164,7 +164,6 @@ class ProductSeeder extends Seeder
 
             return;
         }
-        throw new InvalidArgumentException('No data to seed for type ' . $product->type);
     }
 
     private function seedMedia(Product $product): void
