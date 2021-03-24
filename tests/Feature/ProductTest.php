@@ -235,10 +235,7 @@ class ProductTest extends TestCase
                 route('api.products.store'),
                 array_merge(
                     $product->toArray(),
-                    [
-                        'children' => $children->map->only('id'),
-                        'file'     => UploadedFile::fake()->create('test.jpg'),
-                    ]
+                    ['children' => $children->map->only('id')]
                 )
             )
             ->assertOk();
