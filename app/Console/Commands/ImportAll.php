@@ -98,8 +98,10 @@ class ImportAll extends Command
 
                 $tags = $this->createTags($repoItem->getAttribute('keywords'));
 
+                /** @var Product $product */
                 $product = $this->createProduct($attributes);
 
+                /** @var Party $party */
                 $party = $this->createParty($repoItem);
 
                 $this->createPeople($repoItem, $product);
@@ -116,7 +118,10 @@ class ImportAll extends Command
     {
         return $this
             ->productRepository
-            ->create($attributes);
+            ->updateOrCreate(
+                Arr::only($attributes, []),
+                Arr::except($attributes, []),
+            );
     }
 
     private function createPeople(RepoItem $repoItem, Product $product): Collection
