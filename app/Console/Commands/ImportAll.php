@@ -169,7 +169,7 @@ class ImportAll extends Command
 
         $this->partyMapping()->apply($repoItem->getAttributes(), $output);
 
-        if ($publisher = $repoItem->getAttribute('publisher')) {
+        if ($repoItem->getAttribute('publisher')) {
             return $this
                 ->partyRepository
                 ->updateOrCreate(
