@@ -152,7 +152,7 @@ class ImportAll extends Command
 
     private function createFile(RepoItem $repoItem, Product $product): void
     {
-        if (isset($repoItem->file) && count($repoItem->file)) {
+        if ($repoItem->hasAttribute('file') && !empty($repoItem->getAttribute('file') ?? [])) {
             $product->link = Arr::get(Arr::first($repoItem->getAttribute('file')), 'url');
             $product->save();
         }
@@ -196,7 +196,6 @@ class ImportAll extends Command
 
         return $collection;
     }
-
 
     private function attachPersonToProduct(Product $product, Person $person, bool $isOwner = false): void
     {
