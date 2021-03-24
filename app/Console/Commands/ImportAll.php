@@ -197,7 +197,6 @@ class ImportAll extends Command
         return $collection;
     }
 
-
     private function attachPersonToProduct(Product $product, Person $person, bool $isOwner = false): void
     {
         $product

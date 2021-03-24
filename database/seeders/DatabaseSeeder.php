@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
 
             $runTime = number_format((microtime(true) - $startTime) * 1000, 2);
 
-            $this->command->line('<fg=green>Imported: <fg=default>App\Console\Commands\ImportAll (' . $runTime .'ms)');
+            $this->command->line('<fg=green>Imported: <fg=default>App\Console\Commands\ImportAll (' . $runTime . 'ms)');
         }
 
         $this->call(PassportSeeder::class);
