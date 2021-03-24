@@ -16,10 +16,10 @@ class ProductStoreRequest extends FormRequest
         return [
             'type' => [Rule::in(ProductTypes::asArray())],
 
-            'title'       => ['required'],
-            'description' => ['nullable'],
-//            'published_at' => ['nullable', 'date'],
-            'summary' => ['nullable'],
+            'title'        => ['required'],
+            'description'  => ['nullable'],
+            'published_at' => ['nullable', 'date'],
+            'summary'      => ['nullable'],
 
             'tags'         => ['array', 'nullable'],
             'tags.*.label' => ['required', 'string'],
@@ -36,5 +36,12 @@ class ProductStoreRequest extends FormRequest
             'link' => ['required_without:file', 'string', 'url'],
             'file' => ['required_without:link', 'mimes:' . Mimes::asArrayString()],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'published_at' => $this->get('publishedAt'),
+        ]);
     }
 }

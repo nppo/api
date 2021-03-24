@@ -20,6 +20,7 @@ class ProductFactory extends Factory
             'summary'      => $this->faker->text,
             'description'  => $this->faker->text,
             'published_at' => $this->faker->dateTimeBetween('-10 years', now()),
+            'link'         => $this->faker->imageUrl(),
         ];
     }
 }
