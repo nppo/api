@@ -33,9 +33,6 @@ class ProductStoreRequest extends FormRequest
             'parties'      => ['array', 'nullable'],
             'parties.*.id' => ['required', 'integer'],
 
-            'parents'      => ['array', 'nullable', 'prohibited_unless:children,null'],
-            'parents.*.id' => ['required', 'integer'],
-
             'children'      => ['array', 'nullable', 'prohibited_unless:parents,null'],
             'children.*.id' => ['required', 'integer'],
 

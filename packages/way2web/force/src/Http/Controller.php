@@ -9,9 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as RoutingController;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Way2Web\Force\Repository\AbstractRepository;
 
 abstract class Controller extends RoutingController
 {
