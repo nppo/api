@@ -8,7 +8,6 @@ use App\Enumerators\Mimes;
 use App\Enumerators\ProductTypes;
 use App\External\ShareKit\Connection;
 use App\External\ShareKit\Entities\RepoItem;
-use App\Models\Media;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
@@ -226,7 +225,7 @@ class ImportAll extends Command
 
         $file = Arr::first($repoItem->file);
 
-        if (Str::endsWith($file, Mimes::asArray())) {
+        if (Str::endsWith(Arr::get($file, 'url'), Mimes::asArray())) {
             return ProductTypes::IMAGE;
         }
 
