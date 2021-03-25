@@ -9,6 +9,7 @@ use App\Import\SyncResource;
 use App\Models\ExternalResource;
 use Closure;
 use Flow\JSONPath\JSONPath;
+use Illuminate\Support\Arr;
 use Iterator;
 
 class SplitResource implements Action
@@ -16,7 +17,8 @@ class SplitResource implements Action
     protected string $type;
     protected string $path;
 
-    protected Closure $closure;
+    protected ?Closure $onlyWhenCallback = null;
+    protected ?Closure $identifierCallback = null;
 
     public function __construct(string $type, string $path)
     {
@@ -26,14 +28,33 @@ class SplitResource implements Action
 
     public function process(ExternalResource $externalResource): void
     {
+        if ($this->onlyWhenCallback) {
+            $callback = $this->onlyWhenCallback;
+
+            if (!$callback($externalResource)) {
+                return;
+            }
+        }
+
         foreach ($this->findResource($externalResource) as $resource) {
-            $this->splitResource($externalResource, $resource->getData());
+            if ($resource instanceof JSONPath) {
+                $resource = $resource->getData();
+            }
+
+            $this->splitResource($externalResource, Arr::wrap($resource));
         }
     }
 
     public function resolveIdentifierUsing(?Closure $closure): self
     {
-        $this->closure = $closure;
+        $this->identifierCallback = $closure;
+
+        return $this;
+    }
+
+    public function onlyWhen(?Closure $closure): self
+    {
+        $this->onlyWhenCallback = $closure;
 
         return $this;
     }
@@ -42,8 +63,8 @@ class SplitResource implements Action
     {
         $identifier = null;
 
-        if ($this->closure) {
-            $closure = $this->closure;
+        if ($this->identifierCallback) {
+            $closure = $this->identifierCallback;
             $identifier = $closure($data);
         }
 

@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace App\Import;
 
-use App\Enumerators\ImportType;
-use App\Import\Actions\RelateResource;
-use App\Import\Actions\SplitResource;
-use App\Import\Actions\UpdateEntity;
 use App\Models\ExternalResource;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
 use InvalidArgumentException;
 
 class ProcessResource
@@ -35,25 +30,18 @@ class ProcessResource
 
     private function resolveActions(): array
     {
-        $actions = [new UpdateEntity(), new RelateResource()];
+        $actions = [];
+        $configKey = $this->getActionsKey($this->externalResource->driver, $this->externalResource->type);
 
-        if ($this->externalResource->type === ImportType::PRODUCT) {
-            $actions[] = (new SplitResource(ImportType::PERSON, 'authors.*'))
-                ->resolveIdentifierUsing(function (array $data) {
-                    return Arr::get($data, 'person.id');
-                });
-
-            // $actions[] = (new SplitResource(ImportType::PRODUCT, 'link.*'))
-            //     ->resolveIdentifierUsing(function (array $data) {
-            //         return Arr::get($data, 'url');
-            //     });
-
-            // $actions[] = (new SplitResource(ImportType::PRODUCT, 'file.*'))
-            //     ->resolveIdentifierUsing(function (array $data) {
-            //         return Str::after(Arr::get($data, 'url'), 'objectstore');
-            //     });
+        if (Config::has($configKey)) {
+            $actions = array_merge($actions, Config::get($configKey));
         }
 
         return $actions;
+    }
+
+    private function getActionsKey(string $driver, string $type)
+    {
+        return 'import.drivers.' . $driver . '.' . $type . '.actions';
     }
 }

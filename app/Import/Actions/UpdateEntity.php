@@ -5,22 +5,20 @@ declare(strict_types=1);
 namespace App\Import\Actions;
 
 use App\Enumerators\ImportType;
-use App\Enumerators\ProductTypes;
 use App\Import\Action;
 use App\Models\ExternalResource;
+use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
-use App\Transforming\Map;
 use App\Transforming\Mapping;
-use Carbon\Carbon;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
 use InvalidArgumentException;
 
 class UpdateEntity implements Action
 {
     public function process(ExternalResource $externalResource): void
     {
-        $mapping = $this->resolveMapping($externalResource->type);
+        $mapping = $this->resolveMapping($externalResource->driver, $externalResource->type);
 
         $output = [];
         $mapping->apply($externalResource->data, $output);
@@ -45,30 +43,21 @@ class UpdateEntity implements Action
                 return Product::class;
             case ImportType::PERSON:
                 return Person::class;
+            case ImportType::PARTY:
+                return Party::class;
             default:
-                throw new InvalidArgumentException('No class provided for type' . $type);
+                throw new InvalidArgumentException('No class provided for type ' . $type);
         }
     }
 
-    private function resolveMapping(string $type): Mapping
+    private function resolveMapping(string $driver, string $type): Mapping
     {
-        switch ($type) {
-            case ImportType::PRODUCT:
-                return new Mapping([
-                    new Map('title', 'title', null, Str::random()),
-                    new Map('dateIssued', 'published_at', 'date', Carbon::now()),
-                    new Map('abstract', 'description', null, ''),
-                    new Map('::DOES_NOT_EXIST::', 'type', null, ProductTypes::EMPTY),
-                ]);
-            case ImportType::PERSON:
-                return new Mapping([
-                    new Map('person.id', 'identifier'),
-                    new Map('person.name', 'first_name', 'firstName'),
-                    new Map('person.name', 'last_name', 'lastName'),
-                    new Map('role', 'function', 'personFunction'),
-                ]);
-            default:
-                throw new InvalidArgumentException('No map provided for type' . $type);
+        $configKey = 'import.drivers.' . $driver . '.' . $type . '.mapping';
+
+        if (!Config::has($configKey)) {
+            throw new InvalidArgumentException('Provided resource has no mapping');
         }
+
+        return Config::get($configKey);
     }
 }
