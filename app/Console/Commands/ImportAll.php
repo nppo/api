@@ -29,6 +29,8 @@ class ImportAll extends Command
 
     protected $description = 'Imports all Products and Persons';
 
+    private const PAGE_SIZE = 10;
+
     public PartyRepository $partyRepository;
 
     public PersonRepository $personRepository;
@@ -83,9 +85,12 @@ class ImportAll extends Command
 
     public function handle(): void
     {
-        $this
+        $repoItems = $this
             ->connection
-            ->repoItems()
+            ->setPaging(self::PAGE_SIZE, $pageNumber)
+            ->repoItems();
+
+        $repoItems
             ->each(function (RepoItem $repoItem): void {
                 $output = [];
 
@@ -112,6 +117,10 @@ class ImportAll extends Command
 
                 $this->attachPartyToProduct($party, $product);
             });
+
+        if ($repoItems->count() === self::PAGE_SIZE && $pageNumber < 2) {
+            $this->handle($pageNumber + 1);
+        }
     }
 
     private function createProduct(array $attributes): Model
@@ -202,6 +211,33 @@ class ImportAll extends Command
         return $collection;
     }
 
+    private function createThemes(RepoItem $repoItem): Collection
+    {
+        $key = 'themeResearchObject';
+
+        $output = [];
+
+        $themes = collect();
+
+        $values = is_array($repoItem->getAttribute($key))
+            ? $repoItem->getAttribute($key)
+            : [$repoItem->getAttribute($key)];
+
+        foreach ($values as $theme) {
+            $this->themeMapping()->apply([$key => $theme], $output);
+
+            $themes->push(
+                $this
+                    ->themeRepository
+                    ->updateOrCreate(
+                        Arr::only($output, 'label')
+                    )
+                );
+        }
+
+        return $themes;
+    }
+
     private function attachPersonToProduct(Product $product, Person $person, bool $isOwner = false): void
     {
         $product
@@ -214,6 +250,13 @@ class ImportAll extends Command
         $product
             ->tags()
             ->saveMany($tags);
+    }
+
+    private function attachThemesToProduct(Collection $themes, Product $product): void
+    {
+        $product
+            ->themes()
+            ->saveMany($themes);
     }
 
     private function attachPartyToProduct(Party $party, Product $product): void

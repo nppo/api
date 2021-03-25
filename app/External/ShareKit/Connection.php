@@ -6,6 +6,7 @@ namespace App\External\ShareKit;
 
 use App\External\ShareKit\Entities\RepoItem;
 use App\External\ShareKit\Filters\Filter;
+use App\External\ShareKit\Filters\PageSize;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
@@ -18,6 +19,8 @@ class Connection
     protected ?string $baseUrl;
 
     protected array $filters = [];
+
+    protected array $paging = [];
 
     public function __construct(?string $baseUrl = null, ?string $token = null)
     {
@@ -45,9 +48,9 @@ class Connection
 
     public function repoItems(): Collection
     {
-        $response = $this->client->get($this->getUrl('repoItems', $this->filters));
-
         $this->setFilters([]);
+
+        $response = $this->client->get($this->getUrl('repoItems', $this->filters, $this->paging));
 
         return (new Collection($response->getData()))
             ->map(function (array $data): RepoItem {
@@ -69,6 +72,32 @@ class Connection
         return $this;
     }
 
+    public function setPaging(int $pageSize = null, int $pageNumber = null): self
+    {
+        $this->paging = [];
+
+        if ($pageSize) {
+            $this->paging['size'] = $pageSize;
+        }
+
+        if ($pageNumber) {
+            $this->paging['number'] = $pageNumber;
+        }
+
+        return $this;
+    }
+
+    protected function parsePagingForUrl(array $paging): array
+    {
+        $asArray = [];
+
+        foreach ($paging as $key => $value) {
+            $asArray['page'][$key] = $value;
+        }
+
+        return $asArray;
+    }
+
     protected function parseFiltersForUrl(array $filters): array
     {
         $asArray = [];
@@ -81,7 +110,7 @@ class Connection
         return $asArray;
     }
 
-    protected function getUrl(string $path, array $filters): string
+    protected function getUrl(string $path, array $filters, array $paging): string
     {
         $url = $this->baseUrl;
 
@@ -95,6 +124,7 @@ class Connection
 
         return $url . $path . '?' . http_build_query(array_merge(
             $this->parseFiltersForUrl($filters),
+            $this->parsePagingForUrl($paging)
         ));
     }
 }
