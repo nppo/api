@@ -12,13 +12,15 @@ trait HasTags
 {
     public function syncTags(array $tags, string $type = null, bool $onlyExisting = false): void
     {
+        $this->tags()->detach(Tag::where('type', $type)->get());
+
         if ($onlyExisting) {
-            $this->tags()->sync($this->findTags($tags, $type));
+            $this->tags()->attach($this->findTags($tags, $type));
 
             return;
         }
 
-        $this->tags()->sync($this->findOrCreateTags($tags, $type)->pluck('id'));
+        $this->tags()->attach($this->findOrCreateTags($tags, $type)->pluck('id'));
     }
 
     public function tags(): MorphToMany

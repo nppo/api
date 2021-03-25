@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
+use App\Enumerators\TagTypes;
 use App\Helpers\Structure as StructureHelper;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasMeta;
@@ -69,7 +70,7 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
 
     public function themes(): MorphToMany
     {
-        return $this->morphToMany(Theme::class, 'themeable');
+        return $this->tags()->where('type', TagTypes::THEME);
     }
 
     public function tags(): MorphToMany

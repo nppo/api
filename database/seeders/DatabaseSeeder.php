@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder
         );
 
         if ($choice === self::SEEDER) {
-            $this->call(ThemeSeeder::class);
             $this->call(TagSeeder::class);
             $this->call(PartySeeder::class);
             $this->call(PersonSeeder::class);
