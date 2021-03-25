@@ -50,12 +50,7 @@ class ProductController extends Controller
 
         $validated = $request->validated();
 
-        $this
-            ->productRepository
-            ->update(
-                Arr::except($request->validated(), ['file', 'tags', 'themes', 'people', 'parties']),
-                $id
-            );
+        $product->update($validated);
 
         if ($request->hasFile('file')) {
             $product
@@ -71,9 +66,9 @@ class ProductController extends Controller
         );
 
         $this
-            ->syncRelation($product, 'themes', Arr::get($validated, 'themes', []))
-            ->syncRelation($product, 'people', Arr::get($validated, 'people', []), ['is_owner' => false])
-            ->syncRelation($product, 'parties', Arr::get($validated, 'parties', []), ['is_owner' => false]);
+            ->syncRelation($product, 'themes', Arr::get($validated, 'themes') ?? [])
+            ->syncRelation($product, 'people', Arr::get($validated, 'people') ?? [], ['is_owner' => false])
+            ->syncRelation($product, 'parties', Arr::get($validated, 'parties') ?? [], ['is_owner' => false]);
 
         $product->people()->attach($request->user()->person, ['is_owner' => true]);
 
@@ -108,9 +103,9 @@ class ProductController extends Controller
         );
 
         $this
-            ->syncRelation($product, 'themes', Arr::get($validated, 'themes', []))
-            ->syncRelation($product, 'people', Arr::get($validated, 'people', []), ['is_owner' => false])
-            ->syncRelation($product, 'parties', Arr::get($validated, 'parties', []), ['is_owner' => false]);
+            ->syncRelation($product, 'themes', Arr::get($validated, 'themes') ?? [])
+            ->syncRelation($product, 'people', Arr::get($validated, 'people') ?? [], ['is_owner' => false])
+            ->syncRelation($product, 'parties', Arr::get($validated, 'parties') ?? [], ['is_owner' => false]);
 
         $product->people()->attach($request->user()->person, ['is_owner' => true]);
 

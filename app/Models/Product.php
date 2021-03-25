@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
+use App\Enumerators\TagTypes;
 use App\Helpers\Structure as StructureHelper;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasMeta;
@@ -26,6 +27,12 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
         'title',
         'description',
         'summary',
+        'published_at',
+        'link',
+    ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
     ];
 
     public function toSearchableArray(): array
@@ -63,7 +70,7 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
 
     public function themes(): MorphToMany
     {
-        return $this->morphToMany(Theme::class, 'themeable');
+        return $this->tags()->where('type', TagTypes::THEME);
     }
 
     public function tags(): MorphToMany
@@ -100,5 +107,14 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
     public function owner(): MorphToMany
     {
         return $this->people()->wherePivot('is_owner', true);
+    }
+
+    public function getObjectUrlAttribute(): ?string
+    {
+        if ($this->hasMedia(MediaCollections::PRODUCT_OBJECT)) {
+            return route('api.products.download', $this);
+        }
+
+        return $this->link;
     }
 }

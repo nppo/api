@@ -11,7 +11,6 @@ use App\Models\Person;
 use App\Models\Product;
 use App\Models\Project;
 use App\Models\Tag;
-use App\Models\Theme;
 use App\Models\User;
 use Database\Seeders\Support\SeedsMetadata;
 use Illuminate\Database\Seeder;
@@ -30,8 +29,6 @@ class ProjectSeeder extends Seeder
 
     private const MAX_PEOPLE = 10;
 
-    private const MAX_THEMES = 3;
-
     private const MAX_PARTIES = 3;
 
     private const MAX_PRODUCTS = 2;
@@ -42,7 +39,6 @@ class ProjectSeeder extends Seeder
     {
         $this->command->getOutput()->progressStart(self::MAX_PROJECTS);
 
-        $themes = Theme::all();
         $tags = Tag::all();
         $people = Person::all();
         $parties = Party::all();
@@ -52,8 +48,7 @@ class ProjectSeeder extends Seeder
         Project::factory()
             ->times(self::MAX_PROJECTS)
             ->create()
-            ->each(function (Project $project) use ($themes, $tags, $people, $parties, $users, $products): void {
-                $this->attachThemes($project, $themes);
+            ->each(function (Project $project) use ($tags, $people, $parties, $users, $products): void {
                 $this->attachTags($project, $tags);
                 $this->attachPeople($project, $people);
                 $this->attachParties($project, $parties);
@@ -70,13 +65,6 @@ class ProjectSeeder extends Seeder
             });
 
         $this->command->getOutput()->progressFinish();
-    }
-
-    private function attachThemes(Project $project, Collection $themes): void
-    {
-        $project
-            ->themes()
-            ->saveMany($themes->random(mt_rand(1, self::MAX_THEMES)));
     }
 
     /**

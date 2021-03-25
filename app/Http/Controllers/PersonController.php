@@ -47,7 +47,7 @@ class PersonController extends Controller
 
     public function update(PersonUpdateRequest $request, $id): PersonResource
     {
-        /** @var Person */
+        /** @var $person Person */
         $person = $this->personRepository->findOrFail($id);
 
         $this->authorize(Action::UPDATE, $person);
@@ -70,12 +70,18 @@ class PersonController extends Controller
 
         $person->syncTags(
             Collection::make(Arr::get($validated, 'skills') ?? [])
-                ->map(fn ($skill) => $skill['label'])
+                ->map(fn ($tag) => $tag['label'])
                 ->toArray(),
             TagTypes::SKILL,
         );
 
-        $this->syncRelation($person, 'themes', Arr::get($validated, 'themes') ?: []);
+        $person->syncTags(
+            Collection::make(Arr::get($validated, 'themes') ?? [])
+                ->map(fn ($tag) => $tag['label'])
+                ->toArray(),
+            TagTypes::THEME,
+            true
+        );
 
         $person
             ->syncMeta(

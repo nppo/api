@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
+use App\Enumerators\TagTypes;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasMeta;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -60,7 +61,7 @@ class Project extends AbstractModel implements HasMedia, HasMetaData
 
     public function themes(): MorphToMany
     {
-        return $this->morphToMany(Theme::class, 'themeable');
+        return $this->tags()->where('type', TagTypes::THEME);
     }
 
     public function getProjectPictureUrlAttribute(): ?string

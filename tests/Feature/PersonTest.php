@@ -7,7 +7,6 @@ namespace Tests\Feature;
 use App\Enumerators\TagTypes;
 use App\Models\Attribute;
 use App\Models\Tag;
-use App\Models\Theme;
 use App\Models\Value;
 use Illuminate\Http\UploadedFile;
 use Laravel\Passport\Passport;
@@ -76,6 +75,30 @@ class PersonTest extends TestCase
     }
 
     /** @test */
+    public function it_can_update_a_person_with_themes(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $themes = Tag::factory()->times(10)->create([
+            'type' => TagTypes::THEME,
+        ]);
+
+        $formattedThemes = $themes->map->only(['id', 'label'])->toArray();
+
+        $this
+            ->putJson(
+                route('api.people.update', [$user->person->id]),
+                ['themes' => $formattedThemes]
+            )
+            ->assertOk()
+            ->assertJsonFragment([
+                'themes' => $formattedThemes,
+            ]);
+    }
+
+    /** @test */
     public function it_can_update_a_person_with_skills(): void
     {
         $user = $this->getUser();
@@ -120,28 +143,6 @@ class PersonTest extends TestCase
             ->assertOk()
             ->assertJsonFragment([
                 'skills' => [],
-            ]);
-    }
-
-    /** @test */
-    public function it_can_update_a_person_with_themes(): void
-    {
-        $user = $this->getUser();
-
-        Passport::actingAs($user);
-
-        $skills = Theme::factory()->times(2)->create();
-
-        $formattedThemes = $skills->map->only(['id', 'label'])->toArray();
-
-        $this
-            ->putJson(
-                route('api.people.update', [$user->person->id]),
-                ['themes' => $formattedThemes]
-            )
-            ->assertOk()
-            ->assertJsonFragment([
-                'themes' => $formattedThemes,
             ]);
     }
 
