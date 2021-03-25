@@ -6,11 +6,12 @@ namespace Tests\Feature;
 
 use App\Enumerators\Entities;
 use App\Enumerators\Filters;
+use App\Enumerators\TagTypes;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
 use App\Models\Project;
-use App\Models\Theme;
+use App\Models\Tag;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
@@ -36,7 +37,9 @@ class SearchTest extends TestCase
             ->count(2)
             ->create();
 
-        $theme = Theme::factory()->create();
+        $theme = Tag::factory()->create([
+            'type' => TagTypes::THEME,
+        ]);
 
         $products
             ->first()
@@ -66,10 +69,10 @@ class SearchTest extends TestCase
         $products->each(function (Product $product): void {
             $product
                 ->themes()
-                ->save(Theme::factory()->create());
+                ->save(Tag::factory(['type' => TagTypes::THEME])->create());
         });
 
-        $themes = Theme::all();
+        $themes = Tag::where('type', TagTypes::THEME)->get();
 
         $response = $this
             ->getJson(

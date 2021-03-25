@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
+use App\Enumerators\TagTypes;
 use App\Helpers\Structure as StructureHelper;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasMeta;
@@ -67,9 +68,28 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
             ->useDisk(Disks::SURF_PRIVATE);
     }
 
+    public function parents(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(self::class, 'product_content', 'child_id')
+            ->withTimestamps();
+    }
+
+    public function children(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(
+                self::class,
+                'product_content',
+                'product_id',
+                'child_id'
+            )
+            ->withTimestamps();
+    }
+
     public function themes(): MorphToMany
     {
-        return $this->morphToMany(Theme::class, 'themeable');
+        return $this->tags()->where('type', TagTypes::THEME);
     }
 
     public function tags(): MorphToMany

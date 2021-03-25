@@ -9,7 +9,6 @@ use App\Enumerators\MediaCollections;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Tag;
-use App\Models\Theme;
 use App\Models\User;
 use Database\Seeders\Support\SeedsMetadata;
 use Illuminate\Database\Seeder;
@@ -26,8 +25,6 @@ class PersonSeeder extends Seeder
 
     private const MAX_TAGS = 10;
 
-    private const MAX_THEMES = 5;
-
     private const MAX_PARTIES = 2;
 
     private ?array $seedingOptions = null;
@@ -35,16 +32,14 @@ class PersonSeeder extends Seeder
     public function run(): void
     {
         $tags = Tag::all();
-        $themes = Theme::all();
         $parties = Party::all();
         $users = User::all();
 
         Person::factory()
             ->times(self::MAX_PEOPLE)
             ->create()
-            ->each(function (Person $person) use ($parties, $tags, $themes, $users): void {
+            ->each(function (Person $person) use ($parties, $tags, $users): void {
                 $this->attachTags($person, $tags);
-                $this->attachThemes($person, $themes);
                 $this->attachParty($person, $parties);
 
                 if (rand(0, 1)) {
@@ -68,13 +63,6 @@ class PersonSeeder extends Seeder
         $person
             ->tags()
             ->saveMany($tags->random(mt_rand(1, self::MAX_TAGS)));
-    }
-
-    private function attachThemes(Person $person, Collection $themes): void
-    {
-        $person
-            ->themes()
-            ->saveMany($themes->random(mt_rand(1, self::MAX_THEMES)));
     }
 
     private function attachProfilePicture(Person $person): void
