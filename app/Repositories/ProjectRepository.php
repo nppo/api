@@ -61,7 +61,7 @@ class ProjectRepository extends AbstractRepository
         foreach ($filters as $key => $value) {
             if ($key === Filters::THEMES) {
                 $this->builder->whereHas('themes', function ($query) use ($value): void {
-                    $query->whereIn('themes.id', $value);
+                    $query->whereIn('id', $value);
                 });
             }
         }
