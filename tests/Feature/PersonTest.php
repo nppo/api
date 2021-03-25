@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Enumerators\TagTypes;
+use App\Models\Attribute;
 use App\Models\Tag;
+use App\Models\Value;
 use Illuminate\Http\UploadedFile;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -182,6 +184,45 @@ class PersonTest extends TestCase
         $this->assertEquals(
             $original + 2,
             Tag::count()
+        );
+    }
+
+    /** @test */
+    public function meta_will_be_synced_when_updating(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $meta = Value::factory()->times(2)
+            ->state([
+                'attribute_id' => function () use ($user) {
+                    return Attribute::factory()->state([
+                        'structure_id' => $user->person->structure_id,
+                    ]);
+                },
+            ])
+            ->make()
+            ->map(function (Value $value): array {
+                return [
+                    'id'    => $value->attribute_id,
+                    'value' => $value->value,
+                ];
+            })
+            ->toArray();
+
+        $original = $user->person->values->count();
+
+        $this
+            ->putJson(
+                route('api.people.update', [$user->person->id]),
+                ['meta' => $meta]
+            )
+            ->assertOk();
+
+        $this->assertEquals(
+            $original + 2,
+            $user->person->values()->count()
         );
     }
 }

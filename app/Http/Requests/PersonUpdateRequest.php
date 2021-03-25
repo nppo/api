@@ -23,6 +23,11 @@ class PersonUpdateRequest extends FormRequest
             'themes.*'    => ['array', 'required'],
             'themes.*.id' => ['required', 'integer'],
 
+            'meta'         => ['nullable'],
+            'meta.*'       => ['array', 'required'],
+            'meta.*.id'    => ['required', 'integer'],
+            'meta.*.value' => ['nullable', 'string'],
+
             'profile_picture' => [
                 'sometimes',
                 'image',

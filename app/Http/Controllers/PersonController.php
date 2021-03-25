@@ -57,7 +57,7 @@ class PersonController extends Controller
         $this
             ->personRepository
             ->update(
-                Arr::except($request->validated(), ['profile_picture', 'skills', 'themes']),
+                Arr::except($request->validated(), ['profile_picture', 'skills', 'themes', 'meta']),
                 $id
             );
 
@@ -82,6 +82,17 @@ class PersonController extends Controller
             TagTypes::THEME,
             true
         );
+
+        $person
+            ->syncMeta(
+                Collection::make(Arr::get($validated, 'meta') ?? [])
+                    ->map(function (array $data): array {
+                        return [
+                            'attribute_id' => $data['id'],
+                            'value'        => $data['value'],
+                        ];
+                    })
+            );
 
         return PersonResource::make(
             $this->personRepository->show($id)
