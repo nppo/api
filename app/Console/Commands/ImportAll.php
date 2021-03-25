@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 
 use App\Enumerators\Mimes;
 use App\Enumerators\ProductTypes;
+use App\Enumerators\TagTypes;
 use App\External\ShareKit\Connection;
 use App\External\ShareKit\Entities\RepoItem;
 use App\Models\Party;
@@ -241,9 +242,9 @@ class ImportAll extends Command
 
             $themes->push(
                 $this
-                    ->themeRepository
+                    ->tagRepository
                     ->updateOrCreate(
-                        Arr::only($output, 'label')
+                        array_merge(Arr::only($output, 'label'), ['type' => TagTypes::THEME])
                     )
             );
         }
