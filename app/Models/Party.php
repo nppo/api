@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
+use App\Models\Support\HasExternalResource;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -14,6 +15,8 @@ use Way2Web\Force\AbstractModel;
 class Party extends AbstractModel implements HasMedia
 {
     use InteractsWithMedia;
+
+    use HasExternalResource;
 
     protected $fillable = [
         'name',

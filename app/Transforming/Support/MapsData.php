@@ -45,7 +45,7 @@ trait MapsData
         $value = (new JSONPath($input))->find($map->getOrigin())->first();
 
         if (is_null($value)) {
-            return;
+            return $map->getDefault();
         }
 
         if ($value instanceof JSONPath) {
