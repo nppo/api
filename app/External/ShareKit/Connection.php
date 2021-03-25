@@ -6,7 +6,6 @@ namespace App\External\ShareKit;
 
 use App\External\ShareKit\Entities\RepoItem;
 use App\External\ShareKit\Filters\Filter;
-use App\External\ShareKit\Filters\PageSize;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
