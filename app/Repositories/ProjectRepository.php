@@ -85,7 +85,7 @@ class ProjectRepository extends AbstractRepository
                 ])
                 ->where('label', $this->model())
                 ->first()
-            )
+        )
             ->toArray();
     }
 
