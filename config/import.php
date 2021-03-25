@@ -46,9 +46,16 @@ return [
                             return Str::after(Arr::get($data, 'url'), 'objectstore/');
                         }),
 
+                    (new SplitResource(ImportType::TAG, 'keywords.*'))
+                        ->resolveIdentifierUsing(function (array $data) {
+                            return Arr::first($data);
+                        }),
+
                     (new SyncRelations())
-                        ->skipWhen(function (ExternalResource $externalResource) {
-                            return is_null($externalResource->parent) || is_null($externalResource->parent->entity);
+                        ->onlyWhen(function (ExternalResource $externalResource) {
+                            return !is_null($externalResource->parent) &&
+                                !is_null($externalResource->parent->entity) &&
+                                !is_null($externalResource->entity);
                         }),
                 ],
                 'mapping' => new Mapping([
@@ -79,6 +86,15 @@ return [
                 ],
                 'mapping' => new Mapping([
                     new Map('[0]', 'name'),
+                ]),
+            ],
+            ImportType::TAG => [
+                'actions' => [
+                    new SyncEntity(),
+                    new SyncParentRelation(),
+                ],
+                'mapping' => new Mapping([
+                    new Map('[0]', 'label'),
                 ]),
             ],
         ],

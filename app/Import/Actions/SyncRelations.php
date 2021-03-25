@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Import\Actions;
 
 use App\Enumerators\ImportType;
-use App\Import\Actions\Support\Skippable;
+use App\Import\Actions\Support\Limitable;
 use App\Import\Interfaces\Action;
 use App\Models\ExternalResource;
 use Illuminate\Support\Arr;
@@ -13,11 +13,11 @@ use Illuminate\Support\Str;
 
 class SyncRelations implements Action
 {
-    use Skippable;
+    use Limitable;
 
     public function process(ExternalResource $externalResource): void
     {
-        if ($this->shouldBeSkipped($externalResource)) {
+        if (!$this->shouldRun($externalResource)) {
             return;
         }
 

@@ -10,6 +10,7 @@ use App\Models\ExternalResource;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
+use App\Models\Tag;
 use App\Transforming\Mapping;
 use Illuminate\Support\Facades\Config;
 use InvalidArgumentException;
@@ -45,6 +46,8 @@ class SyncEntity implements Action
                 return Person::class;
             case ImportType::PARTY:
                 return Party::class;
+            case ImportType::TAG:
+                return Tag::class;
             default:
                 throw new InvalidArgumentException('No class provided for type ' . $type);
         }

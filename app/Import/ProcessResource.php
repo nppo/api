@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Import;
 
+use App\Import\Interfaces\Action;
 use App\Models\ExternalResource;
 use Illuminate\Support\Facades\Config;
 use InvalidArgumentException;

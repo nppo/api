@@ -23,9 +23,7 @@ trait Skippable
         if ($this->skippableClosure) {
             $callback = $this->skippableClosure;
 
-            if (!$callback($externalResource)) {
-                return true;
-            }
+            return $callback($externalResource);
         }
 
         return false;
