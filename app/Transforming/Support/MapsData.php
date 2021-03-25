@@ -7,6 +7,7 @@ namespace App\Transforming\Support;
 use App\Transforming\Map;
 use Closure;
 use Flow\JSONPath\JSONPath;
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
 trait MapsData
@@ -34,18 +35,21 @@ trait MapsData
     {
         $value = $this->retrieveInputValue($map, $input);
 
-        if (!is_null($value)) {
-            $output[$map->getDestination()] = $value;
+        if (is_null($value) && Arr::has($output, $map->getDestination())) {
+            return;
         }
+
+        $output[$map->getDestination()] = $value;
     }
 
     protected function mapObject(Map $map, array $input, object &$output): void
     {
         $value = $this->retrieveInputValue($map, $input);
 
-        if (!is_null($value)) {
-            $output->{$map->getDestination()} = $value;
+        if (is_null($value) && !is_null(object_get($output, $map->getDestination()))) {
+            return;
         }
+        $output->{$map->getDestination()} = $value;
     }
 
     /** @return mixed */

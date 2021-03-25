@@ -38,6 +38,7 @@ class SyncResource
             $model->update(['data' => $this->data]);
 
             $this->updateParent($model);
+            $this->finish($model);
 
             return;
         }
@@ -50,6 +51,7 @@ class SyncResource
         ]);
 
         $this->updateParent($externalResource);
+        $this->finish($externalResource);
     }
 
     private function updateParent(ExternalResource $externalResource): void
@@ -70,5 +72,10 @@ class SyncResource
         }
 
         return $query;
+    }
+
+    private function finish(ExternalResource $externalResource): void
+    {
+        (new ProcessResource($externalResource))->handle();
     }
 }

@@ -20,6 +20,6 @@ class ProductTypeTransformer implements Transformer
             return ProductTypes::LINK;
         }
 
-        return ProductTypes::EMPTY;
+        return ProductTypes::COLLECTION;
     }
 }

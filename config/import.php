@@ -7,6 +7,7 @@ use App\Enumerators\ImportType;
 use App\Enumerators\ProductTypes;
 use App\Import\Actions\RelateResource;
 use App\Import\Actions\SplitResource;
+use App\Import\Actions\SyncRelations;
 use App\Import\Actions\UpdateEntity;
 use App\Models\ExternalResource;
 use App\Transforming\Map;
@@ -29,6 +30,7 @@ return [
                         ->resolveIdentifierUsing(function (array $data) {
                             return Arr::get($data, 'person.id');
                         }),
+
                     (new SplitResource(ImportType::PARTY, 'publisher'))
                         ->resolveIdentifierUsing(function (array $data) {
                             return Arr::first($data);
@@ -43,13 +45,18 @@ return [
                         ->resolveIdentifierUsing(function (array $data) {
                             return Str::after(Arr::get($data, 'url'), 'objectstore/');
                         }),
+
+                    (new SyncRelations())
+                        ->onlyWhen(function (ExternalResource $externalResource) {
+                            return !is_null($externalResource->parent) && !is_null($externalResource->parent->entity);
+                        }),
                 ],
                 'mapping' => new Mapping([
                     new Map('fileName', 'title', null, fn () => Str::random()),
                     new Map('title', 'title'),
                     new Map('dateIssued', 'published_at', 'date', fn () => Carbon::now()),
                     new Map('abstract', 'description', null, ''),
-                    new Map('url', 'type', 'sharekit_producttype', ProductTypes::EMPTY),
+                    new Map('url', 'type', 'sharekit_producttype', ProductTypes::COLLECTION),
                     new Map('url', 'link'),
                 ]),
             ],
