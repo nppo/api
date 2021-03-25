@@ -245,7 +245,7 @@ class ImportAll extends Command
                     ->updateOrCreate(
                         Arr::only($output, 'label')
                     )
-                );
+            );
         }
 
         return $themes;
