@@ -68,6 +68,25 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
             ->useDisk(Disks::SURF_PRIVATE);
     }
 
+    public function parents(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(self::class, 'product_content', 'child_id')
+            ->withTimestamps();
+    }
+
+    public function children(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(
+                self::class,
+                'product_content',
+                'product_id',
+                'child_id'
+            )
+            ->withTimestamps();
+    }
+
     public function themes(): MorphToMany
     {
         return $this->tags()->where('type', TagTypes::THEME);
