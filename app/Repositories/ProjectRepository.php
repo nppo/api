@@ -81,7 +81,7 @@ class ProjectRepository extends AbstractRepository
                 ->structureRepository
                 ->makeQuery()
                 ->with([
-                    'attributes'
+                    'attributes',
                 ])
                 ->where('label', $this->model())
                 ->first()
