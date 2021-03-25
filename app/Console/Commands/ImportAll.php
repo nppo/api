@@ -127,10 +127,7 @@ class ImportAll extends Command
     {
         return $this
             ->productRepository
-            ->updateOrCreate(
-                Arr::only($attributes, []),
-                Arr::except($attributes, []),
-            );
+            ->updateOrCreate($attributes);
     }
 
     private function createPeople(RepoItem $repoItem, Product $product): Collection
