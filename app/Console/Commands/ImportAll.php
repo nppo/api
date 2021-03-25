@@ -6,7 +6,6 @@ namespace App\Console\Commands;
 
 use App\Enumerators\Mimes;
 use App\Enumerators\ProductTypes;
-use App\Enumerators\TagTypes;
 use App\External\ShareKit\Connection;
 use App\External\ShareKit\Entities\RepoItem;
 use App\Models\Party;
@@ -16,7 +15,6 @@ use App\Repositories\PartyRepository;
 use App\Repositories\PersonRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\TagRepository;
-use App\Repositories\ThemeRepository;
 use App\Transforming\Map;
 use App\Transforming\Mapping;
 use Illuminate\Console\Command;
@@ -41,8 +39,6 @@ class ImportAll extends Command
 
     public TagRepository $tagRepository;
 
-    public ThemeRepository $themeRepository;
-
     public Connection $connection;
 
     public function __construct(
@@ -50,7 +46,6 @@ class ImportAll extends Command
         PersonRepository $personRepository,
         ProductRepository $productRepository,
         TagRepository $tagRepository,
-        ThemeRepository $themeRepository,
         Connection $connection
     ) {
         parent::__construct();
@@ -59,7 +54,6 @@ class ImportAll extends Command
         $this->personRepository = $personRepository;
         $this->productRepository = $productRepository;
         $this->tagRepository = $tagRepository;
-        $this->themeRepository = $themeRepository;
         $this->connection = $connection;
     }
 
@@ -89,13 +83,6 @@ class ImportAll extends Command
         ]);
     }
 
-    private function themeMapping(): Mapping
-    {
-        return new Mapping([
-            new Map('themeResearchObject', 'label', 'theme'),
-        ]);
-    }
-
     public function handle(int $pageNumber = 1): void
     {
         if ($pageNumber === 1) {
@@ -122,8 +109,6 @@ class ImportAll extends Command
 
                 $tags = $this->createTags($repoItem->getAttribute('keywords'));
 
-                $themes = $this->createThemes($repoItem);
-
                 /** @var Product $product */
                 $product = $this->createProduct($attributes);
 
@@ -133,8 +118,6 @@ class ImportAll extends Command
                 $this->createPeople($repoItem, $product);
 
                 $this->createFile($repoItem, $product);
-
-                $this->attachThemesToProduct($themes, $product);
 
                 $this->attachTagsToProduct($tags, $product);
 
@@ -231,37 +214,6 @@ class ImportAll extends Command
         return $collection;
     }
 
-    private function createThemes(RepoItem $repoItem): Collection
-    {
-        $key = 'themeResearchObject';
-
-        $output = [];
-
-        $themes = collect();
-
-        if (is_null($repoItem->getAttribute($key))) {
-            return $themes;
-        }
-
-        $values = is_array($repoItem->getAttribute($key))
-            ? $repoItem->getAttribute($key)
-            : [$repoItem->getAttribute($key)];
-
-        foreach ($values as $theme) {
-            $this->themeMapping()->apply([$key => $theme], $output);
-
-            $themes->push(
-                $this
-                    ->tagRepository
-                    ->updateOrCreate(
-                        array_merge(Arr::only($output, 'label'), ['type' => TagTypes::THEME])
-                    )
-            );
-        }
-
-        return $themes;
-    }
-
     private function attachPersonToProduct(Product $product, Person $person, bool $isOwner = false): void
     {
         $product
@@ -274,13 +226,6 @@ class ImportAll extends Command
         $product
             ->tags()
             ->saveMany($tags);
-    }
-
-    private function attachThemesToProduct(Collection $themes, Product $product): void
-    {
-        $product
-            ->themes()
-            ->saveMany($themes);
     }
 
     private function attachPartyToProduct(Party $party, Product $product): void
