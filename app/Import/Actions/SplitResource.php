@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Import\Actions;
 
-use App\Import\Action;
+use App\Import\Actions\Support\Skippable;
+use App\Import\Interfaces\Action;
 use App\Import\SyncResource;
 use App\Models\ExternalResource;
 use Closure;
@@ -14,10 +15,11 @@ use Iterator;
 
 class SplitResource implements Action
 {
+    use Skippable;
+
     protected string $type;
     protected string $path;
 
-    protected ?Closure $onlyWhenCallback = null;
     protected ?Closure $identifierCallback = null;
 
     public function __construct(string $type, string $path)
@@ -28,20 +30,16 @@ class SplitResource implements Action
 
     public function process(ExternalResource $externalResource): void
     {
-        if ($this->onlyWhenCallback) {
-            $callback = $this->onlyWhenCallback;
-
-            if (!$callback($externalResource)) {
-                return;
-            }
+        if ($this->shouldBeSkipped($externalResource)) {
+            return;
         }
 
-        foreach ($this->findResource($externalResource) as $resource) {
+        foreach ($this->findNestedResources($externalResource) as $resource) {
             if ($resource instanceof JSONPath) {
                 $resource = $resource->getData();
             }
 
-            $this->splitResource($externalResource, Arr::wrap($resource));
+            $this->createChildResource($externalResource, Arr::wrap($resource));
         }
     }
 
@@ -52,14 +50,7 @@ class SplitResource implements Action
         return $this;
     }
 
-    public function onlyWhen(?Closure $closure): self
-    {
-        $this->onlyWhenCallback = $closure;
-
-        return $this;
-    }
-
-    private function splitResource(ExternalResource $externalResource, array $data): void
+    private function createChildResource(ExternalResource $externalResource, array $data): void
     {
         $identifier = null;
 
@@ -78,8 +69,9 @@ class SplitResource implements Action
             ->handle();
     }
 
-    private function findResource(ExternalResource $externalResource): Iterator
+    private function findNestedResources(ExternalResource $externalResource): Iterator
     {
-        return (new JSONPath($externalResource->data))->find($this->path);
+        return (new JSONPath($externalResource->data))
+            ->find($this->path);
     }
 }

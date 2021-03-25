@@ -5,10 +5,10 @@ declare(strict_types=1);
 use App\Enumerators\ImportDriver;
 use App\Enumerators\ImportType;
 use App\Enumerators\ProductTypes;
-use App\Import\Actions\RelateResource;
 use App\Import\Actions\SplitResource;
+use App\Import\Actions\SyncEntity;
+use App\Import\Actions\SyncParentRelation;
 use App\Import\Actions\SyncRelations;
-use App\Import\Actions\UpdateEntity;
 use App\Models\ExternalResource;
 use App\Transforming\Map;
 use App\Transforming\Mapping;
@@ -21,11 +21,11 @@ return [
         ImportDriver::SHAREKIT => [
             ImportType::PRODUCT => [
                 'actions' => [
-                    new UpdateEntity(),
-                    new RelateResource(),
+                    new SyncEntity(),
+                    new SyncParentRelation(),
                     (new SplitResource(ImportType::PERSON, 'authors.*'))
-                        ->onlyWhen(function (ExternalResource $externalResource) {
-                            return Arr::has($externalResource->data, 'authors');
+                        ->skipWhen(function (ExternalResource $externalResource) {
+                            return !Arr::has($externalResource->data, 'authors');
                         })
                         ->resolveIdentifierUsing(function (array $data) {
                             return Arr::get($data, 'person.id');
@@ -47,8 +47,8 @@ return [
                         }),
 
                     (new SyncRelations())
-                        ->onlyWhen(function (ExternalResource $externalResource) {
-                            return !is_null($externalResource->parent) && !is_null($externalResource->parent->entity);
+                        ->skipWhen(function (ExternalResource $externalResource) {
+                            return is_null($externalResource->parent) || is_null($externalResource->parent->entity);
                         }),
                 ],
                 'mapping' => new Mapping([
@@ -62,8 +62,8 @@ return [
             ],
             ImportType::PERSON => [
                 'actions' => [
-                    new UpdateEntity(),
-                    new RelateResource(),
+                    new SyncEntity(),
+                    new SyncParentRelation(),
                 ],
                 'mapping' => new Mapping([
                     new Map('person.id', 'identifier'),
@@ -74,8 +74,8 @@ return [
             ],
             ImportType::PARTY => [
                 'actions' => [
-                    new UpdateEntity(),
-                    new RelateResource(),
+                    new SyncEntity(),
+                    new SyncParentRelation(),
                 ],
                 'mapping' => new Mapping([
                     new Map('[0]', 'name'),

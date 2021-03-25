@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Import;
+namespace App\Import\Interfaces;
 
 use App\Models\ExternalResource;
 

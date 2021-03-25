@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Import\Actions;
 
 use App\Enumerators\ImportType;
-use App\Import\Action;
+use App\Import\Interfaces\Action;
 use App\Models\ExternalResource;
 use App\Models\Party;
 use App\Models\Person;
@@ -14,7 +14,7 @@ use App\Transforming\Mapping;
 use Illuminate\Support\Facades\Config;
 use InvalidArgumentException;
 
-class UpdateEntity implements Action
+class SyncEntity implements Action
 {
     public function process(ExternalResource $externalResource): void
     {

@@ -5,24 +5,20 @@ declare(strict_types=1);
 namespace App\Import\Actions;
 
 use App\Enumerators\ImportType;
-use App\Import\Action;
+use App\Import\Actions\Support\Skippable;
+use App\Import\Interfaces\Action;
 use App\Models\ExternalResource;
-use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class SyncRelations implements Action
 {
-    protected ?Closure $onlyWhenCallback = null;
+    use Skippable;
 
     public function process(ExternalResource $externalResource): void
     {
-        if ($this->onlyWhenCallback) {
-            $callback = $this->onlyWhenCallback;
-
-            if (!$callback($externalResource)) {
-                return;
-            }
+        if ($this->shouldBeSkipped($externalResource)) {
+            return;
         }
 
         $parentEntity = $externalResource->parent->entity;
@@ -36,13 +32,6 @@ class SyncRelations implements Action
                 );
             }
         }
-    }
-
-    public function onlyWhen(?Closure $closure): self
-    {
-        $this->onlyWhenCallback = $closure;
-
-        return $this;
     }
 
     private function syncableRelations(ExternalResource $externalResource)

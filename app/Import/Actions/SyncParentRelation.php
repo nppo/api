@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Import\Actions;
 
-use App\Import\Action;
+use App\Import\Interfaces\Action;
 use App\Models\ExternalResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
-class RelateResource implements Action
+class SyncParentRelation implements Action
 {
     public function process(ExternalResource $externalResource): void
     {
