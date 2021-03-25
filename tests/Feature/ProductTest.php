@@ -217,4 +217,126 @@ class ProductTest extends TestCase
             'publishedAt' => $product->published_at->toJSON(),
         ]);
     }
+
+    /** @test */
+    public function it_can_create_a_product_to_have_children(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->make([
+            'type' => ProductTypes::COLLECTION,
+        ]);
+
+        $children = Product::factory()->times(2)->create();
+
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $response = $this
+            ->postJson(
+                route('api.products.store'),
+                array_merge(
+                    $product->toArray(),
+                    ['children' => $children->map->only('id')]
+                )
+            )
+            ->assertOk();
+
+        $this->assertCount(2, $response->json('data.children'));
+
+        foreach ($children->pluck('id') as $key => $id) {
+            $this->assertEquals($response->json('data.children')[$key]['id'], $id);
+        }
+    }
+
+    /** @test */
+    public function it_can_update_a_product_to_have_children(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->create();
+
+        $children = Product::factory()->times(2)->create();
+
+        $user = $this->getUser();
+
+        $product->people()->attach($user->person, ['is_owner' => false]);
+
+        Passport::actingAs($user);
+
+        $newTitle = '::new title::';
+
+        $product->title = $newTitle;
+
+        $response = $this
+            ->putJson(
+                route('api.products.update', ['product' => $product->id]),
+                array_merge($product->toArray(), ['children' => $children->map->only('id')])
+            )
+            ->assertOk();
+
+        $this->assertCount(2, $response->json('data.children'));
+
+        foreach ($children->pluck('id') as $key => $id) {
+            $this->assertEquals($response->json('data.children')[$key]['id'], $id);
+        }
+    }
+
+    /** @test */
+    public function it_can_update_a_product_to_remove_children(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->create();
+
+        $children = Product::factory()->times(2)->create();
+
+        $product->children()->saveMany($children);
+
+        $user = $this->getUser();
+
+        $product->people()->attach($user->person, ['is_owner' => false]);
+
+        Passport::actingAs($user);
+
+        $newTitle = '::new title::';
+
+        $product->title = $newTitle;
+
+        $response = $this
+            ->putJson(
+                route('api.products.update', ['product' => $product->id]),
+                array_merge($product->toArray(), ['children' => null])
+            )
+            ->assertOk();
+
+        $this->assertCount(0, $response->json('data.children'));
+        $this->assertCount(2, Product::findMany($children->pluck('id')));
+    }
+
+    /** @test */
+    public function it_can_not_create_a_product_and_add_children_if_not_correct_type(): void
+    {
+        /** @var Product $product */
+        $product = Product::factory()->make([
+            'type' => ProductTypes::IMAGE,
+        ]);
+
+        $children = Product::factory()->times(2)->create();
+
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $response = $this
+            ->postJson(
+                route('api.products.store'),
+                array_merge(
+                    $product->toArray(),
+                    ['children' => $children->map->only('id')]
+                )
+            );
+
+        $response->assertJsonValidationErrors([
+            'children' => 'validation.prohibited_unless',
+        ]);
+    }
 }

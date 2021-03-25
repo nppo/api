@@ -17,7 +17,6 @@ use Database\Seeders\Support\SeedsMetadata;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use InvalidArgumentException;
 
 class ProductSeeder extends Seeder
 {
@@ -152,7 +151,6 @@ class ProductSeeder extends Seeder
 
             return;
         }
-        throw new InvalidArgumentException('No data to seed for type ' . $product->type);
     }
 
     private function seedMedia(Product $product): void
