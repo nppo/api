@@ -239,6 +239,10 @@ class ImportAll extends Command
 
         $themes = collect();
 
+        if (is_null($repoItem->getAttribute($key))) {
+            return $themes;
+        }
+
         $values = is_array($repoItem->getAttribute($key))
             ? $repoItem->getAttribute($key)
             : [$repoItem->getAttribute($key)];
