@@ -44,6 +44,17 @@ class ProductSeeder extends Seeder
             'https://www.youtube.com/embed/DAZR0p3uCvk',
             'https://www.youtube.com/embed/dQw4w9WgXcQ',
         ],
+        ProductTypes::DOCUMENT => [
+            'https://filesamples.com/samples/document/docx/sample1.docx',
+            'https://filesamples.com/samples/document/docx/sample2.docx',
+            'https://filesamples.com/samples/document/docx/sample3.docx',
+            'https://filesamples.com/samples/document/txt/sample1.txt',
+            'https://filesamples.com/samples/document/txt/sample2.txt',
+            'https://filesamples.com/samples/document/txt/sample3.txt',
+            'https://filesamples.com/samples/document/pdf/sample1.pdf',
+            'https://filesamples.com/samples/document/pdf/sample2.pdf',
+            'https://filesamples.com/samples/document/pdf/sample3.pdf',
+        ],
     ];
 
     public function run(): void
