@@ -12,13 +12,13 @@ class ProductTypeTransformer implements Transformer
 {
     public function transform($value): string
     {
-        // if (is_string($value)) {
-        //     if (Str::contains($value, 'objectstore')) {
-        //         return 'document'; // TODO: Use enum
-        //     }
+        if (is_string($value)) {
+            if (Str::contains($value, 'objectstore')) {
+                return ProductTypes::DOCUMENT;
+            }
 
-        //     return 'link'; // TODO: Use enum
-        // }
+            return ProductTypes::LINK;
+        }
 
         return ProductTypes::EMPTY;
     }

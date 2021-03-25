@@ -32,12 +32,20 @@ trait MapsData
 
     protected function mapArray(Map $map, array $input, array &$output): void
     {
-        $output[$map->getDestination()] = $this->retrieveInputValue($map, $input);
+        $value = $this->retrieveInputValue($map, $input);
+
+        if (!is_null($value)) {
+            $output[$map->getDestination()] = $value;
+        }
     }
 
     protected function mapObject(Map $map, array $input, object &$output): void
     {
-        $output->{$map->getDestination()} = $this->retrieveInputValue($map, $input);
+        $value = $this->retrieveInputValue($map, $input);
+
+        if (!is_null($value)) {
+            $output->{$map->getDestination()} = $value;
+        }
     }
 
     /** @return mixed */

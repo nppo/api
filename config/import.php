@@ -13,7 +13,6 @@ use App\Transforming\Map;
 use App\Transforming\Mapping;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 return [
@@ -37,7 +36,7 @@ return [
 
                     (new SplitResource(ImportType::PRODUCT, 'link.*'))
                         ->resolveIdentifierUsing(function (array $data) {
-                            return Hash::make(Arr::get($data, 'url'));
+                            return md5(Arr::get($data, 'url'));
                         }),
 
                     (new SplitResource(ImportType::PRODUCT, 'file.*'))
@@ -46,10 +45,12 @@ return [
                         }),
                 ],
                 'mapping' => new Mapping([
-                    new Map('title', 'title', null, fn () => Str::random()),
+                    new Map('fileName', 'title', null, fn () => Str::random()),
+                    new Map('title', 'title'),
                     new Map('dateIssued', 'published_at', 'date', fn () => Carbon::now()),
                     new Map('abstract', 'description', null, ''),
                     new Map('url', 'type', 'sharekit_producttype', ProductTypes::EMPTY),
+                    new Map('url', 'link'),
                 ]),
             ],
             ImportType::PERSON => [
