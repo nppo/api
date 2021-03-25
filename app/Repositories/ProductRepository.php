@@ -56,7 +56,7 @@ class ProductRepository extends AbstractRepository
     {
         $this
             ->builder
-            ->with(['parties', 'themes', 'tags'])
+            ->with(['parties', 'themes', 'tags', 'children', 'parents'])
             ->withCount('likes');
 
         if ($query !== '') {
