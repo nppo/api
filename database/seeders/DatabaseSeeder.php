@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
+        $this->call(PassportSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(StructureSeeder::class);
         $this->call(PermissionSeeder::class);
@@ -36,6 +37,7 @@ class DatabaseSeeder extends Seeder
             $this->call(PartySeeder::class);
             $this->call(PersonSeeder::class);
             $this->call(ProductSeeder::class);
+            $this->call(ProductContentSeeder::class);
             $this->call(ProjectSeeder::class);
         } else {
             $startTime = microtime(true);
@@ -48,13 +50,5 @@ class DatabaseSeeder extends Seeder
 
             $this->command->line('<fg=green>Imported: <fg=default>App\Console\Commands\ImportAll (' . $runTime . 'ms)');
         }
-
-        $this->call(TagSeeder::class);
-        $this->call(PartySeeder::class);
-        $this->call(PersonSeeder::class);
-        $this->call(ProductSeeder::class);
-        $this->call(ProductContentSeeder::class);
-        $this->call(ProjectSeeder::class);
-        $this->call(PassportSeeder::class);
     }
 }
