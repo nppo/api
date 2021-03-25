@@ -46,6 +46,8 @@ class ProductRepository extends AbstractRepository
                 'projects',
                 'owner.tags',
                 'media',
+                'children',
+                'parents',
             ])
             ->findOrFail($id);
     }
@@ -69,7 +71,7 @@ class ProductRepository extends AbstractRepository
         foreach ($filters as $key => $value) {
             if ($key === Filters::THEMES) {
                 $this->builder->whereHas('themes', function ($query) use ($value): void {
-                    $query->whereIn('themes.id', $value);
+                    $query->whereIn('id', $value);
                 });
             }
         }

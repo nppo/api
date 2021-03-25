@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(StructureSeeder::class);
         $this->call(PermissionSeeder::class);
-        $this->call(ThemeSeeder::class);
 
         $choice = $this->command->choice(
             'Use Seeder or Import for: Tags, People, Products, Projects, Parties',
@@ -50,6 +49,12 @@ class DatabaseSeeder extends Seeder
             $this->command->line('<fg=green>Imported: <fg=default>App\Console\Commands\ImportAll (' . $runTime . 'ms)');
         }
 
+        $this->call(TagSeeder::class);
+        $this->call(PartySeeder::class);
+        $this->call(PersonSeeder::class);
+        $this->call(ProductSeeder::class);
+        $this->call(ProductContentSeeder::class);
+        $this->call(ProjectSeeder::class);
         $this->call(PassportSeeder::class);
     }
 }

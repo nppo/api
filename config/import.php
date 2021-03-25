@@ -13,6 +13,7 @@ use App\Transforming\Map;
 use App\Transforming\Mapping;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 return [
@@ -34,15 +35,15 @@ return [
                             return Arr::first($data);
                         }),
 
-                        // (new SplitResource(ImportType::PRODUCT, 'link.*'))
-                        //     ->resolveIdentifierUsing(function (array $data) {
-                        //         return Arr::get($data, 'url');
-                        //     });
+                    (new SplitResource(ImportType::PRODUCT, 'link.*'))
+                        ->resolveIdentifierUsing(function (array $data) {
+                            return Hash::make(Arr::get($data, 'url'));
+                        }),
 
-                        // (new SplitResource(ImportType::PRODUCT, 'file.*'))
-                        //     ->resolveIdentifierUsing(function (array $data) {
-                        //         return Str::after(Arr::get($data, 'url'), 'objectstore');
-                        //     });
+                    (new SplitResource(ImportType::PRODUCT, 'file.*'))
+                        ->resolveIdentifierUsing(function (array $data) {
+                            return Str::after(Arr::get($data, 'url'), 'objectstore');
+                        }),
                 ],
                 'mapping' => new Mapping([
                     new Map('title', 'title', null, Str::random()),
