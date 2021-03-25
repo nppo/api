@@ -67,7 +67,6 @@ class ProductController extends Controller
 
         $this
             ->syncRelation($product, 'children', Arr::get($validated, 'children') ?? [])
-            ->syncRelation($product, 'parents', Arr::get($validated, 'parents') ?? [])
             ->syncRelation($product, 'themes', Arr::get($validated, 'themes') ?? [])
             ->syncRelation($product, 'people', Arr::get($validated, 'people') ?? [], ['is_owner' => false])
             ->syncRelation($product, 'parties', Arr::get($validated, 'parties') ?? [], ['is_owner' => false]);
@@ -106,7 +105,6 @@ class ProductController extends Controller
 
         $this
             ->syncRelation($product, 'children', Arr::get($validated, 'children') ?? [])
-            ->syncRelation($product, 'parents', Arr::get($validated, 'parents') ?? [])
             ->syncRelation($product, 'themes', Arr::get($validated, 'themes') ?? [])
             ->syncRelation($product, 'people', Arr::get($validated, 'people') ?? [], ['is_owner' => false])
             ->syncRelation($product, 'parties', Arr::get($validated, 'parties') ?? [], ['is_owner' => false]);
