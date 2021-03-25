@@ -9,4 +9,5 @@ use Way2Web\Force\Enum;
 class TagTypes extends Enum
 {
     const SKILL = 'skill';
+    const THEME = 'theme';
 }

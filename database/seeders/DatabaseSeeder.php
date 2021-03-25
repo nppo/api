@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(StructureSeeder::class);
         $this->call(PermissionSeeder::class);
-        $this->call(ThemeSeeder::class);
 
         $choice = $this->command->choice(
             'Use Seeder or Import for: Tags, People, Products, Projects, Parties',

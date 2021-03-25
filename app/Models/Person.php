@@ -54,7 +54,7 @@ class Person extends AbstractModel implements HasMedia, HasMetaData
 
     public function themes(): MorphToMany
     {
-        return $this->morphToMany(Theme::class, 'themeable');
+        return $this->tags()->where('type', TagTypes::THEME);
     }
 
     public function getProfilePictureUrlAttribute(): ?string

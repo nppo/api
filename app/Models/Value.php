@@ -10,6 +10,11 @@ use Way2Web\Force\AbstractModel;
 
 class Value extends AbstractModel
 {
+    protected $fillable = [
+        'value',
+        'attribute_id',
+    ];
+
     public function attribute(): BelongsTo
     {
         return $this->belongsTo(Attribute::class);
