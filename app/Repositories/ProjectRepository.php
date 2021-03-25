@@ -77,7 +77,7 @@ class ProjectRepository extends AbstractRepository
     public function getMetaDataFields(): ?array
     {
         return optional(
-                $this
+            $this
                 ->structureRepository
                 ->makeQuery()
                 ->with([
