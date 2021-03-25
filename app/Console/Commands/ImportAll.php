@@ -15,6 +15,7 @@ use App\Repositories\PartyRepository;
 use App\Repositories\PersonRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\TagRepository;
+use App\Repositories\ThemeRepository;
 use App\Transforming\Map;
 use App\Transforming\Mapping;
 use Illuminate\Console\Command;
@@ -39,6 +40,8 @@ class ImportAll extends Command
 
     public TagRepository $tagRepository;
 
+    public ThemeRepository $themeRepository;
+
     public Connection $connection;
 
     public function __construct(
@@ -46,6 +49,7 @@ class ImportAll extends Command
         PersonRepository $personRepository,
         ProductRepository $productRepository,
         TagRepository $tagRepository,
+        ThemeRepository $themeRepository,
         Connection $connection
     ) {
         parent::__construct();
@@ -54,6 +58,7 @@ class ImportAll extends Command
         $this->personRepository = $personRepository;
         $this->productRepository = $productRepository;
         $this->tagRepository = $tagRepository;
+        $this->themeRepository = $themeRepository;
         $this->connection = $connection;
     }
 
@@ -83,7 +88,14 @@ class ImportAll extends Command
         ]);
     }
 
-    public function handle(): void
+    private function themeMapping(): Mapping
+    {
+        return new Mapping([
+            new Map('themeResearchObject', 'label', 'theme'),
+        ]);
+    }
+
+    public function handle(int $pageNumber = 1): void
     {
         $repoItems = $this
             ->connection
@@ -103,6 +115,8 @@ class ImportAll extends Command
 
                 $tags = $this->createTags($repoItem->getAttribute('keywords'));
 
+                $themes = $this->createThemes($repoItem);
+
                 /** @var Product $product */
                 $product = $this->createProduct($attributes);
 
@@ -112,6 +126,8 @@ class ImportAll extends Command
                 $this->createPeople($repoItem, $product);
 
                 $this->createFile($repoItem, $product);
+
+                $this->attachThemesToProduct($themes, $product);
 
                 $this->attachTagsToProduct($tags, $product);
 

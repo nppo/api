@@ -9,9 +9,11 @@ use App\External\ShareKit\Provider as ShareKitProvider;
 use App\Transforming\Repository;
 use App\Transforming\Support\RegistersTransformers;
 use App\Transforming\Transformers\Date;
+use App\Transforming\Transformers\Description;
 use App\Transforming\Transformers\FirstName;
 use App\Transforming\Transformers\LastName;
 use App\Transforming\Transformers\PersonFunction;
+use App\Transforming\Transformers\Theme;
 use Fruitcake\Cors\HandleCors;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
@@ -30,6 +32,8 @@ class AppServiceProvider extends ServiceProvider
         'firstName'      => FirstName::class,
         'lastName'       => LastName::class,
         'personFunction' => PersonFunction::class,
+        'theme'          => Theme::class,
+        'description'    => Description::class,
     ];
 
     public function register(): void
