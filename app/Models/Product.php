@@ -87,6 +87,11 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
             ->withTimestamps();
     }
 
+    public function products(): BelongsToMany
+    {
+        return $this->children();
+    }
+
     public function themes(): MorphToMany
     {
         return $this->tags()->where('type', TagTypes::THEME);

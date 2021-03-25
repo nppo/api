@@ -12,6 +12,7 @@ use App\Transforming\Transformers\Date;
 use App\Transforming\Transformers\FirstName;
 use App\Transforming\Transformers\LastName;
 use App\Transforming\Transformers\PersonFunction;
+use App\Transforming\Transformers\ProductTypeTransformer;
 use Fruitcake\Cors\HandleCors;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
@@ -26,10 +27,11 @@ class AppServiceProvider extends ServiceProvider
     ];
 
     public $transformers = [
-        'date'           => Date::class,
-        'firstName'      => FirstName::class,
-        'lastName'       => LastName::class,
-        'personFunction' => PersonFunction::class,
+        'date'                 => Date::class,
+        'firstName'            => FirstName::class,
+        'lastName'             => LastName::class,
+        'personFunction'       => PersonFunction::class,
+        'sharekit_producttype' => ProductTypeTransformer::class,
     ];
 
     public function register(): void

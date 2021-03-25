@@ -42,14 +42,14 @@ return [
 
                     (new SplitResource(ImportType::PRODUCT, 'file.*'))
                         ->resolveIdentifierUsing(function (array $data) {
-                            return Str::after(Arr::get($data, 'url'), 'objectstore');
+                            return Str::after(Arr::get($data, 'url'), 'objectstore/');
                         }),
                 ],
                 'mapping' => new Mapping([
-                    new Map('title', 'title', null, Str::random()),
-                    new Map('dateIssued', 'published_at', 'date', Carbon::now()),
+                    new Map('title', 'title', null, fn () => Str::random()),
+                    new Map('dateIssued', 'published_at', 'date', fn () => Carbon::now()),
                     new Map('abstract', 'description', null, ''),
-                    new Map('::DOES_NOT_EXIST::', 'type', null, ProductTypes::EMPTY),
+                    new Map('url', 'type', 'sharekit_producttype', ProductTypes::EMPTY),
                 ]),
             ],
             ImportType::PERSON => [

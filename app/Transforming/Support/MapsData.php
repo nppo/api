@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Transforming\Support;
 
 use App\Transforming\Map;
+use Closure;
 use Flow\JSONPath\JSONPath;
 use InvalidArgumentException;
 
@@ -45,7 +46,13 @@ trait MapsData
         $value = (new JSONPath($input))->find($map->getOrigin())->first();
 
         if (is_null($value)) {
-            return $map->getDefault();
+            $default = $map->getDefault();
+
+            if ($default instanceof Closure) {
+                return $default($input);
+            }
+
+            return $default;
         }
 
         if ($value instanceof JSONPath) {

@@ -27,7 +27,7 @@ class RelateResource implements Action
         $relation = $this->guessRelation($parent, $model);
 
         $relation = $parent->{$relation}();
-        $relation->attach($model);
+        $relation->syncWithoutDetaching($model);
     }
 
     private function guessRelation(Model $origin, Model $related): string
