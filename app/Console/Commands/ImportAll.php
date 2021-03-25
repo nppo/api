@@ -98,6 +98,12 @@ class ImportAll extends Command
 
     public function handle(int $pageNumber = 1): void
     {
+        if ($pageNumber === 1) {
+            $this->line('Processing ' . self::PAGE_SIZE . ' results per page...');
+        }
+
+        $this->line('Importing results for page ' . $pageNumber . '...');
+
         $repoItems = $this
             ->connection
             ->setPaging(self::PAGE_SIZE, $pageNumber)
@@ -135,7 +141,7 @@ class ImportAll extends Command
                 $this->attachPartyToProduct($party, $product);
             });
 
-        if ($repoItems->count() === self::PAGE_SIZE && $pageNumber < 2) {
+        if ($repoItems->count() === self::PAGE_SIZE) {
             $this->handle($pageNumber + 1);
         }
     }

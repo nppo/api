@@ -42,6 +42,8 @@ class DatabaseSeeder extends Seeder
 
             $this->command->line('<fg=yellow>Importing: <fg=default>App\Console\Commands\ImportAll');
 
+            $this->importer->setOutput($this->command->getOutput());
+
             $this->importer->handle();
 
             $runTime = number_format((microtime(true) - $startTime) * 1000, 2);
