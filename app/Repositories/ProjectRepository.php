@@ -6,7 +6,6 @@ namespace App\Repositories;
 
 use App\Enumerators\Filters;
 use App\Models\Project;
-use App\Models\Structure;
 use Illuminate\Database\Eloquent\Builder;
 use Way2Web\Force\Repository\AbstractRepository;
 
