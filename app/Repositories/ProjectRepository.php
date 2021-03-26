@@ -13,9 +13,13 @@ class ProjectRepository extends AbstractRepository
 {
     protected ?Builder $builder = null;
 
-    public function __construct()
+    private StructureRepository $structureRepository;
+
+    public function __construct(StructureRepository $structureRepository)
     {
         $this->builder = $this->makeQuery();
+
+        $this->structureRepository = $structureRepository;
     }
 
     public function model(): string
@@ -67,6 +71,21 @@ class ProjectRepository extends AbstractRepository
         }
 
         return $this;
+    }
+
+    public function getMetaDataFields(): ?array
+    {
+        return optional(
+            $this
+                ->structureRepository
+                ->makeQuery()
+                ->with([
+                    'attributes',
+                ])
+                ->where('label', $this->model())
+                ->first()
+        )
+            ->toArray();
     }
 
     public function get()
