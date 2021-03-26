@@ -11,6 +11,7 @@ use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Repositories\MediaRepository;
 use App\Repositories\ProjectRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Way2Web\Force\Http\Controller;
@@ -34,6 +35,13 @@ class ProjectController extends Controller
             $this->projectRepository->show($id)
         )
             ->withPermissions();
+    }
+
+    public function create(): JsonResponse
+    {
+        return response()->json(
+            $this->projectRepository->getMetaDataFields()
+        );
     }
 
     public function store(ProjectStoreRequest $request): ProjectResource
@@ -65,6 +73,16 @@ class ProjectController extends Controller
                 ->preservingOriginal()
                 ->toMediaCollection(MediaCollections::PROJECT_PICTURE);
         }
+
+        $project->syncMeta(
+            Collection::make(Arr::get($validated, 'meta') ?? [])
+                ->map(function (array $data): array {
+                    return [
+                        'attribute_id' => $data['id'],
+                        'value'        => $data['value'],
+                    ];
+                })
+        );
 
         return ProjectResource::make(
             $this->projectRepository->show($project->getKey())

@@ -18,6 +18,10 @@ class Structures
         Person::class,
     ];
 
+    protected array $productAttributes = [
+        'identifier',
+    ];
+
     public function bootstrap(): void
     {
         foreach ($this->classes as $class) {
@@ -29,10 +33,12 @@ class Structures
                 'label' => StructureHelper::labelForProductType($type),
             ]);
 
-            Attribute::updateOrCreate([
-                'label'        => 'identifier',
-                'structure_id' => $structure->id,
-            ]);
+            foreach ($this->productAttributes as $attribute) {
+                Attribute::updateOrCreate([
+                    'structure_id' => $structure->id,
+                    'label'        => $attribute,
+                ]);
+            }
         }
     }
 }

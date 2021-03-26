@@ -13,6 +13,7 @@ use App\Transforming\Transformers\FirstName;
 use App\Transforming\Transformers\LastName;
 use App\Transforming\Transformers\PersonFunction;
 use App\Transforming\Transformers\ProductTypeTransformer;
+use App\Transforming\Transformers\Theme;
 use Fruitcake\Cors\HandleCors;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
@@ -32,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
         'lastName'             => LastName::class,
         'personFunction'       => PersonFunction::class,
         'sharekit_producttype' => ProductTypeTransformer::class,
+        'theme'                => Theme::class,
     ];
 
     public function register(): void

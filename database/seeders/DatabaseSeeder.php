@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
 
         $choice = $this->command->choice(
-            'Use Seeder or Import for: Tags, People, Products, Projects, Parties',
+            'Use Seeder or Import for: Tags, Themes, People, Products, Projects, Parties',
             [self::SEEDER, self::IMPORT],
             0
         );
@@ -43,6 +43,8 @@ class DatabaseSeeder extends Seeder
             $startTime = microtime(true);
 
             $this->command->line('<fg=yellow>Importing: <fg=default>App\Console\Commands\ImportAll');
+
+            $this->importer->setOutput($this->command->getOutput());
 
             $this->importer->handle();
 

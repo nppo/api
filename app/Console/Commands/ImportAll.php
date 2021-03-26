@@ -29,6 +29,8 @@ class ImportAll extends Command
 
     protected $description = 'Imports all Products and Persons';
 
+    private const PAGE_SIZE = 10;
+
     public PartyRepository $partyRepository;
 
     public PersonRepository $personRepository;
@@ -81,11 +83,20 @@ class ImportAll extends Command
         ]);
     }
 
-    public function handle(): void
+    public function handle(int $pageNumber = 1): void
     {
-        $this
+        if ($pageNumber === 1) {
+            $this->line('Processing ' . self::PAGE_SIZE . ' results per page...');
+        }
+
+        $this->line('Importing results for page ' . $pageNumber . '...');
+
+        $repoItems = $this
             ->connection
-            ->repoItems()
+            ->setPaging(self::PAGE_SIZE, $pageNumber)
+            ->repoItems();
+
+        $repoItems
             ->each(function (RepoItem $repoItem): void {
                 $output = [];
 
@@ -112,16 +123,17 @@ class ImportAll extends Command
 
                 $this->attachPartyToProduct($party, $product);
             });
+
+        if ($repoItems->count() === self::PAGE_SIZE) {
+            $this->handle($pageNumber + 1);
+        }
     }
 
     private function createProduct(array $attributes): Model
     {
         return $this
             ->productRepository
-            ->updateOrCreate(
-                Arr::only($attributes, []),
-                Arr::except($attributes, []),
-            );
+            ->updateOrCreate($attributes);
     }
 
     private function createPeople(RepoItem $repoItem, Product $product): Collection
