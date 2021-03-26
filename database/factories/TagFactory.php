@@ -21,7 +21,7 @@ class TagFactory extends Factory
 
     public function theme(): Factory
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function () {
             return [
                 'label' => function (): string {
                     $label = ucfirst($this->faker->word);
