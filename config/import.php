@@ -9,7 +9,6 @@ use App\Import\Actions\SplitResource;
 use App\Import\Actions\SyncEntity;
 use App\Import\Actions\SyncParentRelation;
 use App\Import\Actions\SyncRelations;
-use App\Models\ExternalResource;
 use App\Transforming\Map;
 use App\Transforming\Mapping;
 use Carbon\Carbon;
@@ -23,10 +22,8 @@ return [
                 'actions' => [
                     new SyncEntity(),
                     new SyncParentRelation(),
+
                     (new SplitResource(ImportType::PERSON, 'authors.*'))
-                        ->skipWhen(function (ExternalResource $externalResource) {
-                            return !Arr::has($externalResource->data, 'authors');
-                        })
                         ->resolveIdentifierUsing(function (array $data) {
                             return Arr::get($data, 'person.id');
                         }),
@@ -51,12 +48,7 @@ return [
                             return Arr::first($data);
                         }),
 
-                    (new SyncRelations())
-                        ->onlyWhen(function (ExternalResource $externalResource) {
-                            return !is_null($externalResource->parent) &&
-                                !is_null($externalResource->parent->entity) &&
-                                !is_null($externalResource->entity);
-                        }),
+                    new SyncRelations(),
                 ],
                 'mapping' => new Mapping([
                     new Map('fileName', 'title', null, fn () => Str::random()),

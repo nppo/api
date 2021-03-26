@@ -5,26 +5,34 @@ declare(strict_types=1);
 namespace App\Import\Actions;
 
 use App\Enumerators\ImportType;
-use App\Import\Actions\Support\Limitable;
-use App\Import\Interfaces\Action;
+use App\Import\Actions\Support\WorksWithRelations;
 use App\Models\ExternalResource;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
-class SyncRelations implements Action
+/**
+ * Syncs relations from the parent external resources entity to this entity.
+ */
+class SyncRelations extends AbstractAction
 {
-    use Limitable;
+    use WorksWithRelations;
+
+    public function __construct()
+    {
+        $this
+            ->onlyWhen(function (ExternalResource $externalResource) {
+                return
+                    !is_null($externalResource->entity) &&
+                    !is_null($externalResource->parent) &&
+                    !is_null($externalResource->parent->entity);
+            });
+    }
 
     public function process(ExternalResource $externalResource): void
     {
-        if (!$this->shouldRun($externalResource)) {
-            return;
-        }
-
         $parentEntity = $externalResource->parent->entity;
 
-        foreach ($this->syncableRelations($externalResource) as $importType) {
-            $relation = Str::plural(class_basename($importType));
+        foreach ($this->syncableTypes($externalResource) as $importType) {
+            $relation = $this->guessPluralRelationMethod($importType);
 
             if (method_exists($parentEntity, $relation)) {
                 $externalResource->entity->{$relation}()->syncWithoutDetaching(
@@ -34,10 +42,11 @@ class SyncRelations implements Action
         }
     }
 
-    private function syncableRelations(ExternalResource $externalResource)
+    private function syncableTypes(ExternalResource $externalResource)
     {
         $types = ImportType::asArray();
 
+        // Prevents Products from interlinking to make sure it does not become a circle relation
         if ($externalResource->type == ImportType::PRODUCT) {
             $types = Arr::except($types, ImportType::getKey(ImportType::PRODUCT));
         }

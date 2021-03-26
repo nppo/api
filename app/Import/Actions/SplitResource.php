@@ -13,6 +13,9 @@ use Flow\JSONPath\JSONPath;
 use Illuminate\Support\Arr;
 use Iterator;
 
+/**
+ * Splits the data of a resource into a new childresource.
+ */
 class SplitResource implements Action
 {
     use Skippable;

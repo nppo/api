@@ -15,6 +15,9 @@ use App\Transforming\Mapping;
 use Illuminate\Support\Facades\Config;
 use InvalidArgumentException;
 
+/**
+ * Updates or creates an entity based on whether the externalResource is linked to one
+ */
 class SyncEntity implements Action
 {
     public function process(ExternalResource $externalResource): void
