@@ -28,7 +28,7 @@ class PersonRepository extends AbstractRepository
         return $this
             ->with([
                 'parties',
-                'products',
+                'products.children',
                 'projects',
                 'skills',
                 'themes',

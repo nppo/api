@@ -21,6 +21,7 @@ class SearchRepository
         'projects',
         'parties',
         'skills',
+        'children',
     ];
 
     public array $results = [self::COUNT_KEY => 0];
