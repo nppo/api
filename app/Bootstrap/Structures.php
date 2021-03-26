@@ -6,6 +6,7 @@ namespace App\Bootstrap;
 
 use App\Enumerators\ProductTypes;
 use App\Helpers\Structure as StructureHelper;
+use App\Models\Attribute;
 use App\Models\Person;
 use App\Models\Project;
 use App\Models\Structure;
@@ -17,6 +18,10 @@ class Structures
         Person::class,
     ];
 
+    protected array $productAttributes = [
+        'identifier',
+    ];
+
     public function bootstrap(): void
     {
         foreach ($this->classes as $class) {
@@ -24,9 +29,16 @@ class Structures
         }
 
         foreach (ProductTypes::asArray() as $type) {
-            Structure::updateOrCreate([
+            $structure = Structure::updateOrCreate([
                 'label' => StructureHelper::labelForProductType($type),
             ]);
+
+            foreach ($this->productAttributes as $attribute) {
+                Attribute::updateOrCreate([
+                    'structure_id' => $structure->id,
+                    'label'        => $attribute,
+                ]);
+            }
         }
     }
 }

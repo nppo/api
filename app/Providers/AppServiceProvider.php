@@ -7,6 +7,11 @@ namespace App\Providers;
 use App\Auth\Passport\Client;
 use App\External\ShareKit\Provider as ShareKitProvider;
 use App\Transforming\Repository;
+use App\Transforming\Support\RegistersTransformers;
+use App\Transforming\Transformers\Date;
+use App\Transforming\Transformers\FirstName;
+use App\Transforming\Transformers\LastName;
+use App\Transforming\Transformers\PersonFunction;
 use Fruitcake\Cors\HandleCors;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
@@ -14,8 +19,17 @@ use Laravel\Passport\RouteRegistrar;
 
 class AppServiceProvider extends ServiceProvider
 {
+    use RegistersTransformers;
+
     public $singletons = [
         Repository::class => Repository::class,
+    ];
+
+    public $transformers = [
+        'date'           => Date::class,
+        'firstName'      => FirstName::class,
+        'lastName'       => LastName::class,
+        'personFunction' => PersonFunction::class,
     ];
 
     public function register(): void
@@ -23,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(ShareKitProvider::class);
 
         $this->registerPassport();
+
+        $this->registerTransformers();
     }
 
     public function boot(): void

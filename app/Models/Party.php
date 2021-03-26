@@ -15,6 +15,10 @@ class Party extends AbstractModel implements HasMedia
 {
     use InteractsWithMedia;
 
+    protected $fillable = [
+        'name',
+    ];
+
     public function parties(): MorphToMany
     {
         return $this->morphToMany(self::class, 'affiliable');

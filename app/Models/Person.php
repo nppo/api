@@ -18,6 +18,13 @@ use Way2Web\Force\AbstractModel;
 
 class Person extends AbstractModel implements HasMedia, HasMetaData
 {
+    public $fillable = [
+        'identifier',
+        'first_name',
+        'last_name',
+        'function',
+    ];
+
     use InteractsWithMedia, HasMeta, HasTags;
 
     public function likes(): MorphToMany
