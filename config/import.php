@@ -60,6 +60,7 @@ return [
                 ],
                 'mapping' => new Mapping([
                     new Map('fileName', 'title', null, fn () => Str::random()),
+                    new Map('url', 'title', 'sharekit_url_title'),
                     new Map('title', 'title'),
                     new Map('dateIssued', 'published_at', 'date', fn () => Carbon::now()),
                     new Map('abstract', 'description', null, ''),
