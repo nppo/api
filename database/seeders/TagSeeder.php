@@ -11,7 +11,9 @@ use Illuminate\Database\Seeder;
 
 class TagSeeder extends Seeder
 {
-    private const MAX_TAGS = 200;
+    private const MAX_TAGS = 100;
+
+    private const MAX_THEMES = 30;
 
     public function run(): void
     {
@@ -19,9 +21,13 @@ class TagSeeder extends Seeder
             ->count(self::MAX_TAGS)
             ->state(new Sequence(
                 ['type' => TagTypes::SKILL],
-                ['type' => TagTypes::THEME],
                 ['type' => null],
             ))
+            ->create();
+
+        Tag::factory()
+            ->count(self::MAX_THEMES)
+            ->{TagTypes::THEME}()
             ->create();
     }
 }
