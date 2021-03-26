@@ -19,7 +19,7 @@ class TagFactory extends Factory
         ];
     }
 
-    public function theme()
+    public function theme(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
