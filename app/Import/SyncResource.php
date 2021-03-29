@@ -41,6 +41,10 @@ class SyncResource implements ShouldQueue
 
     public function handle(): void
     {
+        if (is_null($this->identifier)) {
+            return;
+        }
+
         if ($this->makeQuery()->exists()) {
             /** @var ExternalResource */
             $model = $this->makeQuery()->sole();
@@ -75,11 +79,8 @@ class SyncResource implements ShouldQueue
     private function makeQuery(): Builder
     {
         $query = ExternalResource::where('driver', $this->driver)
-            ->where('type', $this->type);
-
-        if (!is_null($this->identifier)) {
-            $query->where('external_identifier', $this->identifier);
-        }
+            ->where('type', $this->type)
+            ->where('external_identifier', $this->identifier);
 
         return $query;
     }
