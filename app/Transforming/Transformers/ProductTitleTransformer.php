@@ -26,7 +26,7 @@ class ProductTitleTransformer implements Transformer
                     $title = Str::before(Str::after($response->__toString(), '<title>'), '</title>');
 
                     if (!empty($title)) {
-                        return $title;
+                        return html_entity_decode($title);
                     }
                 }
             } catch (Exception $exception) {
