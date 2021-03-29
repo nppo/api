@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 
 class ProductTitleTransformer implements Transformer
 {
+    private const MAX_TITLE_LENGTH = 255;
+
     public function transform($value)
     {
         if (is_string($value)) {
@@ -25,7 +27,7 @@ class ProductTitleTransformer implements Transformer
                 if ($response->status() === 200) {
                     $title = Str::before(Str::after($response->__toString(), '<title>'), '</title>');
 
-                    if (!empty($title)) {
+                    if (!empty($title) && strlen($value) <= self::MAX_TITLE_LENGTH) {
                         return html_entity_decode($title);
                     }
                 }
