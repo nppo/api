@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Console\Commands\ImportAll;
+use App\Console\Commands\Import;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,9 +12,9 @@ class DatabaseSeeder extends Seeder
     private const IMPORT = 'Import';
     private const SEEDER = 'Seeder';
 
-    private ImportAll $importer;
+    private Import $importer;
 
-    public function __construct(ImportAll $importer)
+    public function __construct(Import $importer)
     {
         $this->importer = $importer;
     }
@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         } else {
             $startTime = microtime(true);
 
-            $this->command->line('<fg=yellow>Importing: <fg=default>App\Console\Commands\ImportAll');
+            $this->command->line('<fg=yellow>Importing: <fg=default>App\Console\Commands\Import');
 
             $this->importer->setOutput($this->command->getOutput());
 
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
 
             $runTime = number_format((microtime(true) - $startTime) * 1000, 2);
 
-            $this->command->line('<fg=green>Imported: <fg=default>App\Console\Commands\ImportAll (' . $runTime . 'ms)');
+            $this->command->line('<fg=green>Imported: <fg=default>App\Console\Commands\Import (' . $runTime . 'ms)');
         }
     }
 }
