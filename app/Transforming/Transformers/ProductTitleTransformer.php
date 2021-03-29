@@ -6,6 +6,7 @@ namespace App\Transforming\Transformers;
 
 use App\Enumerators\ProductTypes;
 use App\Transforming\Interfaces\Transformer;
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
@@ -18,14 +19,17 @@ class ProductTitleTransformer implements Transformer
                 return;
             }
 
-            $response = Http::get(trim($value));
+            try {
+                $response = Http::get(trim($value));
 
-            if ($response->status() === 200) {
-                $title = Str::before(Str::after($response->__toString(), '<title>'), '</title>');
+                if ($response->status() === 200) {
+                    $title = Str::before(Str::after($response->__toString(), '<title>'), '</title>');
 
-                if (!empty($title)) {
-                    return $title;
+                    if (!empty($title)) {
+                        return $title;
+                    }
                 }
+            } catch (Exception $exception) {
             }
         }
     }
