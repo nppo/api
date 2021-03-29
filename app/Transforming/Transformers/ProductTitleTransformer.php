@@ -30,6 +30,7 @@ class ProductTitleTransformer implements Transformer
                     }
                 }
             } catch (Exception $exception) {
+                return;
             }
         }
     }
