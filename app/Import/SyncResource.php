@@ -5,10 +5,17 @@ declare(strict_types=1);
 namespace App\Import;
 
 use App\Models\ExternalResource;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
-class SyncResource
+class SyncResource implements ShouldQueue
 {
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     protected string $driver;
     protected string $type;
     protected ?string $identifier;

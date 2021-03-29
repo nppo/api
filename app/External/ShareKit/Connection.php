@@ -6,7 +6,6 @@ namespace App\External\ShareKit;
 
 use App\External\ShareKit\Entities\RepoItem;
 use App\External\ShareKit\Filters\Filter;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -45,14 +44,14 @@ class Connection
         return $this;
     }
 
-    public function repoItems(): Collection
+    public function repoItems(): Response
     {
         $this->setFilters([]);
 
         $response = $this->client->get($this->getUrl('repoItems', $this->filters, $this->paging));
 
-        return (new Collection($response->getData()))
-            ->map(function (array $data): RepoItem {
+        return $response
+            ->usingMap(function (array $data): RepoItem {
                 return RepoItem::createFromData($data);
             });
     }
@@ -61,7 +60,7 @@ class Connection
     {
         $this->setFilters([new Filter('id', $identifier)]);
 
-        return $this->repoItems()->first();
+        return $this->repoItems()->toCollection()->first();
     }
 
     public function setFilters(array $filters): self

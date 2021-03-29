@@ -16,6 +16,15 @@ class SyncParentRelation extends AbstractAction
 {
     use WorksWithRelations;
 
+    public function __construct()
+    {
+        $this->onlyWhen(function (ExternalResource $externalResource): bool {
+            return !is_null($externalResource->entity) &&
+                !is_null($externalResource->parent) &&
+                !is_null($externalResource->parent->entity);
+        });
+    }
+
     public function process(ExternalResource $externalResource): void
     {
         /** @var Model */

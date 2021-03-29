@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Import\Actions;
 
-use App\Import\Actions\Support\Skippable;
-use App\Import\Interfaces\Action;
 use App\Import\SyncResource;
 use App\Models\ExternalResource;
 use Closure;
@@ -16,10 +14,8 @@ use Iterator;
 /**
  * Splits the data of a resource into a new childresource.
  */
-class SplitResource implements Action
+class SplitResource extends AbstractAction
 {
-    use Skippable;
-
     protected string $type;
     protected string $path;
 

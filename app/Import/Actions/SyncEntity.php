@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Import\Actions;
 
 use App\Enumerators\ImportType;
-use App\Import\Interfaces\Action;
 use App\Models\ExternalResource;
 use App\Models\Party;
 use App\Models\Person;
@@ -16,9 +15,9 @@ use Illuminate\Support\Facades\Config;
 use InvalidArgumentException;
 
 /**
- * Updates or creates an entity based on whether the externalResource is linked to one
+ * Updates or creates an entity based on whether the externalResource is linked to one.
  */
-class SyncEntity implements Action
+class SyncEntity extends AbstractAction
 {
     public function process(ExternalResource $externalResource): void
     {

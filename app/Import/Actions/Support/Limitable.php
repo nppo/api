@@ -9,6 +9,8 @@ use Closure;
 
 trait Limitable
 {
+    protected ?Closure $onlyWhenCallback = null;
+
     public function onlyWhen(?Closure $closure)
     {
         $this->onlyWhenCallback = $closure;

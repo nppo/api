@@ -13,8 +13,6 @@ abstract class AbstractAction implements Action
 {
     use Skippable, Limitable;
 
-    abstract public function process(ExternalResource $externalResource): void;
-
     public function handle(ExternalResource $externalResource): void
     {
         if ($this->shouldBeSkipped($externalResource)) {
@@ -27,4 +25,6 @@ abstract class AbstractAction implements Action
 
         $this->process($externalResource);
     }
+
+    abstract public function process(ExternalResource $externalResource): void;
 }
