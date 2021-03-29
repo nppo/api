@@ -8,5 +8,5 @@ use App\Models\ExternalResource;
 
 interface Action
 {
-    public function process(ExternalResource $externalResource): void;
+    public function handle(ExternalResource $externalResource): void;
 }

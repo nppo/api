@@ -25,7 +25,7 @@ class ProcessResource
                 throw new InvalidArgumentException('Action does not implement interface');
             }
 
-            $action->process($this->externalResource);
+            $action->handle($this->externalResource);
         }
     }
 

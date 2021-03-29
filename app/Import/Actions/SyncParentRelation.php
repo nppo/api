@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Import\Actions;
 
-use App\Import\Interfaces\Action;
+use App\Import\Actions\Support\WorksWithRelations;
 use App\Models\ExternalResource;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use InvalidArgumentException;
 
-class SyncParentRelation implements Action
+/**
+ * Links the child entity to the parent entity.
+ */
+class SyncParentRelation extends AbstractAction
 {
+    use WorksWithRelations;
+
     public function process(ExternalResource $externalResource): void
     {
-        if (!$externalResource->parent || !$externalResource->entity || !$externalResource->parent->entity) {
-            return;
-        }
-
         /** @var Model */
         $model = $externalResource->entity;
 
@@ -26,24 +26,12 @@ class SyncParentRelation implements Action
 
         $relation = $this->guessRelation($parent, $model);
 
-        $relation = $parent->{$relation}();
-        $relation->syncWithoutDetaching($model);
-    }
+        if (method_exists($relation, 'syncWithoutDetaching')) {
+            $relation->syncWithoutDetaching($model);
 
-    private function guessRelation(Model $origin, Model $related): string
-    {
-        $class = class_basename(get_class($related));
-
-        if (method_exists($origin, $class)) {
-            return $class;
+            return;
         }
 
-        $plural = Str::plural($class);
-
-        if (method_exists($origin, $plural)) {
-            return $plural;
-        }
-
-        throw new InvalidArgumentException('Was not able to find relation ' . $plural);
+        throw new InvalidArgumentException('Unable to link parent relation');
     }
 }
