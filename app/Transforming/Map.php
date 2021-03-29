@@ -12,11 +12,15 @@ class Map
 
     protected ?string $transformerType;
 
-    public function __construct(string $origin, string $destination, ?string $transformerType = null)
+    /** @var mixed */
+    protected $default;
+
+    public function __construct(string $origin, string $destination, ?string $transformerType = null, $default = null)
     {
         $this->origin = $origin;
         $this->destination = $destination;
         $this->transformerType = $transformerType;
+        $this->default = $default;
     }
 
     public function getOrigin(): string
@@ -39,5 +43,11 @@ class Map
     public function getTransformerType(): ?string
     {
         return $this->transformerType;
+    }
+
+    /** @return mixed */
+    public function getDefault()
+    {
+        return $this->default;
     }
 }

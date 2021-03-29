@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Transforming\Support;
 
 use App\Transforming\Map;
+use Closure;
 use Flow\JSONPath\JSONPath;
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
 trait MapsData
@@ -31,12 +33,23 @@ trait MapsData
 
     protected function mapArray(Map $map, array $input, array &$output): void
     {
-        $output[$map->getDestination()] = $this->retrieveInputValue($map, $input);
+        $value = $this->retrieveInputValue($map, $input);
+
+        if (is_null($value) && Arr::has($output, $map->getDestination())) {
+            return;
+        }
+
+        $output[$map->getDestination()] = $value;
     }
 
     protected function mapObject(Map $map, array $input, object &$output): void
     {
-        $output->{$map->getDestination()} = $this->retrieveInputValue($map, $input);
+        $value = $this->retrieveInputValue($map, $input);
+
+        if (is_null($value) && !is_null(object_get($output, $map->getDestination()))) {
+            return;
+        }
+        $output->{$map->getDestination()} = $value;
     }
 
     /** @return mixed */
@@ -45,7 +58,13 @@ trait MapsData
         $value = (new JSONPath($input))->find($map->getOrigin())->first();
 
         if (is_null($value)) {
-            return;
+            $default = $map->getDefault();
+
+            if ($default instanceof Closure) {
+                return $default($input);
+            }
+
+            return $default;
         }
 
         if ($value instanceof JSONPath) {

@@ -12,6 +12,8 @@ use App\Transforming\Transformers\Date;
 use App\Transforming\Transformers\FirstName;
 use App\Transforming\Transformers\LastName;
 use App\Transforming\Transformers\PersonFunction;
+use App\Transforming\Transformers\ProductTitleTransformer;
+use App\Transforming\Transformers\ProductTypeTransformer;
 use App\Transforming\Transformers\Theme;
 use Fruitcake\Cors\HandleCors;
 use Illuminate\Support\ServiceProvider;
@@ -27,11 +29,13 @@ class AppServiceProvider extends ServiceProvider
     ];
 
     public $transformers = [
-        'date'           => Date::class,
-        'firstName'      => FirstName::class,
-        'lastName'       => LastName::class,
-        'personFunction' => PersonFunction::class,
-        'theme'          => Theme::class,
+        'date'                 => Date::class,
+        'firstName'            => FirstName::class,
+        'lastName'             => LastName::class,
+        'personFunction'       => PersonFunction::class,
+        'sharekit_producttype' => ProductTypeTransformer::class,
+        'sharekit_url_title'   => ProductTitleTransformer::class,
+        'theme'                => Theme::class,
     ];
 
     public function register(): void
