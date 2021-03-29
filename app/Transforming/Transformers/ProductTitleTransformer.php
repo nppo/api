@@ -18,7 +18,7 @@ class ProductTitleTransformer implements Transformer
                 return;
             }
 
-            $response = Http::get($value);
+            $response = Http::get(trim($value));
 
             if ($response->status() === 200) {
                 $title = Str::before(Str::after($response->__toString(), '<title>'), '</title>');

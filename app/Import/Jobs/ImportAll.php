@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Import\Jobs;
 
+use App\Enumerators\Queue;
 use App\External\ShareKit\Facades\ShareKit;
 use App\External\ShareKit\Response;
 use Illuminate\Bus\Queueable;
@@ -18,6 +19,11 @@ class ImportAll implements ShouldQueue
 
     private const PAGE_SIZE = 20;
 
+    public function __construct()
+    {
+        $this->queue = Queue::IMPORT_EXTERNAL;
+    }
+
     public function handle(int $pageNumber = 1): void
     {
         /** @var Response */
@@ -26,7 +32,7 @@ class ImportAll implements ShouldQueue
 
         $lastPage = $this->findLastPage($response);
 
-        if (!$lastPage) {
+        if (!is_int($lastPage)) {
             return;
         }
 

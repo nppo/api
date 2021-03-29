@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Import;
 
+use App\Enumerators\Queue;
 use App\Models\ExternalResource;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -34,6 +35,8 @@ class SyncResource implements ShouldQueue
         $this->identifier = $identifier;
         $this->data = $data;
         $this->externalResource = $externalResource;
+
+        $this->queue = Queue::IMPORT_INTERNAL;
     }
 
     public function handle(): void
@@ -83,6 +86,6 @@ class SyncResource implements ShouldQueue
 
     private function finish(ExternalResource $externalResource): void
     {
-        (new ProcessResource($externalResource))->handle();
+        ProcessResource::dispatch($externalResource);
     }
 }

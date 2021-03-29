@@ -6,6 +6,7 @@ namespace App\Import\Jobs;
 
 use App\Enumerators\ImportDriver;
 use App\Enumerators\ImportType;
+use App\Enumerators\Queue;
 use App\External\ShareKit\Entities\RepoItem;
 use App\External\ShareKit\Facades\ShareKit;
 use App\External\ShareKit\Response;
@@ -21,10 +22,18 @@ class ImportPage implements ShouldQueue
 
     private const PAGE_SIZE = 20;
 
-    public function handle(int $pageNumber = 1): void
+    protected int $pageNumber;
+
+    public function __construct(int $pageNumber = 1)
+    {
+        $this->pageNumber = $pageNumber;
+        $this->queue = Queue::IMPORT_EXTERNAL;
+    }
+
+    public function handle(): void
     {
         /** @var Response */
-        $response = ShareKit::setPaging(self::PAGE_SIZE, $pageNumber)
+        $response = ShareKit::setPaging(self::PAGE_SIZE, $this->pageNumber)
             ->repoItems();
 
         $response
