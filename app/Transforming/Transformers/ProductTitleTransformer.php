@@ -28,7 +28,7 @@ class ProductTitleTransformer implements Transformer
                 if ($response->ok()) {
                     $title = $this->findTitle($response->__toString());
 
-                    if (!empty($title) && strlen($value) <= self::MAX_TITLE_LENGTH) {
+                    if (!is_null($title) && !empty($title) && strlen($value) <= self::MAX_TITLE_LENGTH) {
                         return html_entity_decode($title);
                     }
                 }
