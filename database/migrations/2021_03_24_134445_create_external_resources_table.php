@@ -13,14 +13,6 @@ class CreateExternalResourcesTable extends Migration
         Schema::create('external_resources', function (Blueprint $table): void {
             $table->id();
 
-            $table->unsignedBigInteger('parent_id')->nullable();
-
-            $table->foreign('parent_id')
-                ->references('id')
-                ->on('external_resources')
-
-                ->onDelete('CASCADE');
-
             $table->string('driver');
             $table->string('type');
             $table->string('external_identifier')->nullable();

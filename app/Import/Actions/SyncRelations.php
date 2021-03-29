@@ -22,24 +22,29 @@ class SyncRelations extends AbstractAction
             ->onlyWhen(function (ExternalResource $externalResource) {
                 return
                     !is_null($externalResource->entity) &&
-                    !is_null($externalResource->parent) &&
-                    !is_null($externalResource->parent->entity);
+                    !empty($externalResource->children);
             });
     }
 
     public function process(ExternalResource $externalResource): void
     {
-        $parentEntity = $externalResource->parent->entity;
+        $externalResource
+            ->parents
+            ->filter(function (ExternalResource $parentResource) {
+                return !is_null($parentResource->entity);
+            })
+            ->each(function (ExternalResource $parentResource) use ($externalResource): void {
+                foreach ($this->syncableTypes($externalResource) as $importType) {
+                    $relation = $this->guessPluralRelationMethod($importType);
 
-        foreach ($this->syncableTypes($externalResource) as $importType) {
-            $relation = $this->guessPluralRelationMethod($importType);
-
-            if (method_exists($parentEntity, $relation)) {
-                $externalResource->entity->{$relation}()->syncWithoutDetaching(
-                    $parentEntity->{$relation}
-                );
-            }
-        }
+                    if (method_exists($parentResource->entity, $relation)
+                        && method_exists($externalResource->entity, $relation)) {
+                        $externalResource->entity->{$relation}()->syncWithoutDetaching(
+                            $parentResource->entity->{$relation}
+                        );
+                    }
+                }
+            });
     }
 
     private function syncableTypes(ExternalResource $externalResource)

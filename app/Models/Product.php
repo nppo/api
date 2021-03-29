@@ -9,6 +9,7 @@ use App\Enumerators\MediaCollections;
 use App\Enumerators\TagTypes;
 use App\Helpers\Structure as StructureHelper;
 use App\Interfaces\HasMetaData;
+use App\Models\Support\HasExternalResource;
 use App\Models\Support\HasMeta;
 use App\Models\Support\HasTags;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -20,7 +21,7 @@ use Way2Web\Force\AbstractModel;
 
 class Product extends AbstractModel implements HasMedia, HasMetaData
 {
-    use Searchable, InteractsWithMedia, HasMeta, HasTags;
+    use Searchable, InteractsWithMedia, HasMeta, HasTags, HasExternalResource;
 
     protected $fillable = [
         'type',

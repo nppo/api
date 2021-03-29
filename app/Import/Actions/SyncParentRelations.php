@@ -6,13 +6,12 @@ namespace App\Import\Actions;
 
 use App\Import\Actions\Support\WorksWithRelations;
 use App\Models\ExternalResource;
-use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
 /**
  * Links the child entity to the parent entity.
  */
-class SyncParentRelation extends AbstractAction
+class SyncParentRelations extends AbstractAction
 {
     use WorksWithRelations;
 
@@ -20,23 +19,27 @@ class SyncParentRelation extends AbstractAction
     {
         $this->onlyWhen(function (ExternalResource $externalResource): bool {
             return !is_null($externalResource->entity) &&
-                !is_null($externalResource->parent) &&
-                !is_null($externalResource->parent->entity);
+                !empty($externalResource->parents);
         });
     }
 
     public function process(ExternalResource $externalResource): void
     {
-        /** @var Model */
-        $model = $externalResource->entity;
+        foreach ($externalResource->parents as $parent) {
+            if (is_null($parent->entity)) {
+                return;
+            }
 
-        /** @var Model */
-        $parent = $externalResource->parent->entity;
+            $this->updateRelation($externalResource, $parent);
+        }
+    }
 
-        $relation = $this->guessRelation($parent, $model);
+    private function updateRelation(ExternalResource $externalResource, ExternalResource $parentResource): void
+    {
+        $relation = $this->guessRelation($parentResource->entity, $externalResource->entity);
 
         if (method_exists($relation, 'syncWithoutDetaching')) {
-            $relation->syncWithoutDetaching($model);
+            $relation->syncWithoutDetaching($externalResource->entity);
 
             return;
         }

@@ -11,7 +11,7 @@ trait HasExternalResource
 {
     public function externalResource(): MorphOne
     {
-        return $this->morphOne(ExternalResource::class);
+        return $this->morphOne(ExternalResource::class, 'entity');
     }
 
     public function hasExternalResource(): bool

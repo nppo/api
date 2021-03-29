@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class ExternalResource extends Model
@@ -27,13 +26,13 @@ class ExternalResource extends Model
         return $this->morphTo();
     }
 
-    public function parent(): BelongsTo
+    public function parents(): BelongsToMany
     {
-        return $this->belongsTo(self::class, 'parent_id', 'id');
+        return $this->belongsToMany(self::class, 'external_resource_relations', 'child_id', 'parent_id');
     }
 
-    public function children(): HasMany
+    public function children(): BelongsToMany
     {
-        return $this->hasMany(self::class, 'parent_id', 'id');
+        return $this->belongsToMany(self::class, 'external_resource_relations', 'parent_id', 'child_id');
     }
 }

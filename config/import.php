@@ -7,7 +7,7 @@ use App\Enumerators\ImportType;
 use App\Enumerators\ProductTypes;
 use App\Import\Actions\SplitResource;
 use App\Import\Actions\SyncEntity;
-use App\Import\Actions\SyncParentRelation;
+use App\Import\Actions\SyncParentRelations;
 use App\Import\Actions\SyncRelations;
 use App\Transforming\Map;
 use App\Transforming\Mapping;
@@ -21,7 +21,7 @@ return [
             ImportType::PRODUCT => [
                 'actions' => [
                     new SyncEntity(),
-                    new SyncParentRelation(),
+                    new SyncParentRelations(),
 
                     (new SplitResource(ImportType::PERSON, 'authors.*'))
                         ->resolveIdentifierUsing(function (array $data) {
@@ -51,8 +51,11 @@ return [
                     new SyncRelations(),
                 ],
                 'mapping' => new Mapping([
-                    new Map('fileName', 'title', null, fn () => Str::random()),
+                    // Asign a random filename as default or try determening it from the URL
+                    new Map('::DOES_NOT_EXIST::', 'title', null, fn () => Str::random()),
                     new Map('url', 'title', 'sharekit_url_title'),
+                    new Map('fileName', 'title'),
+
                     new Map('title', 'title'),
                     new Map('dateIssued', 'published_at', 'date', fn () => Carbon::now()),
                     new Map('abstract', 'description', null, ''),
@@ -63,7 +66,7 @@ return [
             ImportType::PERSON => [
                 'actions' => [
                     new SyncEntity(),
-                    new SyncParentRelation(),
+                    new SyncParentRelations(),
                 ],
                 'mapping' => new Mapping([
                     new Map('person.id', 'identifier'),
@@ -76,7 +79,7 @@ return [
             ImportType::PARTY => [
                 'actions' => [
                     new SyncEntity(),
-                    new SyncParentRelation(),
+                    new SyncParentRelations(),
                 ],
                 'mapping' => new Mapping([
                     new Map('[0]', 'name'),
@@ -85,7 +88,7 @@ return [
             ImportType::TAG => [
                 'actions' => [
                     new SyncEntity(),
-                    new SyncParentRelation(),
+                    new SyncParentRelations(),
                 ],
                 'mapping' => new Mapping([
                     new Map('[0]', 'label'),

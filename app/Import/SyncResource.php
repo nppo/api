@@ -51,7 +51,7 @@ class SyncResource implements ShouldQueue
 
             $model->update(['data' => $this->data]);
 
-            $this->updateParent($model);
+            $this->updateParents($model);
             $this->finish($model);
 
             return;
@@ -64,14 +64,14 @@ class SyncResource implements ShouldQueue
             'data'                => $this->data,
         ]);
 
-        $this->updateParent($externalResource);
+        $this->updateParents($externalResource);
         $this->finish($externalResource);
     }
 
-    private function updateParent(ExternalResource $externalResource): void
+    private function updateParents(ExternalResource $externalResource): void
     {
         if ($this->externalResource) {
-            $externalResource->parent()->associate($this->externalResource);
+            $externalResource->parents()->syncWithoutDetaching($this->externalResource);
             $externalResource->save();
         }
     }
