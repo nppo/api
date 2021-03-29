@@ -77,6 +77,7 @@ return [
                     new Map('person.id', 'identifier'),
                     new Map('person.name', 'first_name', 'firstName'),
                     new Map('person.name', 'last_name', 'lastName'),
+                    new Map('person.email', 'email'),
                     new Map('role', 'function', 'personFunction'),
                 ]),
             ],
