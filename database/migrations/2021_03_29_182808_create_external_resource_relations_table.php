@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateExternalResourceRelationsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up(): void
     {
         Schema::create('external_resource_relations', function (Blueprint $table): void {
@@ -33,11 +28,6 @@ class CreateExternalResourceRelationsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down(): void
     {
         Schema::dropIfExists('external_resource_relations');
