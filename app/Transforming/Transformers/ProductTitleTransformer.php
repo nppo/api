@@ -17,6 +17,8 @@ class ProductTitleTransformer implements Transformer
 
     private const DOWNLOAD_HEADER = 'Content-Disposition';
 
+    private const TITLE_REGEX = '/<title[^>]*>(.*?)<\/title>/ims';
+
     public function transform($value)
     {
         if (is_string($value)) {
@@ -44,7 +46,7 @@ class ProductTitleTransformer implements Transformer
     {
         $matches = [];
 
-        preg_match('/<title[^>]*>(.*?)<\/title>/ims', $response->__toString(), $matches);
+        preg_match(self::TITLE_REGEX, $response->__toString(), $matches);
 
         if (empty($matches)) {
             return null;
