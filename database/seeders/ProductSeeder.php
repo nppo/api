@@ -55,6 +55,11 @@ class ProductSeeder extends Seeder
             'https://filesamples.com/samples/document/pdf/sample2.pdf',
             'https://filesamples.com/samples/document/pdf/sample3.pdf',
         ],
+        ProductTypes::LINK => [
+            'http://www.academic-bookshop.com/ourshop/prod_6547122-ECMLG-2018-Proceedings-of-the-14th-European-Conference-on-Management-Leadership-and-Governance-PRINT-VERSION.html',
+            'https://www.aup-online.com/content/journals/10.5117/TVT2017.1.HARM',
+            'https://doi.org/10.5117/TVT2017.1.HARM',
+        ],
     ];
 
     public function run(): void
