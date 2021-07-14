@@ -14,7 +14,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 
-class StartImport implements ShouldQueue
+class Import implements ShouldQueue
 {
     use Queueable, InteractsWithQueue, Dispatchable;
 
