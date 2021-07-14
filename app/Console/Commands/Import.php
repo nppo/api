@@ -18,6 +18,7 @@ class Import extends Command
     {
         if ($this->hasArgument('driver') && !empty($this->argument('driver'))) {
             ImportJob::dispatch($this->argument('driver'));
+
             return;
         }
 
