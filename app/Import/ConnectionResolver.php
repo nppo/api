@@ -18,6 +18,6 @@ class ConnectionResolver
     {
         $class = $this->connections[$name];
 
-        return (new $class());
+        return new $class();
     }
 }
