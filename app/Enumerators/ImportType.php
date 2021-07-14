@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Enumerators;
 
+use App\Models\Article;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
 use App\Models\Tag;
-use App\Models\Article;
 use Way2Web\Force\Enum;
 
 class ImportType extends Enum

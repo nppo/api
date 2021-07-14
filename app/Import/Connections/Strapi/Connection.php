@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Import\Connections\Strapi;
 
 use App\Import\Connections\Contracts\ImportConnection;

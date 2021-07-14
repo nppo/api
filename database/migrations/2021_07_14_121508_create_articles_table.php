@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateArticlesTable extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
@@ -17,7 +17,7 @@ class CreateArticlesTable extends Migration
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('articles');
     }
