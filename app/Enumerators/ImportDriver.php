@@ -10,4 +10,7 @@ class ImportDriver extends Enum
 {
     /** @var string */
     public const SHAREKIT = 'sharekit';
+
+    /** @var string */
+    public const STRAPI = 'strapi';
 }

@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Auth\Passport\Client;
 use App\External\ShareKit\Provider as ShareKitProvider;
+use App\External\Strapi\Provider as StrapiProvider;
 use App\Transforming\Repository;
 use App\Transforming\Support\RegistersTransformers;
 use App\Transforming\Transformers\Date;
@@ -41,6 +42,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(ShareKitProvider::class);
+        $this->app->register(StrapiProvider::class);
 
         $this->registerPassport();
 
