@@ -22,10 +22,8 @@ class ImportAll implements ShouldQueue
         $this->queue = Queue::IMPORT_EXTERNAL;
     }
 
-    public function handle(): void
+    public function handle(ConnectionResolver $connectionResolver): void
     {
-        $connectionResolver = App::make(ConnectionResolver::class);
-
         foreach (ImportDriver::asArray() as $importDriver) {
             $connectionResolver->resolve($importDriver)->import();
         }

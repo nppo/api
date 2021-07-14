@@ -22,8 +22,8 @@ class Import implements ShouldQueue
         $this->queue = Queue::IMPORT_EXTERNAL;
     }
 
-    public function handle(): void
+    public function handle(ConnectionResolver $connectionResolver): void
     {
-        App::make(ConnectionResolver::class)->resolve($this->driver)->import();
+        $connectionResolver->resolve($this->driver)->import();
     }
 }
