@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Enumerators\Action;
 use App\Enumerators\MediaCollections;
 use App\Enumerators\TagTypes;
+use App\Http\Requests\PersonStoreRequest;
 use App\Http\Requests\PersonUpdateRequest;
 use App\Http\Resources\PersonResource;
 use App\Models\Person;
@@ -43,6 +44,21 @@ class PersonController extends Controller
             $this->personRepository->show($id)
         )
             ->withPermissions();
+    }
+
+     public function store(PersonStoreRequest $request): PersonResource
+    {
+        $this->authorize('create', Person::class);
+
+        $validated = $request->validated();
+
+        $people = $this
+            ->personRepository
+            ->create($validated);
+
+        return PersonResource::make(
+            $this->personRepository->show($people->getKey())
+        );
     }
 
     public function update(PersonUpdateRequest $request, $id): PersonResource
