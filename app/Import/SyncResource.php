@@ -64,6 +64,8 @@ class SyncResource implements ShouldQueue
             'data'                => $this->data,
         ]);
 
+        dump($externalResource);
+
         $this->updateParents($externalResource);
         $this->finish($externalResource);
     }

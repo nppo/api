@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\External\Strapi\Jobs;
+namespace App\Import\Connections\Strapi\Jobs;
 
 use App\Enumerators\ImportDriver;
 use App\Enumerators\ImportType;
@@ -13,6 +13,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Arr;
 
 class Import implements ShouldQueue
 {
@@ -30,7 +31,7 @@ class Import implements ShouldQueue
                 SyncResource::dispatch(
                     ImportDriver::STRAPI,
                     ImportType::ARTICLE,
-                    $article->id,
+                    strval(Arr::get($article, 'id')),
                     $article
                 );
             });
