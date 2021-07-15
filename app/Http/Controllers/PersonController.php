@@ -13,6 +13,7 @@ use App\Http\Resources\PersonResource;
 use App\Models\Person;
 use App\Repositories\MediaRepository;
 use App\Repositories\PersonRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -21,10 +22,12 @@ use Way2Web\Force\Http\Controller;
 class PersonController extends Controller
 {
     private PersonRepository $personRepository;
+    private UserRepository $userRepository;
 
-    public function __construct(PersonRepository $personRepository, MediaRepository $mediaRepository)
+    public function __construct(PersonRepository $personRepository, UserRepository $userRepository, MediaRepository $mediaRepository)
     {
         $this->personRepository = $personRepository;
+        $this->userRepository = $userRepository;
         $this->mediaRepository = $mediaRepository;
 
         $this
@@ -46,15 +49,22 @@ class PersonController extends Controller
             ->withPermissions();
     }
 
-     public function store(PersonStoreRequest $request): PersonResource
+    public function store(PersonStoreRequest $request): PersonResource
     {
         $this->authorize('create', Person::class);
+
+        /** @var $user User */
+        $user = $this->userRepository->findOrFail($request->user()->id);
 
         $validated = $request->validated();
 
         $people = $this
             ->personRepository
             ->create($validated);
+
+        $user->person()->associate($people->getKey());
+
+        $user->save();
 
         return PersonResource::make(
             $this->personRepository->show($people->getKey())
