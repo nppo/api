@@ -97,9 +97,23 @@ return [
         ],
 
         ImportDriver::STRAPI => [
+            ImportType::TAG => [
+                'actions' => [
+                    new SyncEntity(),
+                    new SyncParentRelations(),
+                ],
+                'mapping' => new Mapping([
+                    new Map('label', 'label'),
+                ]),
+            ],
             ImportType::ARTICLE => [
                 'actions' => [
                     new SyncEntity(),
+
+                    (new SplitResource(ImportType::TAG, 'tags.*'))
+                        ->resolveIdentifierUsing(function (array $data) {
+                            return Arr::get($data, 'label');
+                        }),
                 ],
                 'mapping' => new Mapping([
                     new Map('title', 'title'),
