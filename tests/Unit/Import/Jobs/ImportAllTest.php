@@ -8,7 +8,6 @@ use App\Enumerators\ImportDriver;
 use App\Enumerators\Queue as EnumeratorsQueue;
 use App\Import\ConnectionResolver;
 use App\Import\Connections\Contracts\ImportConnection;
-use App\Import\Connections\ShareKit\Connection;
 use App\Import\Jobs\ImportAll;
 use Illuminate\Support\Facades\Queue;
 use PHPUnit\Framework\MockObject\MockObject;
