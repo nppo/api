@@ -18,6 +18,7 @@ class ArticleRepository extends AbstractRepository
     public function show($id): Model
     {
         return $this
+            ->with(['tags'])
             ->findOrFail($id);
     }
 }
