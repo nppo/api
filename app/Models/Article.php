@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Way2Web\Force\AbstractModel;
 
-class Article extends Model
+class Article extends AbstractModel
 {
     public $fillable = [
         'title',
