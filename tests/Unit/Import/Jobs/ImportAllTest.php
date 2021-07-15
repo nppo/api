@@ -45,7 +45,7 @@ class ImportAllTest extends TestCase
                 $this->createMock(ImportConnection::class),
             );
 
-        (new ImportAll)->handle($connectionResolver);
+        (new ImportAll())->handle($connectionResolver);
     }
 
     /** @test */
@@ -72,6 +72,6 @@ class ImportAllTest extends TestCase
                 $connection
             );
 
-        (new ImportAll)->handle($connectionResolver);
+        (new ImportAll())->handle($connectionResolver);
     }
 }

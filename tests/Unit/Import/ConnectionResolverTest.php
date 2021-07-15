@@ -44,12 +44,12 @@ class ConnectionResolverTest extends TestCase
         return [
             ImportDriver::STRAPI => [
                 ImportDriver::STRAPI,
-                Connection::class
+                Connection::class,
             ],
             ImportDriver::SHAREKIT => [
                 ImportDriver::SHAREKIT,
-                ShareKitConnection::class
-            ]
+                ShareKitConnection::class,
+            ],
         ];
     }
 }
