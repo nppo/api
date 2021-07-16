@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
             $this->call(ProductSeeder::class);
             $this->call(ProductContentSeeder::class);
             $this->call(ProjectSeeder::class);
+            $this->call(ArticleSeeder::class);
         } else {
             $startTime = microtime(true);
 

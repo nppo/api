@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enumerators;
 
+use App\Models\Article;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
@@ -16,4 +17,5 @@ class ImportType extends Enum
     public const PERSON = Person::class;
     public const PARTY = Party::class;
     public const TAG = Tag::class;
+    public const ARTICLE = Article::class;
 }

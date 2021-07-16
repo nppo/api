@@ -95,5 +95,16 @@ return [
                 ]),
             ],
         ],
+
+        ImportDriver::STRAPI => [
+            ImportType::ARTICLE => [
+                'actions' => [
+                    new SyncEntity(),
+                ],
+                'mapping' => new Mapping([
+                    new Map('title', 'title'),
+                ]),
+            ],
+        ]
     ],
 ];
