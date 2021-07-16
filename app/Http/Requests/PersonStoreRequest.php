@@ -18,9 +18,26 @@ class PersonStoreRequest extends FormRequest
             'function'   => ['string', 'nullable'],
             'about'      => ['string', 'nullable'],
 
+            'skills'         => ['nullable'],
+            'skills.*'       => ['array', 'required'],
+            'skills.*.label' => ['required', 'string'],
+
             'themes'      => ['array', 'min:1'],
             'themes.*'    => ['array', 'required'],
             'themes.*.id' => ['required', 'integer'],
+
+            'profile_picture' => [
+                'sometimes',
+                'image',
+                'mimes:jpg,jpeg,bmp,png,gif',
+                'max:' . $this->getMaxFileSize(),
+                'dimensions:ratio=1/1',
+            ],
         ];
+    }
+
+    private function getMaxFileSize(): string
+    {
+        return (string) config('media-library.max_file_size');
     }
 }

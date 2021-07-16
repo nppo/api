@@ -58,16 +58,40 @@ class PersonController extends Controller
 
         $validated = $request->validated();
 
-        $people = $this
+        $person = $this
             ->personRepository
-            ->create($validated);
+            ->create(
+                Arr::except($validated, ['profile_picture', 'skills', 'themes'])
+            );
 
-        $user->person()->associate($people->getKey());
+        if ($request->hasFile('profile_picture')) {
+            $person
+                ->addMediaFromRequest('profile_picture')
+                ->preservingOriginal()
+                ->toMediaCollection(MediaCollections::PROFILE_PICTURE);
+        }
+
+        $person->syncTags(
+            Collection::make(Arr::get($validated, 'skills') ?? [])
+                ->map(fn ($tag) => $tag['label'])
+                ->toArray(),
+            TagTypes::SKILL,
+        );
+
+        $person->syncTags(
+            Collection::make(Arr::get($validated, 'themes') ?? [])
+                ->map(fn ($tag) => $tag['label'])
+                ->toArray(),
+            TagTypes::THEME,
+            true
+        );
+
+        $user->person()->associate($person->getKey());
 
         $user->save();
 
         return PersonResource::make(
-            $this->personRepository->show($people->getKey())
+            $this->personRepository->show($person->getKey())
         );
     }
 

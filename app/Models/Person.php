@@ -26,6 +26,7 @@ class Person extends AbstractModel implements HasMedia, HasMetaData
         'last_name',
         'function',
         'phone',
+        'about',
     ];
 
     public function likes(): MorphToMany
