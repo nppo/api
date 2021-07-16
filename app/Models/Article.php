@@ -13,5 +13,10 @@ class Article extends AbstractModel
 
     public $fillable = [
         'title',
+        'content'
+    ];
+
+    protected $casts = [
+        'content' => 'array',
     ];
 }
