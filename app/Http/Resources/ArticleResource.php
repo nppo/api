@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Way2Web\Force\Http\Resource;
 
 class ArticleResource extends Resource
@@ -21,6 +22,10 @@ class ArticleResource extends Resource
         return [
             'id'    => $this->id,
             'title' => $this->title,
+
+            'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
+                return TagResource::collection($this->tags);
+            }),
         ];
     }
 }
