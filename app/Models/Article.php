@@ -13,7 +13,7 @@ class Article extends AbstractModel
 
     public $fillable = [
         'title',
-        'content'
+        'content',
     ];
 
     protected $casts = [
