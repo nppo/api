@@ -20,7 +20,7 @@ class ContentTransformer implements Transformer
                 return $this->decorate($subContent);
             }
 
-            return preg_replace('/!\[(.*)\]\((.*)\)/', '![$1](' . config('strapi.url') . '$2)', $subContent);
+            return preg_replace('(\/[a-zA-Z]*\/.*)', config('strapi.url') . '$0', $subContent);
         }, $content);
     }
 }
