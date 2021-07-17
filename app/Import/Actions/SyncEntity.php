@@ -53,6 +53,8 @@ class SyncEntity extends AbstractAction
                 return Tag::class;
             case ImportType::ARTICLE:
                 return Article::class;
+            case ImportType::THEME:
+                return Tag::class;
             default:
                 throw new InvalidArgumentException('No class provided for type ' . $type);
         }
