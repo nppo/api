@@ -59,19 +59,19 @@ class ArticleFactory extends Factory
             case self::CONTENT_TEXT:
                 return [
                     '__component' => $name,
-                    'text' => $this->faker->text,
+                    'text'        => $this->faker->text,
                 ];
             case self::CONTENT_IMAGE:
                 return [
                     '__component' => $name,
-                    'image' => [
+                    'image'       => [
                         'url' => 'https://picsum.photos/600/600',
                     ]
                 ];
             case self::CONTENT_SLIDER:
                 return [
                     '__component' => $name,
-                    'images' => [
+                    'images'      => [
                         [
                             'url' => 'https://picsum.photos/600/600',
                         ],
