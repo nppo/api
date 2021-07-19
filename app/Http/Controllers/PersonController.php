@@ -12,7 +12,6 @@ use App\Http\Requests\PersonUpdateRequest;
 use App\Http\Resources\PersonResource;
 use App\Models\Person;
 use App\Models\User;
-use App\Repositories\MediaRepository;
 use App\Repositories\PersonRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -25,11 +24,10 @@ class PersonController extends Controller
     private PersonRepository $personRepository;
     private UserRepository $userRepository;
 
-    public function __construct(PersonRepository $personRepository, UserRepository $userRepository, MediaRepository $mediaRepository)
+    public function __construct(PersonRepository $personRepository, UserRepository $userRepository)
     {
         $this->personRepository = $personRepository;
         $this->userRepository = $userRepository;
-        $this->mediaRepository = $mediaRepository;
 
         $this
             ->protectActionRoutes(['api']);
