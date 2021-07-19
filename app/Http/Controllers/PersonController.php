@@ -11,6 +11,7 @@ use App\Http\Requests\PersonStoreRequest;
 use App\Http\Requests\PersonUpdateRequest;
 use App\Http\Resources\PersonResource;
 use App\Models\Person;
+use App\Models\User;
 use App\Repositories\MediaRepository;
 use App\Repositories\PersonRepository;
 use App\Repositories\UserRepository;
@@ -53,15 +54,16 @@ class PersonController extends Controller
     {
         $this->authorize('create', Person::class);
 
-        /** @var $user User */
+        /** @var User */
         $user = $this->userRepository->findOrFail($request->user()->id);
 
         $validated = $request->validated();
 
         $person = $this
             ->personRepository
-            ->create(
-                Arr::except($validated, ['profile_picture', 'skills', 'themes'])
+            ->createFull(
+                Arr::except($validated, ['profile_picture', 'skills', 'themes']),
+                $user
             );
 
         if ($request->hasFile('profile_picture')) {
@@ -85,10 +87,6 @@ class PersonController extends Controller
             TagTypes::THEME,
             true
         );
-
-        $user->person()->associate($person->getKey());
-
-        $user->save();
 
         return PersonResource::make(
             $this->personRepository->show($person->getKey())
