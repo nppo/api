@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Enumerators\Filters;
+use App\Models\Party;
 use App\Models\Person;
+use App\Models\Product;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Way2Web\Force\Repository\AbstractRepository;
 
@@ -72,5 +76,31 @@ class PersonRepository extends AbstractRepository
     public function get()
     {
         return $this->builder->get();
+    }
+
+    public function addLike($personId, string $likableType, string $likableId): Person
+    {
+        /** @var Person $person */
+        $person = $this->findOrFail($personId);
+
+        /** @var User $user */
+        $user = $person->user;
+
+        switch ($likableType) {
+            case Product::class:
+                $user->likedProducts()->attach($likableId);
+                break;
+            case Project::class:
+                $user->likedProjects()->attach($likableId);
+                break;
+            case Party::class:
+                $user->likedParties()->attach($likableId);
+                break;
+            case Person::class:
+                $user->likedPeople()->attach($likableId);
+                break;
+        }
+
+        return $person;
     }
 }
