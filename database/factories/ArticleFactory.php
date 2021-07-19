@@ -66,7 +66,7 @@ class ArticleFactory extends Factory
                     '__component' => $name,
                     'image'       => [
                         'url' => 'https://picsum.photos/600/600',
-                    ]
+                    ],
                 ];
             case self::CONTENT_SLIDER:
                 return [
@@ -78,7 +78,7 @@ class ArticleFactory extends Factory
                         [
                             'url' => 'https://picsum.photos/600/600',
                         ],
-                    ]
+                    ],
                 ];
             default:
                 throw new InvalidArgumentException('Provided content type does not exist');
