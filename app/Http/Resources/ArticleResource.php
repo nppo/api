@@ -27,6 +27,10 @@ class ArticleResource extends Resource
             'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
                 return TagResource::collection($this->tags);
             }),
+
+            'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {
+                return ThemeResource::collection($this->themes);
+            }),
         ];
     }
 }
