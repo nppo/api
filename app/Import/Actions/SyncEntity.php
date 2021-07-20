@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Import\Actions;
 
 use App\Enumerators\ImportType;
+use App\Import\Interfaces\ModelResolver;
 use App\Models\Article;
 use App\Models\ExternalResource;
 use App\Models\Party;
@@ -20,6 +21,13 @@ use InvalidArgumentException;
  */
 class SyncEntity extends AbstractAction
 {
+    protected ?ModelResolver $modelResolver;
+
+    public function __construct(ModelResolver $modelResolver = null)
+    {
+        $this->modelResolver = $modelResolver;
+    }
+
     public function process(ExternalResource $externalResource): void
     {
         $mapping = $this->resolveMapping($externalResource->driver, $externalResource->type);
@@ -31,6 +39,16 @@ class SyncEntity extends AbstractAction
             $externalResource->entity->update($output);
 
             return;
+        }
+
+        if ($this->modelResolver) {
+            $model = $this->modelResolver->resolve($output);
+
+            if ($model) {
+                $model->update($output);
+
+                return;
+            }
         }
 
         $class = $this->resolveModelClass($externalResource->type);
