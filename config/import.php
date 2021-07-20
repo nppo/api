@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Enumerators\ImportDriver;
 use App\Enumerators\ImportType;
 use App\Enumerators\ProductTypes;
+use App\Enumerators\TagTypes;
 use App\Import\Actions\SplitResource;
 use App\Import\Actions\SyncEntity;
 use App\Import\Actions\SyncParentRelations;
@@ -106,11 +107,26 @@ return [
                     new Map('label', 'label'),
                 ]),
             ],
+            ImportType::THEME => [
+                'actions' => [
+                    new SyncEntity(),
+                    new SyncParentRelations(),
+                ],
+                'mapping' => new Mapping([
+                    new Map('label', 'label'),
+                    new Map('::DOES_NOT_EXIST::', 'type', null, TagTypes::THEME),
+                ]),
+            ],
             ImportType::ARTICLE => [
                 'actions' => [
                     new SyncEntity(),
 
                     (new SplitResource(ImportType::TAG, 'tags.*'))
+                        ->resolveIdentifierUsing(function (array $data) {
+                            return Arr::get($data, 'label');
+                        }),
+
+                    (new SplitResource(ImportType::THEME, 'themes.*'))
                         ->resolveIdentifierUsing(function (array $data) {
                             return Arr::get($data, 'label');
                         }),
