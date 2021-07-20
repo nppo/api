@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Enumerators\Filters;
 use App\Models\Person;
+use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Way2Web\Force\Repository\AbstractRepository;
 
@@ -67,6 +68,18 @@ class PersonRepository extends AbstractRepository
         }
 
         return $this;
+    }
+
+    public function limit(int $amount): self
+    {
+        $this->builder->limit($amount);
+
+        return $this;
+    }
+
+    public function cursorPaginate(int $perPage = self::DEFAULT_PER_PAGE): CursorPaginator
+    {
+        return $this->builder->cursorPaginate($perPage);
     }
 
     public function get()
