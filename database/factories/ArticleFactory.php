@@ -31,6 +31,7 @@ class ArticleFactory extends Factory
             'preview_url' => 'https://picsum.photos/600/600',
             'summary'     => $this->faker->text,
 
+            'header'  => $this->createContent(self::CONTENT_SLIDER)['images'],
             'content' => $this->seedContent($this->scaffoldContentTypes()),
         ];
     }

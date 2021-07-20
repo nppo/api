@@ -17,10 +17,12 @@ class Article extends AbstractModel
         'title',
         'preview_url',
         'summary',
+        'header',
         'content',
     ];
 
     protected $casts = [
+        'header'  => 'array',
         'content' => 'array',
     ];
 

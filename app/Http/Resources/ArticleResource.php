@@ -25,6 +25,7 @@ class ArticleResource extends Resource
             'previewUrl' => $this->preview_url,
             'summary'    => $this->summary,
 
+            'header'  => $this->header,
             'content' => $this->content,
 
             'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
