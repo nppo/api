@@ -20,8 +20,9 @@ class ArticleResource extends Resource
     public function toArray($request): array
     {
         return [
-            'id'    => $this->id,
-            'title' => $this->title,
+            'id'      => $this->id,
+            'title'   => $this->title,
+            'content' => $this->content,
 
             'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
                 return TagResource::collection($this->tags);
