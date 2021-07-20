@@ -26,7 +26,7 @@ class ArticleFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'       => $this->faker->sentence(),
+            'title' => $this->faker->sentence(),
 
             'preview_url' => 'https://picsum.photos/600/600',
             'summary'     => $this->faker->sentence(30),
