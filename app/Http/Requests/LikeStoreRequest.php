@@ -25,7 +25,7 @@ class LikeStoreRequest extends FormRequest
                     Party::class,
                     Person::class,
                 ]), ],
-            'likable_id' => ['string', 'required'],
+            'likable_id' => ['required'],
         ];
     }
 

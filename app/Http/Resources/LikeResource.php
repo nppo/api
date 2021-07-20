@@ -22,15 +22,15 @@ class LikeResource extends Resource
     public function toArray($request): array
     {
         return [
-            'id' => $this->resource->getKey(),
+            'user_id' => $this->resource->getKey(),
 
-            'liked_products' => $this->resource->likedProducts,
+            'liked_products' => ProductResource::collection($this->resource->likedProducts),
 
-            'liked_projects' => $this->resource->likedProjects,
+            'liked_projects' => ProjectResource::collection($this->resource->likedProjects),
 
-            'liked_people' => $this->resource->likedPeople,
+            'liked_people' => PersonResource::collection($this->resource->likedPeople),
 
-            'liked_parties' => $this->resource->likedParties,
+            'liked_parties' => PartyResource::collection($this->resource->likedParties),
         ];
     }
 }

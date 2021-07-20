@@ -27,7 +27,7 @@ class PersonLikeController extends Controller
         return LikeResource::make($person->user);
     }
 
-    public function store($personId, LikeStoreRequest $request)
+    public function store($personId, LikeStoreRequest $request): LikeResource
     {
         $person = $this->personRepository->addLike(
             $personId,

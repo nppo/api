@@ -88,16 +88,16 @@ class PersonRepository extends AbstractRepository
 
         switch ($likableType) {
             case Product::class:
-                $user->likedProducts()->attach($likableId);
+                $user->likedProducts()->toggle($likableId);
                 break;
             case Project::class:
-                $user->likedProjects()->attach($likableId);
+                $user->likedProjects()->toggle($likableId);
                 break;
             case Party::class:
-                $user->likedParties()->attach($likableId);
+                $user->likedParties()->toggle($likableId);
                 break;
             case Person::class:
-                $user->likedPeople()->attach($likableId);
+                $user->likedPeople()->toggle($likableId);
                 break;
         }
 

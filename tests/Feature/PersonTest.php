@@ -6,6 +6,10 @@ namespace Tests\Feature;
 
 use App\Enumerators\TagTypes;
 use App\Models\Attribute;
+use App\Models\Party;
+use App\Models\Person;
+use App\Models\Product;
+use App\Models\Project;
 use App\Models\Tag;
 use App\Models\Value;
 use Illuminate\Http\UploadedFile;
@@ -224,5 +228,117 @@ class PersonTest extends TestCase
             $original + 2,
             $user->person->values()->count()
         );
+    }
+
+    /** @test */
+    public function it_can_like_a_product(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $product = Product::factory()->create();
+
+        $this
+            ->postJson(
+                route('api.people.likes.store', [$user->person->id]),
+                [
+                    'likable_type' => Product::class,
+                    'likable_id'   => $product->getKey(),
+                ]
+            )
+            ->assertOk();
+
+        $this->assertTrue($user->likedProducts->contains($product));
+    }
+
+    /** @test */
+    public function it_can_like_a_project(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $project = Project::factory()->create();
+
+        $this
+            ->postJson(
+                route('api.people.likes.store', [$user->person->id]),
+                [
+                    'likable_type' => Project::class,
+                    'likable_id'   => $project->getKey(),
+                ]
+            )
+            ->assertOk();
+
+        $this->assertTrue($user->likedProjects->contains($project));
+    }
+
+    /** @test */
+    public function it_can_like_a_party(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $party = Party::factory()->create();
+
+        $this
+            ->postJson(
+                route('api.people.likes.store', [$user->person->id]),
+                [
+                    'likable_type' => Party::class,
+                    'likable_id'   => $party->getKey(),
+                ]
+            )
+            ->assertOk();
+
+        $this->assertTrue($user->likedParties->contains($party));
+    }
+
+    /** @test */
+    public function it_can_like_a_person(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $person = Person::factory()->create();
+
+        $this
+            ->postJson(
+                route('api.people.likes.store', [$user->person->id]),
+                [
+                    'likable_type' => Person::class,
+                    'likable_id'   => $person->getKey(),
+                ]
+            )
+            ->assertOk();
+
+        $this->assertTrue($user->likedPeople->contains($person));
+    }
+
+    /** @test */
+    public function it_can_view_all_liked_entities(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $user->likedProducts()->attach(Product::factory()->create());
+        $user->likedProjects()->attach(Project::factory()->create());
+        $user->likedParties()->attach(Party::factory()->create());
+        $user->likedPeople()->attach(Person::factory()->create());
+
+        $response = $this
+            ->getJson(
+                route('api.people.likes.index', [$user->person->id])
+            )
+            ->assertOk();
+
+        $this->assertCount(1, $response->json('data.liked_products'));
+        $this->assertCount(1, $response->json('data.liked_projects'));
+        $this->assertCount(1, $response->json('data.liked_people'));
+        $this->assertCount(1, $response->json('data.liked_parties'));
     }
 }
