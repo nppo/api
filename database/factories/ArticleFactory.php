@@ -27,8 +27,11 @@ class ArticleFactory extends Factory
     {
         return [
             'title'       => $this->faker->sentence(),
-            'content'     => $this->seedContent($this->scaffoldContentTypes()),
+
             'preview_url' => 'https://picsum.photos/600/600',
+            'summary'     => $this->faker->sentence(30),
+
+            'content' => $this->seedContent($this->scaffoldContentTypes()),
         ];
     }
 
