@@ -133,8 +133,9 @@ return [
                 ],
                 'mapping' => new Mapping([
                     new Map('title', 'title'),
-                    new Map('content', 'content', 'strapi_content'),
                     new Map('preview.url', 'preview_url', 'strapi_content'),
+                    new Map('summary', 'summary'),
+                    new Map('content', 'content', 'strapi_content'),
                 ]),
             ],
         ]

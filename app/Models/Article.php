@@ -15,8 +15,9 @@ class Article extends AbstractModel
 
     public $fillable = [
         'title',
-        'content',
         'preview_url',
+        'summary',
+        'content',
     ];
 
     protected $casts = [
