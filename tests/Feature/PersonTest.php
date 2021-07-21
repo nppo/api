@@ -336,9 +336,9 @@ class PersonTest extends TestCase
             )
             ->assertOk();
 
-        $this->assertCount(1, $response->json('data.liked_products'));
-        $this->assertCount(1, $response->json('data.liked_projects'));
-        $this->assertCount(1, $response->json('data.liked_people'));
-        $this->assertCount(1, $response->json('data.liked_parties'));
+        $this->assertCount(1, $response->json('data.likedProducts'));
+        $this->assertCount(1, $response->json('data.likedProjects'));
+        $this->assertCount(1, $response->json('data.likedPeople'));
+        $this->assertCount(1, $response->json('data.likedParties'));
     }
 }
