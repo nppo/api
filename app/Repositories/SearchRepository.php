@@ -37,7 +37,7 @@ class SearchRepository
 
     private ProjectRepository $projectRepository;
 
-    private ArticleRepository $aricleRepository;
+    private ArticleRepository $articleRepository;
 
     public function __construct(
         ProductRepository $productRepository,
