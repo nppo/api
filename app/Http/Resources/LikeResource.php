@@ -24,13 +24,13 @@ class LikeResource extends Resource
         return [
             'user_id' => $this->resource->getKey(),
 
-            'liked_products' => ProductResource::collection($this->resource->likedProducts),
+            'likedProducts' => ProductResource::collection($this->resource->likedProducts),
 
-            'liked_projects' => ProjectResource::collection($this->resource->likedProjects),
+            'likedProjects' => ProjectResource::collection($this->resource->likedProjects),
 
-            'liked_people' => PersonResource::collection($this->resource->likedPeople),
+            'likedPeople' => PersonResource::collection($this->resource->likedPeople),
 
-            'liked_parties' => PartyResource::collection($this->resource->likedParties),
+            'likedParties' => PartyResource::collection($this->resource->likedParties),
         ];
     }
 }
