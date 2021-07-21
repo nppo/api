@@ -15,11 +15,14 @@ class Article extends AbstractModel
 
     public $fillable = [
         'title',
-        'content',
         'preview_url',
+        'summary',
+        'header',
+        'content',
     ];
 
     protected $casts = [
+        'header'  => 'array',
         'content' => 'array',
     ];
 

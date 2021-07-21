@@ -26,9 +26,13 @@ class ArticleFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'       => $this->faker->sentence(),
-            'content'     => $this->seedContent($this->scaffoldContentTypes()),
+            'title' => $this->faker->sentence(),
+
             'preview_url' => 'https://picsum.photos/600/600',
+            'summary'     => $this->faker->text,
+
+            'header'  => $this->createContent(self::CONTENT_SLIDER)['images'],
+            'content' => $this->seedContent($this->scaffoldContentTypes()),
         ];
     }
 

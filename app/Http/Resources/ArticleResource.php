@@ -22,8 +22,11 @@ class ArticleResource extends Resource
         return [
             'id'         => $this->id,
             'title'      => $this->title,
-            'content'    => $this->content,
             'previewUrl' => $this->preview_url,
+            'summary'    => $this->summary,
+
+            'header'  => $this->header,
+            'content' => $this->content,
 
             'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
                 return TagResource::collection($this->tags);
