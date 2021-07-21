@@ -12,11 +12,12 @@ class PersonStoreRequest extends FormRequest
     {
         return [
             'identifier' => ['string', 'required'],
-            'first_name' => ['string', 'nullable'],
+            'first_name' => ['string', 'required'],
             'last_name'  => ['string', 'nullable'],
             'phone'      => ['string', 'nullable'],
             'function'   => ['string', 'nullable'],
             'about'      => ['string', 'nullable'],
+            'email'      => ['string', 'nullable'],
 
             'skills'         => ['nullable'],
             'skills.*'       => ['array', 'required'],
