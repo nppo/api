@@ -60,7 +60,7 @@ class ArticleFactory extends Factory
                 self::CONTENT_PROJECT,
                 self::CONTENT_PRODUCT,
                 self::CONTENT_PERSON,
-                self::CONTENT_PARTY
+                self::CONTENT_PARTY,
             ]);
         }
 
