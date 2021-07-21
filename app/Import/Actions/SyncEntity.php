@@ -35,20 +35,19 @@ class SyncEntity extends AbstractAction
         $output = [];
         $mapping->apply($externalResource->data, $output);
 
+        if ($this->modelResolver && is_null($externalResource->entity)) {
+            $model = $this->modelResolver->resolve($output);
+
+            if ($model) {
+                $externalResource->entity()->associate($model);
+                $externalResource->save();
+            }
+        }
+
         if ($externalResource->entity) {
             $externalResource->entity->update($output);
 
             return;
-        }
-
-        if ($this->modelResolver) {
-            $model = $this->modelResolver->resolve($output);
-
-            if ($model) {
-                $model->update($output);
-
-                return;
-            }
         }
 
         $class = $this->resolveModelClass($externalResource->type);
