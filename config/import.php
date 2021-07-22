@@ -12,6 +12,7 @@ use App\Import\Actions\SyncParentRelations;
 use App\Import\Actions\SyncRelations;
 use App\Import\Resolvers\CompositeResolver;
 use App\Import\Resolvers\Person\EmailResolver;
+use App\Import\Resolvers\Person\UserEmailResolver;
 use App\Transforming\Map;
 use App\Transforming\Mapping;
 use Carbon\Carbon;
@@ -70,7 +71,8 @@ return [
                 'actions' => [
                     new SyncEntity(
                         new CompositeResolver([
-                            new EmailResolver()
+                            new EmailResolver(),
+                            new UserEmailResolver(),
                         ]),
                     ),
                     new SyncParentRelations(),
