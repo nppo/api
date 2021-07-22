@@ -26,6 +26,11 @@ class Article extends AbstractModel
         'content' => 'array',
     ];
 
+    public function likes(): MorphToMany
+    {
+        return $this->morphToMany(User::class, 'likeable');
+    }
+
     public function themes(): MorphToMany
     {
         return $this->tags()->where('type', TagTypes::THEME);
