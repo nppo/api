@@ -12,4 +12,5 @@ class Entities extends Enum
     public const PROJECT = 'project';
     public const PERSON = 'person';
     public const PARTY = 'party';
+    public const ARTICLE = 'article';
 }
