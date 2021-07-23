@@ -7,6 +7,8 @@ namespace App\Providers;
 use App\Auth\Passport\Client;
 use App\External\ShareKit\Provider as ShareKitProvider;
 use App\External\Strapi\Provider as StrapiProvider;
+use App\Models\User;
+use App\Observers\UserObserver;
 use App\Transforming\Repository;
 use App\Transforming\Support\RegistersTransformers;
 use App\Transforming\Transformers\Date;
@@ -53,7 +55,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //
+        User::observe(UserObserver::class);
     }
 
     protected function registerPassport(): void
