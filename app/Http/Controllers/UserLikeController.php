@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enumerators\Action;
 use App\Http\Requests\LikeStoreRequest;
 use App\Http\Resources\LikeResource;
 use App\Models\User;
@@ -25,14 +26,14 @@ class UserLikeController extends Controller
         /** @var User $user */
         $user = $this->userRepository->findOrFail($id);
 
-        $this->authorize('viewAny', $user);
+        $this->authorize(Action::VIEW_ANY . 'Like', $user);
 
         return LikeResource::make($user);
     }
 
     public function store($userId, LikeStoreRequest $request): LikeResource
     {
-        $this->authorize('create', $this->userRepository->findOrFail($userId));
+        $this->authorize(Action::CREATE . 'Like', $this->userRepository->findOrFail($userId));
 
         $user = $this->userRepository->addLike(
             $userId,
