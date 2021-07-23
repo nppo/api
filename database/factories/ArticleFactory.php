@@ -90,7 +90,7 @@ class ArticleFactory extends Factory
                 return [
                     '__component' => $name,
                     'image'       => [
-                        'url' => 'https://picsum.photos/600/600',
+                        'url' => 'https://picsum.photos/' . rand(150, 900) . '/' . rand(150, 900),
                     ],
                 ];
             case self::CONTENT_SLIDER:
@@ -98,10 +98,10 @@ class ArticleFactory extends Factory
                     '__component' => $name,
                     'images'      => [
                         [
-                            'url' => 'https://picsum.photos/600/600',
+                            'url' => 'https://picsum.photos/' . rand(150, 900) . '/' . rand(150, 900),
                         ],
                         [
-                            'url' => 'https://picsum.photos/600/600',
+                            'url' => 'https://picsum.photos/' . rand(150, 900) . '/' . rand(150, 900),
                         ],
                     ],
                 ];
