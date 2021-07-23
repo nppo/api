@@ -18,7 +18,7 @@ class CreateArticlesTable extends Migration
             $table->text('preview_url');
 
             $table->json('header');
-            $table->json('content');
+            $table->longText('content');
 
             $table->timestamps();
         });

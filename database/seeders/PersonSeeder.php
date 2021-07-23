@@ -21,7 +21,7 @@ class PersonSeeder extends Seeder
 {
     use SeedsMetadata;
 
-    private const MAX_PEOPLE = 100;
+    private const MAX_PEOPLE = 50;
 
     private const MAX_TAGS = 10;
 

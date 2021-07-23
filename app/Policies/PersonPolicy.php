@@ -10,6 +10,15 @@ use App\Models\User;
 
 class PersonPolicy
 {
+    public function create(User $user)
+    {
+        if (!$user->can(Permissions::PEOPLE_CREATE)) {
+            return false;
+        }
+
+        return is_null($user->person);
+    }
+
     public function update(User $user, Person $person)
     {
         if (!$user->can(Permissions::PEOPLE_UPDATE)) {

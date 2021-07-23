@@ -10,6 +10,9 @@ use App\Import\Actions\SplitResource;
 use App\Import\Actions\SyncEntity;
 use App\Import\Actions\SyncParentRelations;
 use App\Import\Actions\SyncRelations;
+use App\Import\Resolvers\CompositeResolver;
+use App\Import\Resolvers\Person\EmailResolver;
+use App\Import\Resolvers\Person\UserEmailResolver;
 use App\Transforming\Map;
 use App\Transforming\Mapping;
 use Carbon\Carbon;
@@ -66,7 +69,12 @@ return [
             ],
             ImportType::PERSON => [
                 'actions' => [
-                    new SyncEntity(),
+                    new SyncEntity(
+                        new CompositeResolver([
+                            new EmailResolver(),
+                            new UserEmailResolver(),
+                        ]),
+                    ),
                     new SyncParentRelations(),
                 ],
                 'mapping' => new Mapping([

@@ -13,6 +13,7 @@ class Roles extends Enum
         Permissions::PROJECTS_UPDATE,
         Permissions::PRODUCTS_CREATE,
         Permissions::PRODUCTS_UPDATE,
+        Permissions::PEOPLE_CREATE,
         Permissions::PEOPLE_UPDATE,
     ];
 
@@ -21,6 +22,7 @@ class Roles extends Enum
         Permissions::PROJECTS_UPDATE,
         Permissions::PRODUCTS_CREATE,
         Permissions::PRODUCTS_UPDATE,
+        Permissions::PEOPLE_CREATE,
         Permissions::PEOPLE_UPDATE,
     ];
 }

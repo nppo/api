@@ -7,11 +7,13 @@ namespace App\Http\Controllers;
 use App\Enumerators\Action;
 use App\Enumerators\MediaCollections;
 use App\Enumerators\TagTypes;
+use App\Http\Requests\PersonStoreRequest;
 use App\Http\Requests\PersonUpdateRequest;
 use App\Http\Resources\PersonResource;
 use App\Models\Person;
-use App\Repositories\MediaRepository;
+use App\Models\User;
 use App\Repositories\PersonRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -20,11 +22,12 @@ use Way2Web\Force\Http\Controller;
 class PersonController extends Controller
 {
     private PersonRepository $personRepository;
+    private UserRepository $userRepository;
 
-    public function __construct(PersonRepository $personRepository, MediaRepository $mediaRepository)
+    public function __construct(PersonRepository $personRepository, UserRepository $userRepository)
     {
         $this->personRepository = $personRepository;
-        $this->mediaRepository = $mediaRepository;
+        $this->userRepository = $userRepository;
 
         $this
             ->protectActionRoutes(['api']);
@@ -43,6 +46,49 @@ class PersonController extends Controller
             $this->personRepository->show($id)
         )
             ->withPermissions();
+    }
+
+    public function store(PersonStoreRequest $request): PersonResource
+    {
+        $this->authorize('create', Person::class);
+
+        /** @var User */
+        $user = $this->userRepository->findOrFail($request->user()->id);
+
+        $validated = $request->validated();
+
+        $person = $this
+            ->personRepository
+            ->createFull(
+                Arr::except($validated, ['profile_picture', 'skills', 'themes']),
+                $user
+            );
+
+        if ($request->hasFile('profile_picture')) {
+            $person
+                ->addMediaFromRequest('profile_picture')
+                ->preservingOriginal()
+                ->toMediaCollection(MediaCollections::PROFILE_PICTURE);
+        }
+
+        $person->syncTags(
+            Collection::make(Arr::get($validated, 'skills') ?? [])
+                ->map(fn ($tag) => $tag['label'])
+                ->toArray(),
+            TagTypes::SKILL,
+        );
+
+        $person->syncTags(
+            Collection::make(Arr::get($validated, 'themes') ?? [])
+                ->map(fn ($tag) => $tag['label'])
+                ->toArray(),
+            TagTypes::THEME,
+            true
+        );
+
+        return PersonResource::make(
+            $this->personRepository->show($person->getKey())
+        );
     }
 
     public function update(PersonUpdateRequest $request, $id): PersonResource
