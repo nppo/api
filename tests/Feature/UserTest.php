@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Models\Article;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
@@ -100,6 +101,28 @@ class UserTest extends TestCase
             ->assertOk();
 
         $this->assertTrue($user->likedPeople->contains($person));
+    }
+
+    /** @test */
+    public function it_can_like_a_article(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        $person = Article::factory()->create();
+
+        $this
+            ->postJson(
+                route('api.users.likes.store', [$user->id]),
+                [
+                    'likable_type' => Article::class,
+                    'likable_id'   => $person->getKey(),
+                ]
+            )
+            ->assertOk();
+
+        $this->assertTrue($user->likedArticles->contains($person));
     }
 
     /** @test */
