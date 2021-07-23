@@ -31,11 +31,4 @@ class CompositeResolver extends AbstractResolver
 
         return null;
     }
-
-    public function add(CompositableResolver $compositableResolver): self
-    {
-        $this->resolvers[] = $compositableResolver;
-
-        return $this;
-    }
 }
