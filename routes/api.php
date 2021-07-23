@@ -16,6 +16,7 @@ use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserLikeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,6 +55,7 @@ Route::group([
     Route::resource('tags', TagController::class)->only(['index']);
     Route::resource('skills', SkillController::class)->only(['index']);
     Route::resource('articles', ArticleController::class)->only(['show']);
+    Route::resource('users.likes', UserLikeController::class)->only(['index', 'store']);
 
     Route::get('products/{id}/download', [ProductController::class, 'download'])
         ->name('products.download');
