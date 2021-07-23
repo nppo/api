@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Import\Actions;
 
 use App\Enumerators\ImportType;
+use App\Models\Article;
 use App\Models\ExternalResource;
 use App\Models\Party;
 use App\Models\Person;
@@ -49,6 +50,10 @@ class SyncEntity extends AbstractAction
             case ImportType::PARTY:
                 return Party::class;
             case ImportType::TAG:
+                return Tag::class;
+            case ImportType::ARTICLE:
+                return Article::class;
+            case ImportType::THEME:
                 return Tag::class;
             default:
                 throw new InvalidArgumentException('No class provided for type ' . $type);

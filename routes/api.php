@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\EntityController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PartyController;
@@ -52,6 +53,7 @@ Route::group([
     Route::resource('parties', PartyController::class)->only(['index', 'show']);
     Route::resource('tags', TagController::class)->only(['index']);
     Route::resource('skills', SkillController::class)->only(['index']);
+    Route::resource('articles', ArticleController::class)->only(['show']);
 
     Route::get('products/{id}/download', [ProductController::class, 'download'])
         ->name('products.download');

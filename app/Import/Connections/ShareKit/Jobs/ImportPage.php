@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Import\Jobs;
+namespace App\Import\Connections\ShareKit\Jobs;
 
 use App\Enumerators\ImportDriver;
 use App\Enumerators\ImportType;
