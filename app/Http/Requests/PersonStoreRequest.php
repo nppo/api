@@ -11,8 +11,8 @@ class PersonStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'identifier' => ['string', 'required'],
-            'first_name' => ['string', 'required'],
+            'identifier' => ['string', 'nullable'],
+            'first_name' => ['string', 'nullable'],
             'last_name'  => ['string', 'nullable'],
             'phone'      => ['string', 'nullable'],
             'function'   => ['string', 'nullable'],
