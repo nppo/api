@@ -28,18 +28,4 @@ class LikeStoreRequest extends FormRequest
             'likable_id' => ['required'],
         ];
     }
-
-    public function getLikableType(): string
-    {
-        return array_key_exists('likable_type', $this->validated())
-            ? (string) $this->validated()['likable_type']
-            : '';
-    }
-
-    public function getLikableId(): string
-    {
-        return array_key_exists('likable_id', $this->validated())
-            ? (string) $this->validated()['likable_id']
-            : '';
-    }
 }
