@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Import;
+namespace Tests\Unit\Import\Jobs;
 
 use App\Enumerators\ImportDriver;
 use App\Enumerators\Queue as EnumeratorsQueue;
