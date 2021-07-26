@@ -13,6 +13,7 @@ services:
     build:
       args:
         APP_ENV: local
+        ADDITIONAL_SOFTWARE: git
     volumes:
       - ${APP_PATH-../../}:/var/www/html
 
