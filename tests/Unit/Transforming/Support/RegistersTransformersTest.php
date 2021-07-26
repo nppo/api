@@ -14,11 +14,14 @@ class RegistersTransformersTest extends TestCase
 {
     use RegistersTransformers;
 
-    protected array $transformers = [];
+    /** @var array|null */
+    protected $transformers = [];
 
     /** @test */
     public function register_transformers_throws_an_error_when_there_are_no_transformers(): void
     {
+        $this->transformers = null;
+
         $this->expectException(InvalidArgumentException::class);
 
         $this->registerTransformers();

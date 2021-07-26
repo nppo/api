@@ -20,6 +20,7 @@ class AttributeTest extends TestCase
             'id' => 125,
         ]);
 
+        /** @var Project $project */
         $project = Project::factory()
             ->make();
 

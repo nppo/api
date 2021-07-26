@@ -166,7 +166,7 @@ class ProductTest extends TestCase
         Passport::actingAs($this->getUser());
 
         /** @var Product $product */
-        $product = Product::factory()->make();
+        $product = Product::factory()->make(['type' => ProductTypes::LINK]);
 
         $response = $this->postJson(
             route('api.products.store'),

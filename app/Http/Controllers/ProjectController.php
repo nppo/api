@@ -51,7 +51,9 @@ class ProjectController extends Controller
             Project::class,
             Collection::make(
                 Arr::get($validated, 'products') ?: []
-            )->pluck('id'),
+            )
+                ->pluck('id')
+                ->toArray(),
         ]);
 
         /** @var Project */
@@ -100,7 +102,9 @@ class ProjectController extends Controller
             $project,
             Collection::make(
                 Arr::get($validated, 'products') ?: []
-            )->pluck('id'),
+            )
+                ->pluck('id')
+                ->toArray(),
         ]);
 
         $this

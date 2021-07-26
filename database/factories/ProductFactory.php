@@ -7,6 +7,7 @@ namespace Database\Factories;
 use App\Enumerators\ProductTypes;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 class ProductFactory extends Factory
 {
@@ -20,7 +21,13 @@ class ProductFactory extends Factory
             'summary'      => $this->faker->text,
             'description'  => $this->faker->text,
             'published_at' => $this->faker->dateTimeBetween('-10 years', now()),
-            'link'         => $this->faker->imageUrl(),
+            'link'         => function (array $attributes): ?string {
+                if (Arr::get($attributes, 'type') === ProductTypes::LINK) {
+                    return $this->faker->imageUrl();
+                }
+
+                return null;
+            },
         ];
     }
 }
