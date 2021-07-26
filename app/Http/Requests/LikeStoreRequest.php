@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Models\Article;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
@@ -24,6 +25,7 @@ class LikeStoreRequest extends FormRequest
                     Project::class,
                     Party::class,
                     Person::class,
+                    Article::class,
                 ]), ],
             'likable_id' => ['required'],
         ];

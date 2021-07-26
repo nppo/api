@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Models\Article;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
@@ -43,6 +44,9 @@ class UserRepository extends AbstractRepository
                 break;
             case Person::class:
                 $user->likedPeople()->toggle($likableId);
+                break;
+            case Article::class:
+                $user->likedArticles()->toggle($likableId);
                 break;
         }
 

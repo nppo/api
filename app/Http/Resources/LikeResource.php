@@ -31,6 +31,8 @@ class LikeResource extends Resource
             'likedPeople' => PersonResource::collection($this->resource->likedPeople),
 
             'likedParties' => PartyResource::collection($this->resource->likedParties),
+
+            'likedArticles' => ArticleResource::collection($this->resource->likedArticles),
         ];
     }
 }
