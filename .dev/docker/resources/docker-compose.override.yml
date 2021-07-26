@@ -1,0 +1,60 @@
+version: '3.9'
+
+services:
+  nginx:
+    volumes:
+      - ${APP_PATH-../../}:/var/www/html
+
+  php-fpm:
+    depends_on:
+      - database
+      - mail
+      - redis
+    build:
+      args:
+        APP_ENV: local
+    volumes:
+      - ${APP_PATH-../../}:/var/www/html
+
+  database:
+    image: mysql:latest
+    volumes:
+      - application-db:/var/lib/mysql
+    networks:
+      - application
+    ports:
+      - "${DOCKER_PORT_DATABASE-3306}:3306"
+    environment:
+      MYSQL_DATABASE: application
+      MYSQL_USER: application
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+
+  mail:
+    image: mailhog/mailhog:latest
+    networks:
+      - application
+    ports:
+      - "${DOCKER_PORT_MAILHOG_SMTP-1025}:1025"
+      - "${DOCKER_PORT_MAILHOG_HTTP-8025}:8025"
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    networks:
+      - application
+    ports:
+      - "${DOCKER_PORT_PHPMYADMIN-8080}:80"
+    depends_on:
+      - database
+    environment:
+      - PMA_USER=application
+      - PMA_PASSWORD=password
+      - PMA_HOSTS=database
+
+  redis:
+    image: redis:latest
+    networks:
+      - application
+
+volumes:
+  application-db:
