@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Auth\Socialite;
 
+use App\Enumerators\Roles;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use SocialiteProviders\Manager\OAuth2\User as OAuthUser;
@@ -25,7 +26,12 @@ class Manager
             return $user;
         }
 
-        return $this->userRepository->create($this->attributes($oauthUser));
+        /** @var User */
+        $user = $this->userRepository->create($this->attributes($oauthUser));
+
+        $user->assignRole("RESEARCHER");
+
+        return $user;
     }
 
     protected function attributes(OAuthUser $user): array
