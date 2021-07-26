@@ -61,6 +61,13 @@ class ProductSeeder extends Seeder
             'https://www.aup-online.com/content/journals/10.5117/TVT2017.1.HARM',
             'https://doi.org/10.5117/TVT2017.1.HARM',
         ],
+
+        ProductTypes::VIDEO => [
+            'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4',
+            'https://file-examples-com.github.io/uploads/2018/04/file_example_MOV_480_700kB.mov',
+            'https://file-examples-com.github.io/uploads/2018/04/file_example_OGG_480_1_7mg.ogg',
+            'https://file-examples-com.github.io/uploads/2020/03/file_example_WEBM_480_900KB.webm',
+        ],
     ];
 
     public function run(): void
