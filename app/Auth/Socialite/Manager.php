@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Auth\Socialite;
 
-use App\Enumerators\Roles;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use SocialiteProviders\Manager\OAuth2\User as OAuthUser;
