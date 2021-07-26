@@ -33,7 +33,7 @@ class ProductController extends Controller
         );
     }
 
-    public function show($id): ProductResource
+    public function show(string $id): ProductResource
     {
         return ProductResource::make(
             $this->productRepository->show($id)
@@ -41,7 +41,7 @@ class ProductController extends Controller
             ->withPermissions();
     }
 
-    public function update(ProductUpdateRequest $request, $id): ProductResource
+    public function update(ProductUpdateRequest $request, string $id): ProductResource
     {
         /** @var Product $product */
         $product = $this->productRepository->findOrFail($id);

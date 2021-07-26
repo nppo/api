@@ -12,10 +12,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Way2Web\Force\HasUuid;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens, HasRoles;
+    use HasFactory;
+    use Notifiable;
+    use HasApiTokens;
+    use HasRoles;
+    use HasUuid;
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     /** @var array */
     protected $fillable = [

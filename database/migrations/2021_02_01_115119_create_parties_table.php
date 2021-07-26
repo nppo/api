@@ -11,7 +11,7 @@ class CreatePartiesTable extends Migration
     public function up(): void
     {
         Schema::create('parties', function (Blueprint $table): void {
-            $table->id();
+            $table->uuid('id')->primary();
 
             $table->string('name');
             $table->text('description')->nullable();

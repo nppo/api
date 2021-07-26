@@ -29,7 +29,7 @@ class ProjectController extends Controller
             ->protectActionRoutes(['api']);
     }
 
-    public function show($id): ProjectResource
+    public function show(string $id): ProjectResource
     {
         return ProjectResource::make(
             $this->projectRepository->show($id)
@@ -89,7 +89,7 @@ class ProjectController extends Controller
         );
     }
 
-    public function update(ProjectUpdateRequest $request, $id): ProjectResource
+    public function update(ProjectUpdateRequest $request, string $id): ProjectResource
     {
         /** @var Project $project */
         $project = $this->projectRepository->findOrFail($id);

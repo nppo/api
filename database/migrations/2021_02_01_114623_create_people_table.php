@@ -11,8 +11,8 @@ class CreatePeopleTable extends Migration
     public function up(): void
     {
         Schema::create('people', function (Blueprint $table): void {
-            $table->id();
-            $table->foreignId('structure_id');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('structure_id');
 
             $table->string('identifier');
             $table->string('first_name');

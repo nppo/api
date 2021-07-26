@@ -11,8 +11,8 @@ class CreateMetadatablesTable extends Migration
     public function up(): void
     {
         Schema::create('metadatables', function (Blueprint $table): void {
-            $table->foreignId('structure_id');
-            $table->morphs('entity');
+            $table->foreignUuid('structure_id');
+            $table->uuidMorphs('entity');
         });
     }
 
