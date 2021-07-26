@@ -12,6 +12,8 @@ class Manager
 {
     protected UserRepository $userRepository;
 
+    protected string $defaultRole = 'RESEARCHER';
+
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
@@ -28,7 +30,7 @@ class Manager
         /** @var User */
         $user = $this->userRepository->create($this->attributes($oauthUser));
 
-        $user->assignRole("RESEARCHER");
+        $user->assignRole($this->defaultRole);
 
         return $user;
     }
