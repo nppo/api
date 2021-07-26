@@ -13,6 +13,5 @@ docker-in: docker-init
 	${DOCKER_COMPOSE_COMMAND} exec php-fpm bash
 
 docker-init:
-	cp .dev/docker/resources/.env .dev/docker/.env
-	sed -i 's/=/=$(shell basename `pwd`)/g' .dev/docker/.env
+	sed 's/=/=$(shell basename `pwd`)/g' .dev/docker/resources/.env > .dev/docker/.env
 	cp .dev/docker/resources/docker-compose.override.yml .dev/docker/docker-compose.override.yml
