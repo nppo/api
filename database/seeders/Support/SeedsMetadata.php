@@ -11,7 +11,7 @@ trait SeedsMetadata
 {
     public function seedMetadata(HasMetaData $hasMetaData): void
     {
-        foreach ($hasMetaData->attributes as $attribute) {
+        foreach ($hasMetaData->attributes()->get() as $attribute) {
             if (rand(0, 1)) {
                 Value::factory()
                     ->for($attribute)

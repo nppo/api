@@ -20,6 +20,3 @@ parameters:
         - App\External\ShareKit\Entity
 
     ignoreErrors:
-        # Larastan does not resolve the new Laravel factories yet, once they do, this line can be deleted
-        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::#'
-

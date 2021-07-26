@@ -18,7 +18,8 @@ abstract class Entity
         $this->setPivot($pivot);
     }
 
-    public function __get($name)
+    /** @return mixed */
+    public function __get(string $name)
     {
         if (method_exists($this, $name)) {
             return $this->{$name}();

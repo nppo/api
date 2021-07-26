@@ -25,7 +25,10 @@ class Manager
             return $user;
         }
 
-        return $this->userRepository->create($this->attributes($oauthUser));
+        /** @var User */
+        $user = $this->userRepository->create($this->attributes($oauthUser));
+
+        return $user;
     }
 
     protected function attributes(OAuthUser $user): array

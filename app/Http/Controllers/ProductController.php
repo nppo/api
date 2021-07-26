@@ -33,6 +33,7 @@ class ProductController extends Controller
         );
     }
 
+    /** @param mixed $id */
     public function show($id): ProductResource
     {
         return ProductResource::make(
@@ -41,6 +42,7 @@ class ProductController extends Controller
             ->withPermissions();
     }
 
+    /** @param mixed $id */
     public function update(ProductUpdateRequest $request, $id): ProductResource
     {
         /** @var Product $product */
@@ -116,9 +118,12 @@ class ProductController extends Controller
         );
     }
 
+    /** @param mixed $id */
     public function download($id): Responsable
     {
-        return $this->productRepository->findOrFail($id)
-            ->getFirstMedia(MediaCollections::PRODUCT_OBJECT);
+        /** @var Product */
+        $product = $this->productRepository->findOrFail($id);
+
+        return $product->getFirstMedia(MediaCollections::PRODUCT_OBJECT);
     }
 }

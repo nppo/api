@@ -21,6 +21,7 @@ class UserLikeController extends Controller
         $this->userRepository = $personRepository;
     }
 
+    /** @param mixed $id */
     public function index($id): LikeResource
     {
         /** @var User $user */
@@ -31,6 +32,7 @@ class UserLikeController extends Controller
         return LikeResource::make($user);
     }
 
+    /** @param mixed $userId */
     public function store($userId, LikeStoreRequest $request): LikeResource
     {
         $this->authorize(Action::CREATE . 'Like', $this->userRepository->findOrFail($userId));
