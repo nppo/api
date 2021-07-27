@@ -14,7 +14,7 @@ class CreatePeopleTable extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('structure_id');
 
-            $table->string('identifier');
+            $table->string('identifier')->nullable();
             $table->string('first_name');
             $table->string('last_name')->nullable();
             $table->string('about')->nullable();

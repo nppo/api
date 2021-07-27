@@ -11,8 +11,8 @@ class CreateProductProjectTable extends Migration
     public function up(): void
     {
         Schema::create('product_project', function (Blueprint $table): void {
-            $table->foreignUuid('product_id')->constrained()->onDelete('cascade');
-            $table->foreignUuid('project_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('product_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('project_id')->constrained()->cascadeOnDelete();
 
             $table->timestamps();
         });

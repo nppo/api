@@ -11,7 +11,7 @@ class CreateLikeablesTable extends Migration
     public function up(): void
     {
         Schema::create('likeables', function (Blueprint $table): void {
-            $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
 
             $table->uuidMorphs('likeable');
         });

@@ -11,7 +11,7 @@ class CreateContributablesTable extends Migration
     public function up(): void
     {
         Schema::create('contributables', function (Blueprint $table): void {
-            $table->foreignUuid('product_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('product_id')->constrained()->cascadeOnDelete();
 
             $table->uuidMorphs('contributable');
 
