@@ -60,6 +60,11 @@ class User extends Authenticatable
         return $this->morphedByMany(Party::class, 'likeable', 'likeables', 'user_id');
     }
 
+    public function likedArticles(): MorphToMany
+    {
+        return $this->morphedByMany(Article::class, 'likeable', 'likeables', 'user_id');
+    }
+
     public function person(): BelongsTo
     {
         return $this->belongsTo(Person::class);
