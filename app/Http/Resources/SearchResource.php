@@ -51,8 +51,8 @@ class SearchResource extends Resource
                 get_class($this->resource[$entityType]) === CursorPaginator::class,
                 function () use ($entityType, $resourceMethod): array {
                     return [
-                        'items' => call_user_func($resourceMethod, $this->resource[$entityType]),
-                        'nextCursor' => $this->getNextCursor($entityType)
+                        'items'      => call_user_func($resourceMethod, $this->resource[$entityType]),
+                        'nextCursor' => $this->getNextCursor($entityType),
                     ];
                 },
                 function () use ($entityType, $resourceMethod): array {
