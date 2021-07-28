@@ -124,10 +124,10 @@ class SearchTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertJsonCount(1, 'data.products')
-            ->assertJsonCount(0, 'data.parties')
-            ->assertJsonCount(0, 'data.people')
-            ->assertJsonCount(0, 'data.projects');
+            ->assertJsonCount(1, 'data.products.items')
+            ->assertJsonCount(0, 'data.parties.items')
+            ->assertJsonCount(0, 'data.people.items')
+            ->assertJsonCount(0, 'data.projects.items');
     }
 
     /** @test */
@@ -151,10 +151,10 @@ class SearchTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertJsonCount(1, 'data.products')
-            ->assertJsonCount(0, 'data.parties')
-            ->assertJsonCount(1, 'data.people')
-            ->assertJsonCount(0, 'data.projects');
+            ->assertJsonCount(1, 'data.products.items')
+            ->assertJsonCount(0, 'data.parties.items')
+            ->assertJsonCount(1, 'data.people.items')
+            ->assertJsonCount(0, 'data.projects.items');
     }
 
     /** @test */
@@ -175,6 +175,6 @@ class SearchTest extends TestCase
             ->map(fn ($product) => $product->published_at->toJSON())
             ->toArray();
 
-        $this->assertEquals($publishedAtDates, Arr::pluck($response['data']['products'], 'publishedAt'));
+        $this->assertEquals($publishedAtDates, Arr::pluck($response['data']['products']['items'], 'publishedAt'));
     }
 }
