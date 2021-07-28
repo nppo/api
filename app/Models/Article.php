@@ -43,6 +43,6 @@ class Article extends AbstractModel
 
     public function projects(): MorphToMany
     {
-        return $this->morphedByMany(Product::class, 'relatable');
+        return $this->morphedByMany(Project::class, 'relatable');
     }
 }
