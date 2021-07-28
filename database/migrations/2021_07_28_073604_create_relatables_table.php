@@ -8,7 +8,7 @@ class CreateRelatablesTable extends Migration
 {
     public function up(): void
     {
-        Schema::create('relatables', function (Blueprint $table) {
+        Schema::create('relatables', function (Blueprint $table): void {
             $table->foreignId('article_id');
 
             $table->uuidMorphs('relatable');
