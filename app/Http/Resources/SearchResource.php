@@ -38,6 +38,10 @@ class SearchResource extends Resource
             'projects' => array_key_exists('project', $this->resource)
                 ? $this->getItems('project')
                 : ['items' => []],
+
+            'articles' => array_key_exists('article', $this->resource)
+                ? $this->getItems('article')
+                : ['items' => []],
         ];
     }
 

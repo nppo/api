@@ -7,6 +7,7 @@ namespace App\Repositories;
 use App\Enumerators\Filters;
 use App\Models\Person;
 use Illuminate\Contracts\Pagination\CursorPaginator;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Way2Web\Force\Repository\AbstractRepository;
 
@@ -85,5 +86,17 @@ class PersonRepository extends AbstractRepository
     public function get()
     {
         return $this->builder->get();
+    }
+
+    public function createFull(array $data, User $user): Person
+    {
+        $person = new Person($data);
+
+        $person->save();
+
+        $user->person()->associate($person);
+        $user->save();
+
+        return $person;
     }
 }

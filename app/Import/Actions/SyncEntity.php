@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Import\Actions;
 
 use App\Enumerators\ImportType;
+use App\Import\Interfaces\ModelResolver;
+use App\Models\Article;
 use App\Models\ExternalResource;
 use App\Models\Party;
 use App\Models\Person;
@@ -19,12 +21,28 @@ use InvalidArgumentException;
  */
 class SyncEntity extends AbstractAction
 {
+    protected ?ModelResolver $modelResolver;
+
+    public function __construct(ModelResolver $modelResolver = null)
+    {
+        $this->modelResolver = $modelResolver;
+    }
+
     public function process(ExternalResource $externalResource): void
     {
         $mapping = $this->resolveMapping($externalResource->driver, $externalResource->type);
 
         $output = [];
         $mapping->apply($externalResource->data, $output);
+
+        if ($this->modelResolver && is_null($externalResource->entity)) {
+            $model = $this->modelResolver->resolve($output);
+
+            if ($model) {
+                $externalResource->entity()->associate($model);
+                $externalResource->save();
+            }
+        }
 
         if ($externalResource->entity) {
             $externalResource->entity->update($output);
@@ -49,6 +67,10 @@ class SyncEntity extends AbstractAction
             case ImportType::PARTY:
                 return Party::class;
             case ImportType::TAG:
+                return Tag::class;
+            case ImportType::ARTICLE:
+                return Article::class;
+            case ImportType::THEME:
                 return Tag::class;
             default:
                 throw new InvalidArgumentException('No class provided for type ' . $type);

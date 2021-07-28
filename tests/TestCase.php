@@ -33,6 +33,8 @@ abstract class TestCase extends BaseTestCase
 
         $user->person()->associate(Person::factory()->create());
 
+        $user->save();
+
         $this->clearCache();
 
         return $user;
