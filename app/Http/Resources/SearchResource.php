@@ -27,8 +27,7 @@ class SearchResource extends Resource
                 ? $this->getItems('party')
                 : ['items' => []],
 
-            'people' =>
-                array_key_exists('person', $this->resource)
+            'people' => array_key_exists('person', $this->resource)
                 ? $this->getItems('person')
                 : ['items' => []],
 
