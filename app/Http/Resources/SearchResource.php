@@ -68,10 +68,8 @@ class SearchResource extends Resource
             return false;
         }
 
-        if ($resource->nextCursor()) {
-            return $this->resource[$type]->nextCursor()->encode();
-        }
-
-        return null;
+        return $resource->nextCursor()
+            ? $this->resource[$type]->nextCursor()->encode()
+            : null;
     }
 }
