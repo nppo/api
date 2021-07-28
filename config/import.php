@@ -6,6 +6,7 @@ use App\Enumerators\ImportDriver;
 use App\Enumerators\ImportType;
 use App\Enumerators\ProductTypes;
 use App\Enumerators\TagTypes;
+use App\Import\Actions\IdentifyEntity;
 use App\Import\Actions\SplitResource;
 use App\Import\Actions\SyncEntity;
 use App\Import\Actions\SyncParentRelations;
@@ -13,6 +14,8 @@ use App\Import\Actions\SyncRelations;
 use App\Import\Resolvers\CompositeResolver;
 use App\Import\Resolvers\Person\EmailResolver;
 use App\Import\Resolvers\Person\UserEmailResolver;
+use App\Import\Resolvers\Product\IdResolver;
+use App\Import\Resolvers\Tag\LabelResolver;
 use App\Transforming\Map;
 use App\Transforming\Mapping;
 use Carbon\Carbon;
@@ -69,12 +72,13 @@ return [
             ],
             ImportType::PERSON => [
                 'actions' => [
-                    new SyncEntity(
+                    new IdentifyEntity(
                         new CompositeResolver([
                             new EmailResolver(),
                             new UserEmailResolver(),
                         ]),
                     ),
+                    new SyncEntity(),
                     new SyncParentRelations(),
                 ],
                 'mapping' => new Mapping([
@@ -96,6 +100,9 @@ return [
             ],
             ImportType::TAG => [
                 'actions' => [
+                    new IdentifyEntity(
+                        new LabelResolver()
+                    ),
                     new SyncEntity(),
                     new SyncParentRelations(),
                 ],
@@ -108,6 +115,9 @@ return [
         ImportDriver::STRAPI => [
             ImportType::TAG => [
                 'actions' => [
+                    new IdentifyEntity(
+                        new LabelResolver()
+                    ),
                     new SyncEntity(),
                     new SyncParentRelations(),
                 ],
@@ -117,12 +127,26 @@ return [
             ],
             ImportType::THEME => [
                 'actions' => [
+                    new IdentifyEntity(
+                        new LabelResolver(TagTypes::THEME)
+                    ),
                     new SyncEntity(),
                     new SyncParentRelations(),
                 ],
                 'mapping' => new Mapping([
                     new Map('label', 'label'),
                     new Map('::DOES_NOT_EXIST::', 'type', null, TagTypes::THEME),
+                ]),
+            ],
+            ImportType::PRODUCT => [
+                'actions' => [
+                    new IdentifyEntity(
+                        new IdResolver(),
+                    ),
+                    new SyncParentRelations(),
+                ],
+                'mapping' => new Mapping([
+                    new Map('identifier', 'id'),
                 ]),
             ],
             ImportType::ARTICLE => [
@@ -137,6 +161,11 @@ return [
                     (new SplitResource(ImportType::THEME, 'themes.*'))
                         ->resolveIdentifierUsing(function (array $data) {
                             return Arr::get($data, 'label');
+                        }),
+
+                    (new SplitResource(ImportType::PRODUCT, 'related_products.*'))
+                        ->resolveIdentifierUsing(function (array $data) {
+                            return Arr::get($data, 'identifier');
                         }),
                 ],
                 'mapping' => new Mapping([

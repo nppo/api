@@ -35,6 +35,14 @@ class ArticleResource extends Resource
             'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {
                 return ThemeResource::collection($this->themes);
             }),
+
+            'products' => $this->whenLoaded('products', function (): AnonymousResourceCollection {
+                return ProductResource::collection($this->products);
+            }),
+
+            'projects' => $this->whenLoaded('projects', function (): AnonymousResourceCollection {
+                return ProjectResource::collection($this->projects);
+            }),
         ];
     }
 }
