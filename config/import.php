@@ -15,6 +15,7 @@ use App\Import\Resolvers\CompositeResolver;
 use App\Import\Resolvers\Person\EmailResolver;
 use App\Import\Resolvers\Person\UserEmailResolver;
 use App\Import\Resolvers\Product\IdResolver;
+use App\Import\Resolvers\Project\IdResolver as ProjectIdResolver;
 use App\Import\Resolvers\Tag\LabelResolver;
 use App\Transforming\Map;
 use App\Transforming\Mapping;
@@ -149,6 +150,17 @@ return [
                     new Map('identifier', 'id'),
                 ]),
             ],
+            ImportType::PROJECT => [
+                'actions' => [
+                    new IdentifyEntity(
+                        new ProjectIdResolver(),
+                    ),
+                    new SyncParentRelations(),
+                ],
+                'mapping' => new Mapping([
+                    new Map('identifier', 'id'),
+                ]),
+            ],
             ImportType::ARTICLE => [
                 'actions' => [
                     new SyncEntity(),
@@ -164,6 +176,11 @@ return [
                         }),
 
                     (new SplitResource(ImportType::PRODUCT, 'related_products.*'))
+                        ->resolveIdentifierUsing(function (array $data) {
+                            return Arr::get($data, 'identifier');
+                        }),
+
+                    (new SplitResource(ImportType::PROJECT, 'related_projects.*'))
                         ->resolveIdentifierUsing(function (array $data) {
                             return Arr::get($data, 'identifier');
                         }),
