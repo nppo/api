@@ -11,10 +11,10 @@ class CreateValuesTable extends Migration
     public function up(): void
     {
         Schema::create('values', function (Blueprint $table): void {
-            $table->id();
+            $table->uuid('id')->primary();
 
-            $table->foreignId('attribute_id');
-            $table->morphs('entity');
+            $table->foreignUuid('attribute_id');
+            $table->uuidMorphs('entity');
             $table->text('value');
 
             $table->timestamps();

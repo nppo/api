@@ -91,7 +91,7 @@ class PersonController extends Controller
         );
     }
 
-    public function update(PersonUpdateRequest $request, $id): PersonResource
+    public function update(PersonUpdateRequest $request, string $id): PersonResource
     {
         /** @var $person Person */
         $person = $this->personRepository->findOrFail($id);
