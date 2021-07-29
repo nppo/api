@@ -20,6 +20,7 @@ class Theme extends AbstractModel
 
     protected $fillable = [
         'label',
+        'type'
     ];
 
     public function toSearchableArray(): array
