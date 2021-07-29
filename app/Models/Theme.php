@@ -4,13 +4,19 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enumerators\TagTypes;
+use App\Models\Support\IsTag;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Way2Web\Force\AbstractModel;
 
 class Theme extends AbstractModel
 {
-    use Searchable;
+    use Searchable, IsTag;
+
+    protected static $tagType = TagTypes::THEME;
+
+    protected $table = 'tags';
 
     protected $fillable = [
         'label',

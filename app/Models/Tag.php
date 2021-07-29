@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Support\IsTag;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Laravel\Scout\Searchable;
@@ -11,7 +12,9 @@ use Way2Web\Force\AbstractModel;
 
 class Tag extends AbstractModel
 {
-    use Searchable;
+    use Searchable, IsTag;
+
+    protected static $tagType = null;
 
     protected $fillable = [
         'label',
