@@ -40,6 +40,11 @@ class TagRepository extends AbstractRepository
             ->paginate();
     }
 
+    public function show(string $id): Tag
+    {
+        return $this->findOrFail($id);
+    }
+
     public function createFull(array $data): Tag
     {
         $tag = Tag::create($data);
