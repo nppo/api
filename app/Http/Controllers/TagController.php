@@ -48,4 +48,11 @@ class TagController extends Controller
 
         return TagResource::make($theme);
     }
+
+    public function destroy(string $id)
+    {
+        $tag = $this->tagRepository->deleteFull($id);
+
+        return TagResource::make($tag);
+    }
 }
