@@ -29,5 +29,8 @@ class Roles extends Enum
         Permissions::TAG_CREATE,
         Permissions::TAG_UPDATE,
         Permissions::TAG_DELETE,
+        Permissions::PARTY_CREATE,
+        Permissions::PARTY_UPDATE,
+        Permissions::PARTY_DELETE,
     ];
 }

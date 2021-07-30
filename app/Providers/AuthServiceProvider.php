@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
 use App\Models\Project;
 use App\Models\Tag;
 use App\Models\Theme;
 use App\Models\User;
+use App\Policies\PartyPolicy;
 use App\Policies\PersonPolicy;
 use App\Policies\ProductPolicy;
 use App\Policies\ProjectPolicy;
@@ -28,6 +30,7 @@ class AuthServiceProvider extends ServiceProvider
         User::class    => UserPolicy::class,
         Tag::class     => TagPolicy::class,
         Theme::class   => ThemePolicy::class,
+        Party::class   => PartyPolicy::class,
     ];
 
     public function boot(): void
