@@ -19,10 +19,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 if (App::environment('local')) {
     Route::get('login', function () {
         Auth::login(User::inRandomOrder()->first());

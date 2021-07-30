@@ -18,10 +18,20 @@ use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Way2Web\Force\AbstractModel;
+use Way2Web\Force\HasUuid;
 
 class Product extends AbstractModel implements HasMedia, HasMetaData
 {
-    use Searchable, InteractsWithMedia, HasMeta, HasTags, HasExternalResource;
+    use Searchable;
+    use InteractsWithMedia;
+    use HasMeta;
+    use HasTags;
+    use HasExternalResource;
+    use HasUuid;
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     protected $fillable = [
         'type',

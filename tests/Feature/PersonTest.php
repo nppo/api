@@ -8,6 +8,7 @@ use App\Enumerators\TagTypes;
 use App\Models\Attribute;
 use App\Models\Tag;
 use App\Models\Value;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -27,7 +28,7 @@ class PersonTest extends TestCase
 
         $this
             ->putJson(
-                route('api.people.update', $user->person->id),
+                route('api.people.update', $user->person),
                 $user->person->only('about')
             )
             ->assertOk()
@@ -45,7 +46,7 @@ class PersonTest extends TestCase
 
         $this
             ->putJson(
-                route('api.people.update', $user->person->id),
+                route('api.people.update', $user->person),
                 [
                     'profile_picture' => UploadedFile::fake()->image('avatar.jpg', 200, 200),
                 ]
@@ -64,7 +65,7 @@ class PersonTest extends TestCase
 
         $this
             ->putJson(
-                route('api.people.update', $user->person->id),
+                route('api.people.update', $user->person),
                 [
                     'profile_picture' => UploadedFile::fake()->image('avatar.jpg', 150, 200),
                 ]
@@ -89,7 +90,7 @@ class PersonTest extends TestCase
 
         $this
             ->putJson(
-                route('api.people.update', [$user->person->id]),
+                route('api.people.update', [$user->person]),
                 ['themes' => $formattedThemes]
             )
             ->assertOk()
@@ -113,7 +114,7 @@ class PersonTest extends TestCase
 
         $this
             ->putJson(
-                route('api.people.update', [$user->person->id]),
+                route('api.people.update', [$user->person]),
                 ['skills' => $formattedSkills]
             )
             ->assertOk()
@@ -137,7 +138,7 @@ class PersonTest extends TestCase
 
         $this
             ->putJson(
-                route('api.people.update', [$user->person->id]),
+                route('api.people.update', [$user->person]),
                 ['skills' => null]
             )
             ->assertOk()
@@ -155,7 +156,7 @@ class PersonTest extends TestCase
 
         $this
             ->putJson(
-                route('api.people.update', [$user->person->id]),
+                route('api.people.update', [$user->person]),
                 ['themes' => null]
             )
             ->assertJsonValidationErrors('themes');
@@ -176,7 +177,7 @@ class PersonTest extends TestCase
 
         $this
             ->putJson(
-                route('api.people.update', [$user->person->id]),
+                route('api.people.update', [$user->person]),
                 ['skills' => $skills]
             )
             ->assertOk();
@@ -203,7 +204,8 @@ class PersonTest extends TestCase
                 },
             ])
             ->make()
-            ->map(function (Value $value): array {
+            ->map(function (Model $value): array {
+                /** @var Value $value */
                 return [
                     'id'    => $value->attribute_id,
                     'value' => $value->value,
@@ -215,7 +217,7 @@ class PersonTest extends TestCase
 
         $this
             ->putJson(
-                route('api.people.update', [$user->person->id]),
+                route('api.people.update', [$user->person]),
                 ['meta' => $meta]
             )
             ->assertOk();

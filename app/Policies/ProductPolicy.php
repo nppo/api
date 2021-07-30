@@ -13,7 +13,7 @@ class ProductPolicy
 {
     use HandlesAuthorization;
 
-    public function create(User $user)
+    public function create(User $user): bool
     {
         if (!$user->can(Permissions::PRODUCTS_CREATE)) {
             return false;

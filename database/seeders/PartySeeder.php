@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
 use App\Models\Party;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -26,7 +27,8 @@ class PartySeeder extends Seeder
             ->times(self::MAX_PARTIES)
             ->create();
 
-        $parties->each(function (Party $party) use ($parties): void {
+        $parties->each(function (Model $party) use ($parties): void {
+            /** @var Party $party */
             $party
                 ->parties()
                 ->saveMany(

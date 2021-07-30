@@ -14,7 +14,7 @@ class ProjectPolicy
 {
     use HandlesAuthorization;
 
-    public function create(User $user, $productIds = []): bool
+    public function create(User $user, array $productIds = []): bool
     {
         if (!$user->can(Permissions::PROJECTS_CREATE)) {
             return false;
@@ -31,7 +31,7 @@ class ProjectPolicy
         return true;
     }
 
-    public function update(User $user, Project $project, $productIds = []): bool
+    public function update(User $user, Project $project, array $productIds = []): bool
     {
         if (!$user->can(Permissions::PROJECTS_UPDATE)) {
             return false;
@@ -52,7 +52,7 @@ class ProjectPolicy
         return true;
     }
 
-    protected function validateProducts(Person $person, $productIds): bool
+    protected function validateProducts(Person $person, array $productIds): bool
     {
         return $person->products->whereIn('id', $productIds)->count() !== count($productIds);
     }

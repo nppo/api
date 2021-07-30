@@ -193,6 +193,6 @@ return [
                     new Map('content', 'content', 'strapi_content'),
                 ]),
             ],
-        ]
+        ],
     ],
 ];

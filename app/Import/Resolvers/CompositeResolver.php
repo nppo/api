@@ -13,7 +13,7 @@ class CompositeResolver extends AbstractResolver
 
     public function __construct(array $resolvers = [])
     {
-        $this->resolver = $resolvers;
+        $this->resolvers = $resolvers;
     }
 
     public function resolve(array $data): ?Model

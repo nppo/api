@@ -15,10 +15,18 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Way2Web\Force\AbstractModel;
+use Way2Web\Force\HasUuid;
 
 class Person extends AbstractModel implements HasMedia, HasMetaData
 {
-    use InteractsWithMedia, HasMeta, HasTags;
+    use InteractsWithMedia;
+    use HasMeta;
+    use HasTags;
+    use HasUuid;
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     public $fillable = [
         'identifier',

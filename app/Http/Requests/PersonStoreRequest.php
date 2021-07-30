@@ -25,7 +25,7 @@ class PersonStoreRequest extends FormRequest
 
             'themes'      => ['array', 'min:1'],
             'themes.*'    => ['array', 'required'],
-            'themes.*.id' => ['required', 'integer'],
+            'themes.*.id' => ['required', 'uuid'],
 
             'profile_picture' => [
                 'sometimes',

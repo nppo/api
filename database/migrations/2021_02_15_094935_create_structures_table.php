@@ -11,7 +11,7 @@ class CreateStructuresTable extends Migration
     public function up(): void
     {
         Schema::create('structures', function (Blueprint $table): void {
-            $table->id();
+            $table->uuid('id')->primary();
 
             $table->string('label')->unique();
 

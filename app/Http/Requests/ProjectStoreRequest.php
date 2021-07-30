@@ -17,11 +17,11 @@ class ProjectStoreRequest extends FormRequest
 
             'parties'      => ['nullable'],
             'parties.*'    => ['array', 'required'],
-            'parties.*.id' => ['required', 'integer'],
+            'parties.*.id' => ['required', 'uuid'],
 
             'products'      => ['nullable'],
             'products.*'    => ['array', 'required'],
-            'products.*.id' => ['required', 'integer'],
+            'products.*.id' => ['required', 'uuid'],
 
             'meta'         => ['nullable'],
             'meta.*'       => ['array', 'required'],

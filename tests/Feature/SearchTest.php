@@ -12,7 +12,9 @@ use App\Models\Person;
 use App\Models\Product;
 use App\Models\Project;
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class SearchTest extends TestCase
@@ -66,7 +68,8 @@ class SearchTest extends TestCase
             ->count(3)
             ->create();
 
-        $products->each(function (Product $product): void {
+        $products->each(function (Model $product): void {
+            /** @var Product $product */
             $product
                 ->themes()
                 ->save(Tag::factory(['type' => TagTypes::THEME])->create());
@@ -83,9 +86,7 @@ class SearchTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertJsonFragment(['title' => $products->first()->title])
-            ->assertJsonFragment(['title' => $products->get(1)->title])
-            ->assertJsonMissing(['title' => $products->get(2)->title]);
+            ->assertJson(fn (AssertableJson $json) => $json->has('data.products', 2));
     }
 
     /** @test */

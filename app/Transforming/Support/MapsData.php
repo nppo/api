@@ -14,6 +14,7 @@ trait MapsData
 {
     use TransformsData;
 
+    /** @param mixed $output */
     public function map(Map $map, array $input, &$output): void
     {
         if (is_array($output)) {

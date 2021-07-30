@@ -7,6 +7,7 @@ namespace App\Models\Support;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Collection as SupportCollection;
 
 trait HasTags
 {
@@ -28,7 +29,7 @@ trait HasTags
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    protected function findOrCreateTags(array $tags, ?string $type = null)
+    protected function findOrCreateTags(array $tags, ?string $type = null): SupportCollection
     {
         return Tag::findOrCreate($tags, $type);
     }

@@ -8,7 +8,11 @@ use ReflectionClass;
 
 class Instance
 {
-    /** @var mixed */
+    /**
+     * @param object $instance
+     *
+     * @return mixed
+     */
     public static function getProperty(&$instance, string $property)
     {
         $reflection = new ReflectionClass($instance);
