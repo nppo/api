@@ -25,21 +25,20 @@ class ProductStoreRequest extends FormRequest
             'tags.*.label' => ['required', 'string'],
 
             'themes'      => ['array', 'nullable'],
-            'themes.*.id' => ['required', 'integer'],
+            'themes.*.id' => ['required', 'uuid'],
 
             'people'      => ['array', 'nullable'],
-            'people.*.id' => ['required', 'integer'],
+            'people.*.id' => ['required', 'uuid'],
 
             'parties'      => ['array', 'nullable'],
-            'parties.*.id' => ['required', 'integer'],
+            'parties.*.id' => ['required', 'uuid'],
 
             'children'      => ['array', 'nullable', 'prohibited_unless:type,' . ProductTypes::COLLECTION],
-            'children.*.id' => ['required', 'integer'],
+            'children.*.id' => ['required', 'uuid'],
 
-            'link' => ['required_without_all:file,children', 'prohibited_unless:file,', 'nullable', 'string', 'url'],
+            'link' => ['prohibited_unless:type,' . ProductTypes::LINK, 'nullable', 'string', 'url'],
             'file' => [
                 'required_without_all:link,children',
-                'prohibited_unless:link,',
                 'nullable',
                 'mimes:' . Mimes::asArrayString(),
             ],

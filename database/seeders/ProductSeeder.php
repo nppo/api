@@ -14,6 +14,7 @@ use App\Models\Tag;
 use App\Models\User;
 use Database\Seeders\Support\SeedsMedia;
 use Database\Seeders\Support\SeedsMetadata;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -75,7 +76,8 @@ class ProductSeeder extends Seeder
         Product::factory()
             ->times(self::MAX_PRODUCTS)
             ->create()
-            ->each(function (Product $product) use ($tags, $people, $parties, $users): void {
+            ->each(function (Model $product) use ($tags, $people, $parties, $users): void {
+                /** @var Product $product */
                 $this->attachTags($product, $tags);
                 $this->attachPeople($product, $people);
                 $this->attachParties($product, $parties);

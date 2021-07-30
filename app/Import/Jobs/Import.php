@@ -15,6 +15,8 @@ class Import implements ShouldQueue
 {
     use Queueable, InteractsWithQueue, Dispatchable;
 
+    protected string $driver;
+
     public function __construct(string $driver)
     {
         $this->driver = $driver;

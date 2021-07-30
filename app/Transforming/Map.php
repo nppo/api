@@ -15,6 +15,7 @@ class Map
     /** @var mixed */
     protected $default;
 
+    /** @param mixed $default */
     public function __construct(string $origin, string $destination, ?string $transformerType = null, $default = null)
     {
         $this->origin = $origin;
@@ -33,7 +34,7 @@ class Map
         return $this->destination;
     }
 
-    public function setTransformerType(string $type)
+    public function setTransformerType(string $type): self
     {
         $this->transformerType = $type;
 

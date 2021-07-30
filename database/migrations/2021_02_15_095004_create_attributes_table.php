@@ -11,9 +11,9 @@ class CreateAttributesTable extends Migration
     public function up(): void
     {
         Schema::create('attributes', function (Blueprint $table): void {
-            $table->id();
+            $table->uuid('id')->primary();
 
-            $table->foreignId('structure_id');
+            $table->foreignUuid('structure_id');
             $table->string('label');
 
             $table->timestamps();

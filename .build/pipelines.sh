@@ -2,7 +2,7 @@
 
 export COMPOSER_OPTIONS=""
 export PHP_CS_FIXER_FOLDERS="app tests database routes"
-export PHP_CS_FIXER_EXIT=true
+export PHP_CS_FIXER_EXIT=false
 export PHPMD_FOLDERS="app,database,routes"
 export PHPMD_EXIT=true
 export PHPCPD_FOLDERS="app database routes"

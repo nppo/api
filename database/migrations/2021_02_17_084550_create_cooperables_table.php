@@ -11,9 +11,9 @@ class CreateCooperablesTable extends Migration
     public function up(): void
     {
         Schema::create('cooperables', function (Blueprint $table): void {
-            $table->foreignId('project_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('project_id')->constrained()->cascadeOnDelete();
 
-            $table->morphs('cooperable');
+            $table->uuidMorphs('cooperable');
 
             $table->boolean('is_owner')->default(false);
         });

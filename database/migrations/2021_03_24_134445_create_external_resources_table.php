@@ -17,7 +17,7 @@ class CreateExternalResourcesTable extends Migration
             $table->string('type');
             $table->string('external_identifier');
 
-            $table->nullableMorphs('entity');
+            $table->nullableUuidMorphs('entity');
             $table->json('data');
 
             $table->unique(['driver', 'type', 'external_identifier']);

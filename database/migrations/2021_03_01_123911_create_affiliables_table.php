@@ -11,9 +11,9 @@ class CreateAffiliablesTable extends Migration
     public function up(): void
     {
         Schema::create('affiliables', function (Blueprint $table): void {
-            $table->foreignId('party_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('party_id')->constrained()->cascadeOnDelete();
 
-            $table->morphs('affiliable');
+            $table->uuidMorphs('affiliable');
         });
     }
 

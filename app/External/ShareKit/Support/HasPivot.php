@@ -18,12 +18,12 @@ trait HasPivot
         return $this->pivot[$key];
     }
 
-    public function hasPivot(string $key)
+    public function hasPivot(string $key): bool
     {
         return array_key_exists($key, $this->pivot);
     }
 
-    protected function setPivot(array $pivot)
+    protected function setPivot(array $pivot): self
     {
         $this->pivot = $pivot;
 

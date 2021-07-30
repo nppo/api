@@ -25,16 +25,16 @@ class ProductUpdateRequest extends FormRequest
             'tags.*.label' => ['required', 'string'],
 
             'themes'      => ['array', 'nullable'],
-            'themes.*.id' => ['required', 'integer'],
+            'themes.*.id' => ['required', 'uuid'],
 
             'people'      => ['array', 'nullable'],
-            'people.*.id' => ['required', 'integer'],
+            'people.*.id' => ['required', 'uuid'],
 
             'parties'      => ['array', 'nullable'],
-            'parties.*.id' => ['required', 'integer'],
+            'parties.*.id' => ['required', 'uuid'],
 
             'children'      => ['array', 'nullable'],
-            'children.*.id' => ['required', 'integer'],
+            'children.*.id' => ['required', 'uuid'],
 
             'file' => ['nullable', 'mimes:' . Mimes::asArrayString()],
         ];

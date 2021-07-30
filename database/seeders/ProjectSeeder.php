@@ -13,6 +13,7 @@ use App\Models\Project;
 use App\Models\Tag;
 use App\Models\User;
 use Database\Seeders\Support\SeedsMetadata;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -48,7 +49,8 @@ class ProjectSeeder extends Seeder
         Project::factory()
             ->times(self::MAX_PROJECTS)
             ->create()
-            ->each(function (Project $project) use ($tags, $people, $parties, $users, $products): void {
+            ->each(function (Model $project) use ($tags, $people, $parties, $users, $products): void {
+                /** @var Project $project */
                 $this->attachTags($project, $tags);
                 $this->attachPeople($project, $people);
                 $this->attachParties($project, $parties);
