@@ -22,7 +22,7 @@ class TagPolicy
     }
 
     /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
-    public function destroy(User $user, Tag $tag): bool
+    public function delete(User $user, Tag $tag): bool
     {
         return $user->hasPermissionTo(Permissions::TAG_DELETE);
     }

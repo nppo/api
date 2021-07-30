@@ -31,12 +31,15 @@ class ThemeRepository extends AbstractRepository
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('label'),
             ])
-            ->paginate();
+            ->jsonPaginate();
     }
 
     public function show(string $id): Theme
     {
-        return $this->findOrFail($id);
+        /** @var Theme */
+        $theme = $this->findOrFail($id);
+
+        return $theme;
     }
 
     public function createFull(array $data): Theme

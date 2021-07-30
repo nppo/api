@@ -9,14 +9,19 @@ use App\Models\Support\IsTag;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Way2Web\Force\AbstractModel;
+use Way2Web\Force\HasUuid;
 
 class Theme extends AbstractModel
 {
-    use Searchable, IsTag;
+    use Searchable, IsTag, HasUuid;
 
     protected static ?string  $tagType = TagTypes::THEME;
 
     protected $table = 'tags';
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     protected $fillable = [
         'label',

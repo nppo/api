@@ -42,7 +42,10 @@ class TagRepository extends AbstractRepository
 
     public function show(string $id): Tag
     {
-        return $this->findOrFail($id);
+        /** @var Tag */
+        $tag = $this->findOrFail($id);
+
+        return $tag;
     }
 
     public function createFull(array $data): Tag
