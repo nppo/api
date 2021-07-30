@@ -205,7 +205,7 @@ class PersonTest extends TestCase
             ])
             ->make()
             ->map(function (Model $value): array {
-                /** @var Value $value */
+                // @var Value $value
                 return [
                     'id'    => $value->attribute_id,
                     'value' => $value->value,

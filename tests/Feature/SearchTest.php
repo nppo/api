@@ -70,7 +70,7 @@ class SearchTest extends TestCase
             ->create();
 
         $products->each(function (Model $product): void {
-            /** @var Product $product */
+            // @var Product $product
             $product
                 ->themes()
                 ->save(Tag::factory(['type' => TagTypes::THEME])->create());

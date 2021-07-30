@@ -34,11 +34,11 @@ class ProjectRepository extends AbstractRepository
     {
         return $this
             ->with([
-                'owner.tags',
+                'owner.keywords',
                 'parties',
-                'people.tags',
+                'people.keywords',
                 'products',
-                'tags',
+                'keywords',
                 'themes',
                 'values',
                 'attributes',
@@ -53,7 +53,7 @@ class ProjectRepository extends AbstractRepository
     {
         $this
             ->builder
-            ->with(['themes', 'tags'])
+            ->with(['themes', 'keywords'])
             ->withCount('likes');
 
         if ($query !== '') {

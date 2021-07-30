@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Support\IsTag;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Laravel\Scout\Searchable;
@@ -13,10 +12,7 @@ use Way2Web\Force\HasUuid;
 
 class Tag extends AbstractModel
 {
-    protected static ?string $tagType = null;
-
     use Searchable;
-    use IsTag;
     use HasUuid;
 
     public $incrementing = false;

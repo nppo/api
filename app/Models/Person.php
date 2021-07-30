@@ -68,6 +68,11 @@ class Person extends AbstractModel implements HasMedia, HasMetaData
         return $this->tags()->where('type', TagTypes::THEME);
     }
 
+    public function keywords(): MorphToMany
+    {
+        return $this->tags()->where('type', TagTypes::KEYWORD);
+    }
+
     public function getProfilePictureUrlAttribute(): ?string
     {
         return $this->getFirstMediaUrl(MediaCollections::PROFILE_PICTURE);

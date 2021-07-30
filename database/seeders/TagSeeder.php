@@ -21,7 +21,7 @@ class TagSeeder extends Seeder
             ->count(self::MAX_TAGS)
             ->state(new Sequence(
                 ['type' => TagTypes::SKILL],
-                ['type' => null],
+                ['type' => TagTypes::KEYWORD],
             ))
             ->create();
 

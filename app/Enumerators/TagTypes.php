@@ -10,4 +10,5 @@ class TagTypes extends Enum
 {
     const SKILL = 'skill';
     const THEME = 'theme';
+    const KEYWORD = 'keyword';
 }

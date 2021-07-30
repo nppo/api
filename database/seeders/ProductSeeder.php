@@ -7,10 +7,10 @@ namespace Database\Seeders;
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
 use App\Enumerators\ProductTypes;
+use App\Models\Keyword;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
-use App\Models\Tag;
 use App\Models\User;
 use Database\Seeders\Support\SeedsMedia;
 use Database\Seeders\Support\SeedsMetadata;
@@ -25,7 +25,7 @@ class ProductSeeder extends Seeder
 
     private const MAX_PRODUCTS = 250;
 
-    private const MAX_TAGS_PER_PRODUCT = 10;
+    private const MAX_KEYWORDS_PER_PRODUCT = 10;
 
     private const MAX_PEOPLE = 10;
 
@@ -68,7 +68,7 @@ class ProductSeeder extends Seeder
     {
         $this->command->getOutput()->progressStart(self::MAX_PRODUCTS);
 
-        $tags = Tag::all();
+        $keywords = Keyword::all();
         $people = Person::all();
         $parties = Party::all();
         $users = User::all();
@@ -76,9 +76,9 @@ class ProductSeeder extends Seeder
         Product::factory()
             ->times(self::MAX_PRODUCTS)
             ->create()
-            ->each(function (Model $product) use ($tags, $people, $parties, $users): void {
-                /** @var Product $product */
-                $this->attachTags($product, $tags);
+            ->each(function (Model $product) use ($keywords, $people, $parties, $users): void {
+                // @var Product $product
+                $this->attachKeywords($product, $keywords);
                 $this->attachPeople($product, $people);
                 $this->attachParties($product, $parties);
                 $this->attachLikes($product, $users);
@@ -128,12 +128,12 @@ class ProductSeeder extends Seeder
             ->saveMany($partiesToSave, $pivotAttributes);
     }
 
-    private function attachTags(Product $product, Collection $tags): void
+    private function attachKeywords(Product $product, Collection $keywords): void
     {
         $product
-            ->tags()
+            ->keywords()
             ->saveMany(
-                $tags->random(mt_rand(0, self::MAX_TAGS_PER_PRODUCT))
+                $keywords->random(mt_rand(0, self::MAX_KEYWORDS_PER_PRODUCT))
             );
     }
 

@@ -37,7 +37,7 @@ class ArticleRepository extends AbstractRepository
     public function show($id): Model
     {
         return $this
-            ->with(['tags', 'themes'])
+            ->with(['keywords', 'themes'])
             ->findOrFail($id);
     }
 
@@ -45,7 +45,7 @@ class ArticleRepository extends AbstractRepository
     {
         $this
             ->builder
-            ->with(['tags', 'themes'])
+            ->with(['keywords', 'themes'])
             ->withCount('likes');
 
         if ($query !== '') {

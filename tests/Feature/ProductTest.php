@@ -6,7 +6,9 @@ namespace Tests\Feature;
 
 use App\Enumerators\Action;
 use App\Enumerators\ProductTypes;
+use App\Enumerators\TagTypes;
 use App\Models\Product;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
@@ -351,5 +353,34 @@ class ProductTest extends TestCase
         $response->assertJsonValidationErrors([
             'children' => 'validation.prohibited_unless',
         ]);
+    }
+
+    /** @test */
+    public function it_can_update_a_product_with_keywords(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        /** @var Product $product */
+        $product = Product::factory()->create();
+
+        $product->people()->attach($user->person, ['is_owner' => false]);
+
+        $keywords = Tag::factory()->times(10)->create([
+            'type' => TagTypes::KEYWORD,
+        ]);
+
+        $formattedKeywords = $keywords->map->only(['id', 'label'])->toArray();
+
+        $this
+            ->putJson(
+                route('api.products.update', $product),
+                array_merge($product->toArray(), ['tags' => $formattedKeywords])
+            )
+            ->assertOk()
+            ->assertJsonFragment([
+                'tags' => $formattedKeywords,
+            ]);
     }
 }

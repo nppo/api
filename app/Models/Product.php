@@ -57,11 +57,11 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
                 return $theme->id;
             })->toArray(),
 
-            'tags' => $this->tags->map(function (Tag $tag): int {
+            'tags' => $this->keywords->map(function (Tag $tag): int {
                 return $tag->id;
             })->toArray(),
 
-            'people' => $this->tags->map(function (Person $person): int {
+            'people' => $this->people->map(function (Person $person): int {
                 return $person->id;
             })->toArray(),
 
@@ -108,9 +108,9 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
         return $this->tags()->where('type', TagTypes::THEME);
     }
 
-    public function tags(): MorphToMany
+    public function keywords(): MorphToMany
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->tags()->where('type', TagTypes::KEYWORD);
     }
 
     public function likes(): MorphToMany

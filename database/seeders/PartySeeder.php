@@ -28,7 +28,7 @@ class PartySeeder extends Seeder
             ->create();
 
         $parties->each(function (Model $party) use ($parties): void {
-            /** @var Party $party */
+            // @var Party $party
             $party
                 ->parties()
                 ->saveMany(

@@ -28,8 +28,8 @@ class ArticleResource extends Resource
             'header'  => $this->header,
             'content' => $this->content,
 
-            'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
-                return TagResource::collection($this->tags);
+            'tags' => $this->whenLoaded('keywords', function (): AnonymousResourceCollection {
+                return TagResource::collection($this->keywords);
             }),
 
             'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {

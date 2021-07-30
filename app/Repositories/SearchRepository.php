@@ -16,7 +16,7 @@ class SearchRepository
 {
     const DISCOVER_EAGER_LOADED_RELATIONS = [
         'themes',
-        'tags',
+        'keywords',
         'products',
         'projects',
         'parties',

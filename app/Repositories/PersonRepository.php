@@ -47,7 +47,7 @@ class PersonRepository extends AbstractRepository
     {
         $this
             ->builder
-            ->with(['tags']);
+            ->with(['keywords']);
 
         if ($query !== '') {
             $this

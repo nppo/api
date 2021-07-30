@@ -41,4 +41,9 @@ class Article extends AbstractModel
     {
         return $this->tags()->where('type', TagTypes::THEME);
     }
+
+    public function keywords(): MorphToMany
+    {
+        return $this->tags()->where('type', TagTypes::KEYWORD);
+    }
 }

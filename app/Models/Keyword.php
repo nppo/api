@@ -11,13 +11,13 @@ use Laravel\Scout\Searchable;
 use Way2Web\Force\AbstractModel;
 use Way2Web\Force\HasUuid;
 
-class Theme extends AbstractModel
+class Keyword extends AbstractModel
 {
     use Searchable;
     use IsTag;
     use HasUuid;
 
-    protected static ?string  $tagType = TagTypes::THEME;
+    protected static ?string  $tagType = TagTypes::KEYWORD;
 
     protected $table = 'tags';
 

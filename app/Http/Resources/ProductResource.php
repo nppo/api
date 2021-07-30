@@ -57,8 +57,8 @@ class ProductResource extends Resource
                 return ThemeResource::collection($this->themes);
             }),
 
-            'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
-                return TagResource::collection($this->tags);
+            'tags' => $this->whenLoaded('keywords', function (): AnonymousResourceCollection {
+                return TagResource::collection($this->keywords);
             }),
 
             'children' => $this->whenLoaded('children', function (): AnonymousResourceCollection {
