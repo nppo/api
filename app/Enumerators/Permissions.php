@@ -21,4 +21,7 @@ class Permissions extends Enum
     public const TAG_CREATE = 'create tag';
     public const TAG_UPDATE = 'update tag';
     public const TAG_DELETE = 'delete tag';
+
+    public const USER_UPDATE = 'update user';
+    public const USER_DELETE = 'delete user';
 }

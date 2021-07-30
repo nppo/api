@@ -10,7 +10,11 @@ use App\Models\Person;
 use App\Models\Product;
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\Paginator;
 use SocialiteProviders\Manager\OAuth2\User as OAuth2User;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
+use Spatie\QueryBuilder\QueryBuilder;
 use Way2Web\Force\Repository\AbstractRepository;
 
 class UserRepository extends AbstractRepository
@@ -19,6 +23,50 @@ class UserRepository extends AbstractRepository
     {
         return User::class;
     }
+
+    public function index(): Paginator
+    {
+        return QueryBuilder::for($this->makeQuery())
+            ->defaultSort('id')
+            ->allowedSorts([
+                AllowedSort::field('id'),
+                AllowedSort::field('email'),
+            ])
+            ->allowedFilters([
+                AllowedFilter::exact('id'),
+                AllowedFilter::partial('email'),
+            ])
+            ->jsonPaginate();
+    }
+
+    public function show(string $id): User
+    {
+        /** @var User */
+        $user = $this->findOrFail($id);
+
+        return $user;
+    }
+
+    public function updateFull(string $id, array $data): User
+    {
+        /** @var User */
+        $user = $this->findOrFail($id);
+
+        $user->update($data);
+
+        return $user;
+    }
+
+    public function deleteFull(string $id): User
+    {
+        /** @var User */
+        $user = $this->findOrFail($id);
+
+        $user->delete();
+
+        return $user;
+    }
+
 
     public function fromSocialite(OAuth2User $user): ?User
     {

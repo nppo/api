@@ -55,6 +55,7 @@ Route::group([
     Route::resource('tags', TagController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::resource('skills', SkillController::class)->only(['index']);
     Route::resource('articles', ArticleController::class)->only(['show']);
+    Route::resource('users', UserController::class)->only(['index', 'update', 'show', 'destroy']);
     Route::resource('users.likes', UserLikeController::class)->only(['index', 'store']);
 
     Route::get('products/{id}/download', [ProductController::class, 'download'])
