@@ -4,14 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Theme;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class UpdateRequest extends FormRequest
+class UpdateRequest extends StoreRequest
 {
-    public function rules(): array
-    {
-        return [
-            'label' => ['required', 'string', 'min:3'],
-        ];
-    }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Tag;
+namespace App\Http\Requests\Party;
 
 class UpdateRequest extends StoreRequest
 {
