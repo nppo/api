@@ -9,6 +9,7 @@ use App\Http\Requests\Theme\StoreRequest;
 use App\Http\Requests\Theme\UpdateRequest;
 use App\Http\Resources\ThemeResource;
 use App\Models\Tag;
+use App\Models\Theme;
 use App\Repositories\ThemeRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Way2Web\Force\Http\Controller;
@@ -39,6 +40,8 @@ class ThemeController extends Controller
 
     public function store(StoreRequest $storeRequest)
     {
+        $this->authorize('create', Theme::class);
+
         $theme = $this->themeRepository->createFull($storeRequest->validated());
 
         return ThemeResource::make($theme);
@@ -46,6 +49,10 @@ class ThemeController extends Controller
 
     public function update(string $id, UpdateRequest $updateRequest)
     {
+        $theme = $this->themeRepository->findOrFail($id);
+
+        $this->authorize('update', $theme);
+
         $theme = $this->themeRepository->updateFull($id, $updateRequest->validated());
 
         return ThemeResource::make($theme);

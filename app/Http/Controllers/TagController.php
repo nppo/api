@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Tag\StoreRequest;
 use App\Http\Requests\Tag\UpdateRequest;
 use App\Http\Resources\TagResource;
+use App\Models\Tag;
 use App\Repositories\TagRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Way2Web\Force\Http\Controller;
@@ -37,20 +38,30 @@ class TagController extends Controller
 
     public function store(StoreRequest $storeRequest)
     {
-        $theme = $this->tagRepository->createFull($storeRequest->validated());
+        $this->authorize('create', Tag::class);
 
-        return TagResource::make($theme);
+        $tag = $this->tagRepository->createFull($storeRequest->validated());
+
+        return TagResource::make($tag);
     }
 
     public function update(string $id, UpdateRequest $updateRequest)
     {
-        $theme = $this->tagRepository->updateFull($id, $updateRequest->validated());
+        $tag = $this->tagRepository->findOrFail($id);
 
-        return TagResource::make($theme);
+        $this->authorize('update', $tag);
+
+        $tag = $this->tagRepository->updateFull($id, $updateRequest->validated());
+
+        return TagResource::make($tag);
     }
 
     public function destroy(string $id)
     {
+        $tag = $this->tagRepository->findOrFail($id);
+
+        $this->authorize('delete', $tag);
+
         $tag = $this->tagRepository->deleteFull($id);
 
         return TagResource::make($tag);
