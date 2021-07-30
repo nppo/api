@@ -105,7 +105,7 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
 
     public function themes(): MorphToMany
     {
-        return $this->morphToMany(Theme::class, 'taggable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function keywords(): MorphToMany
