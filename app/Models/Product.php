@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
+use App\Enumerators\TagTypes;
 use App\Helpers\Structure as StructureHelper;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasExternalResource;

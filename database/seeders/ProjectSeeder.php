@@ -50,7 +50,7 @@ class ProjectSeeder extends Seeder
             ->times(self::MAX_PROJECTS)
             ->create()
             ->each(function (Model $project) use ($keywords, $people, $parties, $users, $products): void {
-                // @var Project $project
+                /** @var Project $project */
                 $this->attachKeywords($project, $keywords);
                 $this->attachPeople($project, $people);
                 $this->attachParties($project, $parties);

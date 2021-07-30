@@ -77,7 +77,7 @@ class ProductSeeder extends Seeder
             ->times(self::MAX_PRODUCTS)
             ->create()
             ->each(function (Model $product) use ($keywords, $people, $parties, $users): void {
-                // @var Product $product
+                /** @var Product $product */
                 $this->attachKeywords($product, $keywords);
                 $this->attachPeople($product, $people);
                 $this->attachParties($product, $parties);

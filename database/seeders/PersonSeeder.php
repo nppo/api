@@ -40,7 +40,7 @@ class PersonSeeder extends Seeder
             ->times(self::MAX_PEOPLE)
             ->create()
             ->each(function (Model $person) use ($parties, $keywords, $users): void {
-                // @var Person $person
+                /** @var Person $person */
                 $this->attachKeywords($person, $keywords);
                 $this->attachParty($person, $parties);
 
