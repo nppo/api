@@ -13,7 +13,7 @@ use Way2Web\Force\HasUuid;
 
 class Tag extends AbstractModel
 {
-    protected static $tagType = null;
+    protected static ?string $tagType = null;
 
     use Searchable;
     use IsTag;

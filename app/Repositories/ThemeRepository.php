@@ -41,18 +41,20 @@ class ThemeRepository extends AbstractRepository
 
     public function createFull(array $data): Theme
     {
-        $tag = Theme::create(
+        /** @var Theme */
+        $theme = Theme::create(
             array_merge(
                 ['type' => TagTypes::THEME],
                 $data
             )
         );
 
-        return $tag;
+        return $theme;
     }
 
     public function updateFull(string $id, array $data): Theme
     {
+        /** @var Theme */
         $theme = $this->findOrFail($id);
 
         $theme->update($data);

@@ -47,6 +47,7 @@ class TagRepository extends AbstractRepository
 
     public function createFull(array $data): Tag
     {
+        /** @var Tag */
         $tag = Tag::create($data);
 
         return $tag;
@@ -54,6 +55,7 @@ class TagRepository extends AbstractRepository
 
     public function updateFull(string $id, array $data): Tag
     {
+        /** @var Tag */
         $tag = $this->findOrFail($id);
 
         $tag->update($data);
@@ -63,6 +65,7 @@ class TagRepository extends AbstractRepository
 
     public function deleteFull(string $id): Tag
     {
+        /** @var Tag */
         $tag = $this->findOrFail($id);
 
         $tag->delete();

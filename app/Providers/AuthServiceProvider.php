@@ -8,6 +8,7 @@ use App\Models\Person;
 use App\Models\Product;
 use App\Models\Project;
 use App\Models\Tag;
+use App\Models\Theme;
 use App\Models\User;
 use App\Policies\PersonPolicy;
 use App\Policies\ProductPolicy;

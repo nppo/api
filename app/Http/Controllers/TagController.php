@@ -31,12 +31,12 @@ class TagController extends Controller
         );
     }
 
-    public function show(string $id)
+    public function show(string $id): TagResource
     {
         return TagResource::make($this->tagRepository->show($id));
     }
 
-    public function store(StoreRequest $storeRequest)
+    public function store(StoreRequest $storeRequest): TagResource
     {
         $this->authorize('create', Tag::class);
 
@@ -45,7 +45,7 @@ class TagController extends Controller
         return TagResource::make($tag);
     }
 
-    public function update(string $id, UpdateRequest $updateRequest)
+    public function update(string $id, UpdateRequest $updateRequest): TagResource
     {
         $tag = $this->tagRepository->findOrFail($id);
 
@@ -56,7 +56,7 @@ class TagController extends Controller
         return TagResource::make($tag);
     }
 
-    public function destroy(string $id)
+    public function destroy(string $id): TagResource
     {
         $tag = $this->tagRepository->findOrFail($id);
 

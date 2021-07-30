@@ -31,12 +31,12 @@ class ThemeController extends Controller
         );
     }
 
-    public function show(string $id)
+    public function show(string $id): ThemeResource
     {
         return ThemeResource::make($this->themeRepository->show($id));
     }
 
-    public function store(StoreRequest $storeRequest)
+    public function store(StoreRequest $storeRequest): ThemeResource
     {
         $this->authorize('create', Theme::class);
 
@@ -45,7 +45,7 @@ class ThemeController extends Controller
         return ThemeResource::make($theme);
     }
 
-    public function update(string $id, UpdateRequest $updateRequest)
+    public function update(string $id, UpdateRequest $updateRequest): ThemeResource
     {
         $theme = $this->themeRepository->findOrFail($id);
 

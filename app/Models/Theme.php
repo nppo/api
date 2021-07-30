@@ -14,7 +14,7 @@ class Theme extends AbstractModel
 {
     use Searchable, IsTag;
 
-    protected static $tagType = TagTypes::THEME;
+    protected static ?string  $tagType = TagTypes::THEME;
 
     protected $table = 'tags';
 
