@@ -116,9 +116,12 @@ class ProductController extends Controller
         );
     }
 
+    /** @param mixed $id */
     public function download($id): Responsable
     {
-        return $this->productRepository->findOrFail($id)
-            ->getFirstMedia(MediaCollections::PRODUCT_OBJECT);
+        /** @var Product */
+        $product = $this->productRepository->findOrFail($id);
+
+        return $product->getFirstMedia(MediaCollections::PRODUCT_OBJECT);
     }
 }

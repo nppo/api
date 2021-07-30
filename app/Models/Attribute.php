@@ -35,7 +35,7 @@ class Attribute extends AbstractModel
 
     public function loadValueFrom(HasMetaData $model): self
     {
-        $this->setRelation('value', $model->values->where('attribute_id', $this->getKey())->first());
+        $this->setRelation('value', $model->values()->where('attribute_id', $this->getKey())->first());
 
         return $this;
     }

@@ -40,6 +40,7 @@ class PersonController extends Controller
         );
     }
 
+    /** @param mixed $id */
     public function show($id): PersonResource
     {
         return PersonResource::make(
@@ -93,7 +94,7 @@ class PersonController extends Controller
 
     public function update(PersonUpdateRequest $request, string $id): PersonResource
     {
-        /** @var $person Person */
+        /** @var Person $person */
         $person = $this->personRepository->findOrFail($id);
 
         $this->authorize(Action::UPDATE, $person);

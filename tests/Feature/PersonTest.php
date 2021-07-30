@@ -8,6 +8,7 @@ use App\Enumerators\TagTypes;
 use App\Models\Attribute;
 use App\Models\Tag;
 use App\Models\Value;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -203,7 +204,8 @@ class PersonTest extends TestCase
                 },
             ])
             ->make()
-            ->map(function (Value $value): array {
+            ->map(function (Model $value): array {
+                /** @var Value $value */
                 return [
                     'id'    => $value->attribute_id,
                     'value' => $value->value,

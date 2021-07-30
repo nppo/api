@@ -14,7 +14,7 @@ pipelines:
           - git clone ssh://git@bitbucket.org/way2dev/bitbucket-pipelines --branch v3.0.2 --single-branch
           - cd bitbucket-pipelines && composer install --no-interaction --no-progress --no-ansi --prefer-dist && cd ..
           - cp .build/* .
-          - cp .dev/PHP/* .
+          - cp .dev/php/* .
           - ./bitbucket-pipelines/prepare.sh
           - ./bitbucket-pipelines/php/composer.sh
           - ./bitbucket-pipelines/php/validation.sh

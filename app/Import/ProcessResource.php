@@ -50,7 +50,7 @@ class ProcessResource implements ShouldQueue
         return $actions;
     }
 
-    private function getActionsKey(string $driver, string $type)
+    private function getActionsKey(string $driver, string $type): string
     {
         return 'import.drivers.' . $driver . '.' . $type . '.actions';
     }

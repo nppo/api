@@ -17,6 +17,7 @@ class ArticleController extends Controller
         $this->articleRepository = $articleRepository;
     }
 
+    /** @param mixed $id */
     public function show($id): ArticleResource
     {
         return ArticleResource::make(

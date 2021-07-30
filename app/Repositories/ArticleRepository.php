@@ -33,6 +33,7 @@ class ArticleRepository extends AbstractRepository
             ->get();
     }
 
+    /** @param mixed $id */
     public function show($id): Model
     {
         return $this
@@ -74,7 +75,7 @@ class ArticleRepository extends AbstractRepository
         return $this;
     }
 
-    public function get()
+    public function get(): Collection
     {
         return $this->builder->get();
     }

@@ -12,6 +12,7 @@ use App\Models\Person;
 use App\Models\Product;
 use App\Models\Project;
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
@@ -67,7 +68,8 @@ class SearchTest extends TestCase
             ->count(3)
             ->create();
 
-        $products->each(function (Product $product): void {
+        $products->each(function (Model $product): void {
+            /** @var Product $product */
             $product
                 ->themes()
                 ->save(Tag::factory(['type' => TagTypes::THEME])->create());

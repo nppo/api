@@ -14,7 +14,7 @@ class LastName implements Transformer
         $name = explode(' ', $value);
 
         if (count($name) > 1) {
-            return implode(' ', Arr::except($name, 0));
+            return implode(' ', Arr::except($name, [0]));
         }
 
         return null;

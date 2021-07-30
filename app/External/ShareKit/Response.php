@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\External\ShareKit;
 
 use Closure;
-use GuzzleHttp\Psr7\Response as Psr7Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Psr\Http\Message\ResponseInterface;
 
 class Response
 {
@@ -23,7 +23,7 @@ class Response
         $this->body = json_decode($body, true);
     }
 
-    public static function fromClient(Psr7Response $response): self
+    public static function fromClient(ResponseInterface $response): self
     {
         return new self(
             $response->getStatusCode(),

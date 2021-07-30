@@ -24,6 +24,7 @@ class PartyController extends Controller
         );
     }
 
+    /** @param mixed $id */
     public function show($id): PartyResource
     {
         return PartyResource::make(

@@ -35,7 +35,11 @@ class Mapping
         return false;
     }
 
-    /** @return mixed */
+    /**
+     * @param mixed $toOutput
+     *
+     * @return mixed
+     */
     public function apply(array $using, &$toOutput)
     {
         foreach ($this->maps as $mapsForKey) {

@@ -7,6 +7,8 @@ namespace App\Repositories;
 use App\Enumerators\Filters;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Way2Web\Force\Repository\AbstractRepository;
 
 class ProjectRepository extends AbstractRepository
@@ -27,7 +29,8 @@ class ProjectRepository extends AbstractRepository
         return Project::class;
     }
 
-    public function show($id)
+    /** @param mixed $id */
+    public function show($id): Model
     {
         return $this
             ->with([
@@ -88,7 +91,7 @@ class ProjectRepository extends AbstractRepository
             ->toArray();
     }
 
-    public function get()
+    public function get(): Collection
     {
         return $this->builder->get();
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Transforming\Transformers;
 
 use App\Transforming\Interfaces\Transformer;
+use Carbon\Carbon;
 
 class ProductType implements Transformer
 {

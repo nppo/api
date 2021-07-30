@@ -11,7 +11,7 @@ trait Limitable
 {
     protected ?Closure $onlyWhenCallback = null;
 
-    public function onlyWhen(?Closure $closure)
+    public function onlyWhen(?Closure $closure): self
     {
         $this->onlyWhenCallback = $closure;
 

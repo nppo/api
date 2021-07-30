@@ -47,7 +47,7 @@ class SyncRelations extends AbstractAction
             });
     }
 
-    private function syncableTypes(ExternalResource $externalResource)
+    private function syncableTypes(ExternalResource $externalResource): array
     {
         $types = ImportType::asArray();
 

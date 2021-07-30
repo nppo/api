@@ -9,7 +9,6 @@ use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
-use App\Repositories\MediaRepository;
 use App\Repositories\ProjectRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
@@ -20,10 +19,9 @@ class ProjectController extends Controller
 {
     private ProjectRepository $projectRepository;
 
-    public function __construct(ProjectRepository $projectRepository, MediaRepository $mediaRepository)
+    public function __construct(ProjectRepository $projectRepository)
     {
         $this->projectRepository = $projectRepository;
-        $this->mediaRepository = $mediaRepository;
 
         $this
             ->protectActionRoutes(['api']);
@@ -52,7 +50,9 @@ class ProjectController extends Controller
             Project::class,
             Collection::make(
                 Arr::get($validated, 'products') ?: []
-            )->pluck('id'),
+            )
+                ->pluck('id')
+                ->toArray(),
         ]);
 
         /** @var Project */
@@ -100,7 +100,9 @@ class ProjectController extends Controller
             $project,
             Collection::make(
                 Arr::get($validated, 'products') ?: []
-            )->pluck('id'),
+            )
+                ->pluck('id')
+                ->toArray(),
         ]);
 
         $this

@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  php:
+    build:
+      context: ../../
+      dockerfile: ./.dev/docker/images/php/Dockerfile
+      args:
+        PHP_VERSION: 7.4
+    networks:
+      - application
+
+  php-fpm:
+    extends:
+      service: php
+    ports:
+      - "8000"
+    command: ["/usr/local/sbin/php-fpm", "--fpm-config", "/usr/local/etc/php-fpm.conf"]
+
+  nginx:
+    build:
+      context: ../../
+      dockerfile: ./.dev/docker/images/nginx/Dockerfile
+    ports:
+      - "8080"
+    networks:
+      - application
+    depends_on:
+      - php-fpm
+
+networks:
+  application:
