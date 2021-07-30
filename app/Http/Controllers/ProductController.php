@@ -33,8 +33,7 @@ class ProductController extends Controller
         );
     }
 
-    /** @param mixed $id */
-    public function show($id): ProductResource
+    public function show(string $id): ProductResource
     {
         return ProductResource::make(
             $this->productRepository->show($id)
@@ -42,8 +41,7 @@ class ProductController extends Controller
             ->withPermissions();
     }
 
-    /** @param mixed $id */
-    public function update(ProductUpdateRequest $request, $id): ProductResource
+    public function update(ProductUpdateRequest $request, string $id): ProductResource
     {
         /** @var Product $product */
         $product = $this->productRepository->findOrFail($id);

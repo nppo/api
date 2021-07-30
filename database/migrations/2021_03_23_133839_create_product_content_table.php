@@ -11,8 +11,8 @@ class CreateProductContentTable extends Migration
     public function up(): void
     {
         Schema::create('product_content', function (Blueprint $table): void {
-            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            $table->foreignId('child_id')->constrained('products')->cascadeOnDelete();
+            $table->foreignUuid('product_id')->constrained('products')->cascadeOnDelete();
+            $table->foreignUuid('child_id')->constrained('products')->cascadeOnDelete();
 
             $table->unique(['product_id', 'child_id']);
             $table->timestamps();

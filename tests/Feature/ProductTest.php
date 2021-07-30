@@ -9,6 +9,7 @@ use App\Enumerators\ProductTypes;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Laravel\Passport\Passport;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
@@ -244,8 +245,14 @@ class ProductTest extends TestCase
 
         $this->assertCount(2, $response->json('data.children'));
 
-        foreach ($children->pluck('id') as $key => $id) {
-            $this->assertEquals($response->json('data.children')[$key]['id'], $id);
+        $ids = $children->pluck('id')->sort()->values();
+        $responseIds = Collection::make($response->json('data.children'))
+            ->map(fn ($child) => $child['id'])
+            ->sort()
+            ->values();
+
+        foreach ($ids as $key => $id) {
+            $this->assertEquals($responseIds[$key], $id);
         }
     }
 
@@ -269,15 +276,21 @@ class ProductTest extends TestCase
 
         $response = $this
             ->putJson(
-                route('api.products.update', ['product' => $product->id]),
+                route('api.products.update', ['product' => $product]),
                 array_merge($product->toArray(), ['children' => $children->map->only('id')])
             )
             ->assertOk();
 
         $this->assertCount(2, $response->json('data.children'));
 
-        foreach ($children->pluck('id') as $key => $id) {
-            $this->assertEquals($response->json('data.children')[$key]['id'], $id);
+        $ids = $children->pluck('id')->sort()->values();
+        $responseIds = Collection::make($response->json('data.children'))
+            ->map(fn ($child) => $child['id'])
+            ->sort()
+            ->values();
+
+        foreach ($ids as $key => $id) {
+            $this->assertEquals($responseIds[$key], $id);
         }
     }
 
