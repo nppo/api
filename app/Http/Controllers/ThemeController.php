@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enumerators\TagTypes;
 use App\Http\Requests\Theme\StoreRequest;
 use App\Http\Requests\Theme\UpdateRequest;
 use App\Http\Resources\ThemeResource;
-use App\Models\Tag;
 use App\Models\Theme;
 use App\Repositories\ThemeRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;

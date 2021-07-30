@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 return [
-
     /*
      * By default the package will use the `include`, `filter`, `sort`
      * and `fields` query parameters as described in the readme.

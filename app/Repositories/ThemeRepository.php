@@ -29,7 +29,7 @@ class ThemeRepository extends AbstractRepository
             ])
             ->allowedFilters([
                 AllowedFilter::exact('id'),
-                AllowedFilter::partial('label')
+                AllowedFilter::partial('label'),
             ])
             ->paginate();
     }

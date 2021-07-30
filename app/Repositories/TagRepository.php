@@ -35,7 +35,7 @@ class TagRepository extends AbstractRepository
             ])
             ->allowedFilters([
                 AllowedFilter::exact('id'),
-                AllowedFilter::partial('label')
+                AllowedFilter::partial('label'),
             ])
             ->paginate();
     }
