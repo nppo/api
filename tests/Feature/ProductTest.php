@@ -376,11 +376,11 @@ class ProductTest extends TestCase
         $this
             ->putJson(
                 route('api.products.update', $product),
-                array_merge($product->toArray(), ['tags' => $formattedKeywords])
+                array_merge($product->toArray(), ['keywords' => $formattedKeywords])
             )
             ->assertOk()
             ->assertJsonFragment([
-                'tags' => $formattedKeywords,
+                'keywords' => $formattedKeywords,
             ]);
     }
 }

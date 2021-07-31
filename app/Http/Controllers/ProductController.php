@@ -61,15 +61,15 @@ class ProductController extends Controller
         }
 
         $product->syncTags(
-            Collection::make(Arr::get($validated, 'tags') ?? [])
-                ->map(fn ($tag) => $tag['label'])
+            Collection::make(Arr::get($validated, 'keywords') ?? [])
+                ->map(fn ($keyword) => $keyword['label'])
                 ->toArray(),
             TagTypes::KEYWORD
         );
 
         $product->syncTags(
             Collection::make(Arr::get($validated, 'themes') ?? [])
-                ->map(fn ($tag) => $tag['label'])
+                ->map(fn ($theme) => $theme['label'])
                 ->toArray(),
             TagTypes::THEME
         );
@@ -106,15 +106,15 @@ class ProductController extends Controller
         }
 
         $product->syncTags(
-            Collection::make(Arr::get($validated, 'tags') ?? [])
-                ->map(fn ($tag) => $tag['label'])
+            Collection::make(Arr::get($validated, 'keywords') ?? [])
+                ->map(fn ($keyword) => $keyword['label'])
                 ->toArray(),
             TagTypes::KEYWORD
         );
 
         $product->syncTags(
             Collection::make(Arr::get($validated, 'themes') ?? [])
-                ->map(fn ($tag) => $tag['label'])
+                ->map(fn ($theme) => $theme['label'])
                 ->toArray(),
             TagTypes::THEME
         );

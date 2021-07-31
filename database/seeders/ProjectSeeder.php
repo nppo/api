@@ -11,6 +11,7 @@ use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
 use App\Models\Project;
+use App\Models\Theme;
 use App\Models\User;
 use Database\Seeders\Support\SeedsMetadata;
 use Illuminate\Database\Eloquent\Model;
@@ -28,6 +29,8 @@ class ProjectSeeder extends Seeder
 
     private const MAX_KEYWORDS = 10;
 
+    private const MAX_THEMES = 10;
+
     private const MAX_PEOPLE = 10;
 
     private const MAX_PARTIES = 3;
@@ -41,6 +44,7 @@ class ProjectSeeder extends Seeder
         $this->command->getOutput()->progressStart(self::MAX_PROJECTS);
 
         $keywords = Keyword::all();
+        $themes = Theme::all();
         $people = Person::all();
         $parties = Party::all();
         $users = User::all();
@@ -49,9 +53,10 @@ class ProjectSeeder extends Seeder
         Project::factory()
             ->times(self::MAX_PROJECTS)
             ->create()
-            ->each(function (Model $project) use ($keywords, $people, $parties, $users, $products): void {
+            ->each(function (Model $project) use ($keywords, $themes, $people, $parties, $users, $products): void {
                 /** @var Project $project */
                 $this->attachKeywords($project, $keywords);
+                $this->attachThemes($project, $themes);
                 $this->attachPeople($project, $people);
                 $this->attachParties($project, $parties);
                 $this->attachLikes($project, $users);
@@ -112,6 +117,15 @@ class ProjectSeeder extends Seeder
             ->keywords()
             ->saveMany(
                 $keywords->random(mt_rand(0, self::MAX_KEYWORDS))
+            );
+    }
+
+    private function attachThemes(Project $project, Collection $themes): void
+    {
+        $project
+            ->themes()
+            ->saveMany(
+                $themes->random(mt_rand(0, self::MAX_THEMES))
             );
     }
 

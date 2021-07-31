@@ -51,7 +51,7 @@ class PersonResource extends Resource
             }),
 
             'skills' => $this->whenLoaded('skills', function (): AnonymousResourceCollection {
-                return TagResource::collection($this->skills);
+                return SkillResource::collection($this->skills);
             }),
 
             'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {

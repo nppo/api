@@ -11,6 +11,7 @@ use App\Models\Keyword;
 use App\Models\Party;
 use App\Models\Person;
 use App\Models\Product;
+use App\Models\Theme;
 use App\Models\User;
 use Database\Seeders\Support\SeedsMedia;
 use Database\Seeders\Support\SeedsMetadata;
@@ -28,6 +29,8 @@ class ProductSeeder extends Seeder
     private const MAX_KEYWORDS_PER_PRODUCT = 10;
 
     private const MAX_PEOPLE = 10;
+
+    private const MAX_THEMES = 10;
 
     private const MAX_PARTIES = 3;
 
@@ -69,6 +72,7 @@ class ProductSeeder extends Seeder
         $this->command->getOutput()->progressStart(self::MAX_PRODUCTS);
 
         $keywords = Keyword::all();
+        $themes = Theme::all();
         $people = Person::all();
         $parties = Party::all();
         $users = User::all();
@@ -76,9 +80,10 @@ class ProductSeeder extends Seeder
         Product::factory()
             ->times(self::MAX_PRODUCTS)
             ->create()
-            ->each(function (Model $product) use ($keywords, $people, $parties, $users): void {
+            ->each(function (Model $product) use ($keywords, $themes, $people, $parties, $users): void {
                 /** @var Product $product */
                 $this->attachKeywords($product, $keywords);
+                $this->attachThemes($product, $themes);
                 $this->attachPeople($product, $people);
                 $this->attachParties($product, $parties);
                 $this->attachLikes($product, $users);
@@ -134,6 +139,15 @@ class ProductSeeder extends Seeder
             ->keywords()
             ->saveMany(
                 $keywords->random(mt_rand(0, self::MAX_KEYWORDS_PER_PRODUCT))
+            );
+    }
+
+    private function attachThemes(Product $product, Collection $themes): void
+    {
+        $product
+            ->themes()
+            ->saveMany(
+                $themes->random(mt_rand(0, self::MAX_THEMES))
             );
     }
 

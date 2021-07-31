@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
-use App\Enumerators\TagTypes;
 use App\Helpers\Structure as StructureHelper;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasExternalResource;
@@ -57,10 +56,6 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
                 return $theme->id;
             })->toArray(),
 
-            'tags' => $this->keywords->map(function (Tag $tag): int {
-                return $tag->id;
-            })->toArray(),
-
             'people' => $this->people->map(function (Person $person): int {
                 return $person->id;
             })->toArray(),
@@ -105,12 +100,12 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
 
     public function themes(): MorphToMany
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->tagRelation(Theme::class);
     }
 
     public function keywords(): MorphToMany
     {
-        return $this->tags()->where('type', TagTypes::KEYWORD);
+        return $this->tagRelation(Keyword::class);
     }
 
     public function likes(): MorphToMany

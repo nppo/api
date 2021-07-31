@@ -11,7 +11,7 @@ use Illuminate\Support\Collection as SupportCollection;
 
 trait HasTags
 {
-    public function syncTags(array $tags, string $type = null, bool $onlyExisting = false): void
+    public function syncTags(array $tags, string $type, bool $onlyExisting = false): void
     {
         $this->tags()->detach(Tag::where('type', $type)->get());
 
@@ -26,7 +26,12 @@ trait HasTags
 
     public function tags(): MorphToMany
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->tagRelation(Tag::class);
+    }
+
+    public function tagRelation(string $class): MorphToMany
+    {
+        return $this->morphToMany($class, 'taggable', 'taggables', 'taggable_id', 'tag_id');
     }
 
     protected function findOrCreateTags(array $tags, ?string $type = null): SupportCollection

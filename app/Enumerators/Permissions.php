@@ -24,11 +24,11 @@ class Permissions extends Enum
 
     public const THEME_UPDATE = 'update theme';
 
-    public const TAG_CREATE = 'create tag';
+    public const KEYWORD_CREATE = 'create keyword';
 
-    public const TAG_UPDATE = 'update tag';
+    public const KEYWORD_UPDATE = 'update keyword';
 
-    public const TAG_DELETE = 'delete tag';
+    public const KEYWORD_DELETE = 'delete keyword';
 
     public const PARTY_CREATE = 'create party';
 
