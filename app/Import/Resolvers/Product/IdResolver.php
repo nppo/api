@@ -22,7 +22,10 @@ class IdResolver implements CompositableResolver
             $query = $this->query(Arr::get($data, 'id'));
 
             if ($query->count() === 1) {
-                return $query->sole();
+                /** @var Product */
+                $product = $query->sole();
+
+                return $product;
             }
         }
 

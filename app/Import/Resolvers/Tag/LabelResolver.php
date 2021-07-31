@@ -29,7 +29,10 @@ class LabelResolver implements CompositableResolver
             $query = $this->query(Arr::get($data, 'label'));
 
             if ($query->count() === 1) {
-                return $query->sole();
+                /** @var Tag */
+                $tag = $query->sole();
+
+                return $tag;
             }
         }
 
