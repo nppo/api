@@ -27,13 +27,16 @@ class UserPolicy
         return true;
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    public function create(User $user): bool
+    {
+        return $user->hasPermissionTo(Permissions::USER_CREATE);
+    }
+
     public function update(User $user): bool
     {
         return $user->hasPermissionTo(Permissions::USER_UPDATE);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function delete(User $user): bool
     {
         return $user->hasPermissionTo(Permissions::USER_DELETE);

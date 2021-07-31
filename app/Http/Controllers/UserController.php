@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -33,6 +35,17 @@ class UserController extends Controller
     public function show(string $id): UserResource
     {
         return UserResource::make($this->userRepository->show($id));
+    }
+
+    public function store(StoreRequest $storeRequest): UserResource
+    {
+        $this->authorize('create', User::class);
+
+        $user = $this->userRepository->create($storeRequest->data());
+
+        $user = $this->userRepository->syncRoles($user->getKey(), $storeRequest->roles());
+
+        return UserResource::make($user);
     }
 
     public function update(string $id, UpdateRequest $updateRequest): UserResource
