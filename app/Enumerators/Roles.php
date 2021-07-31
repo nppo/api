@@ -29,6 +29,7 @@ class Roles extends Enum
         Permissions::TAG_CREATE,
         Permissions::TAG_UPDATE,
         Permissions::TAG_DELETE,
+        Permissions::USER_CREATE,
         Permissions::USER_UPDATE,
         Permissions::USER_DELETE,
     ];

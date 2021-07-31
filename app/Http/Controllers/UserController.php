@@ -41,7 +41,8 @@ class UserController extends Controller
 
         $this->authorize('update', $user);
 
-        $user = $this->userRepository->updateFull($id, $updateRequest->validated());
+        $user = $this->userRepository->updateFull($id, $updateRequest->data());
+        $user = $this->userRepository->syncRoles($id, $updateRequest->roles());
 
         return UserResource::make($user);
     }

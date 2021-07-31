@@ -10,6 +10,7 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\StatisticsController;
@@ -44,6 +45,8 @@ Route::group([
     Route::get('search', [SearchController::class, 'search'])->name('search');
     Route::get('statistics/entities', [StatisticsController::class, 'entities'])->name('statistics.entities');
     Route::get('discover', [HomeController::class, 'discover'])->name('discover');
+
+    Route::resource('roles', RoleController::class)->only(['index']);
 
     Route::resource('product-types', ProductTypeController::class)->only(['index']);
     Route::resource('themes', ThemeController::class)->only(['index', 'store', 'update', 'show']);

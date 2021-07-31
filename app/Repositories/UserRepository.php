@@ -42,7 +42,7 @@ class UserRepository extends AbstractRepository
     public function show(string $id): User
     {
         /** @var User */
-        $user = $this->findOrFail($id);
+        $user = $this->with(['roles'])->findOrFail($id);
 
         return $user;
     }
@@ -57,6 +57,16 @@ class UserRepository extends AbstractRepository
         return $user;
     }
 
+    public function syncRoles(string $id, array $data): User
+    {
+        /** @var User */
+        $user = $this->findOrFail($id);
+
+        $user->syncRoles($data);
+
+        return $user;
+    }
+
     public function deleteFull(string $id): User
     {
         /** @var User */
@@ -66,7 +76,6 @@ class UserRepository extends AbstractRepository
 
         return $user;
     }
-
 
     public function fromSocialite(OAuth2User $user): ?User
     {
