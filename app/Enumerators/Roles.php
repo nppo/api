@@ -32,5 +32,8 @@ class Roles extends Enum
         Permissions::PARTY_CREATE,
         Permissions::PARTY_UPDATE,
         Permissions::PARTY_DELETE,
+        Permissions::USER_CREATE,
+        Permissions::USER_UPDATE,
+        Permissions::USER_DELETE,
     ];
 }

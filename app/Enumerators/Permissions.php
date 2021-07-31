@@ -35,4 +35,10 @@ class Permissions extends Enum
     public const PARTY_UPDATE = 'update party';
 
     public const PARTY_DELETE = 'delete party';
+
+    public const USER_CREATE = 'create user';
+
+    public const USER_UPDATE = 'update user';
+
+    public const USER_DELETE = 'delete user';
 }

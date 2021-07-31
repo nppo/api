@@ -10,6 +10,7 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\StatisticsController;
@@ -45,6 +46,8 @@ Route::group([
     Route::get('statistics/entities', [StatisticsController::class, 'entities'])->name('statistics.entities');
     Route::get('discover', [HomeController::class, 'discover'])->name('discover');
 
+    Route::resource('roles', RoleController::class)->only(['index']);
+
     Route::resource('product-types', ProductTypeController::class)->only(['index']);
     Route::resource('themes', ThemeController::class)->only(['index', 'store', 'update', 'show']);
     Route::resource('types', EntityController::class)->only(['index']);
@@ -55,6 +58,7 @@ Route::group([
     Route::resource('tags', TagController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::resource('skills', SkillController::class)->only(['index']);
     Route::resource('articles', ArticleController::class)->only(['show']);
+    Route::resource('users', UserController::class)->only(['index', 'update', 'show', 'destroy']);
     Route::resource('users.likes', UserLikeController::class)->only(['index', 'store']);
 
     Route::get('products/{id}/download', [ProductController::class, 'download'])
