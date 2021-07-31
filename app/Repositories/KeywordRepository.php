@@ -30,7 +30,7 @@ class KeywordRepository extends AbstractRepository
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('label'),
             ])
-            ->paginate();
+            ->jsonPaginate();
     }
 
     public function show(string $id): Keyword
