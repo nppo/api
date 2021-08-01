@@ -7,6 +7,7 @@ namespace Tests\Feature\Http\Keywords;
 use App\Enumerators\Permissions;
 use App\Http\Resources\KeywordResource;
 use App\Models\Keyword;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
@@ -14,7 +15,7 @@ class UpdateTest extends TestCase
 {
     protected string $route;
 
-    protected Keyword $keyword;
+    protected Model $keyword;
 
     protected function setUp(): void
     {

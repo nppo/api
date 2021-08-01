@@ -7,6 +7,7 @@ namespace Tests\Feature\Http\Themes;
 use App\Enumerators\Permissions;
 use App\Http\Resources\ThemeResource;
 use App\Models\Theme;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
@@ -14,7 +15,7 @@ class UpdateTest extends TestCase
 {
     protected string $route;
 
-    protected Theme $theme;
+    protected Model $theme;
 
     protected function setUp(): void
     {

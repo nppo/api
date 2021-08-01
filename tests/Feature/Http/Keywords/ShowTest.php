@@ -6,13 +6,14 @@ namespace Tests\Feature\Http\Keywords;
 
 use App\Http\Resources\KeywordResource;
 use App\Models\Keyword;
+use Illuminate\Database\Eloquent\Model;
 use Tests\TestCase;
 
 class ShowTest extends TestCase
 {
     protected string $route;
 
-    protected Keyword $keyword;
+    protected Model $keyword;
 
     protected function setUp(): void
     {

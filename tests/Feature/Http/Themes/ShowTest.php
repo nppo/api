@@ -6,13 +6,14 @@ namespace Tests\Feature\Http\Themes;
 
 use App\Http\Resources\ThemeResource;
 use App\Models\Theme;
+use Illuminate\Database\Eloquent\Model;
 use Tests\TestCase;
 
 class ShowTest extends TestCase
 {
     protected string $route;
 
-    protected Theme $theme;
+    protected Model $theme;
 
     protected function setUp(): void
     {

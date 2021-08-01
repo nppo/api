@@ -7,6 +7,7 @@ namespace Tests\Feature\Http\Parties;
 use App\Enumerators\Permissions;
 use App\Http\Resources\PartyResource;
 use App\Models\Party;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
@@ -14,7 +15,7 @@ class UpdateTest extends TestCase
 {
     protected string $route;
 
-    protected Party $party;
+    protected Model $party;
 
     protected function setUp(): void
     {

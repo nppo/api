@@ -6,13 +6,14 @@ namespace Tests\Feature\Http\Parties;
 
 use App\Http\Resources\PartyResource;
 use App\Models\Party;
+use Illuminate\Database\Eloquent\Model;
 use Tests\TestCase;
 
 class ShowTest extends TestCase
 {
     protected string $route;
 
-    protected Party $party;
+    protected Model $party;
 
     protected function setUp(): void
     {
