@@ -21,6 +21,7 @@ class Tag extends AbstractModel
 
     protected $fillable = [
         'type',
+        'label',
     ];
 
     public function toSearchableArray(): array
