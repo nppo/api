@@ -25,6 +25,7 @@ class Party extends AbstractModel implements HasMedia
 
     protected $fillable = [
         'name',
+        'description',
     ];
 
     public function parties(): MorphToMany

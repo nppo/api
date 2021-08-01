@@ -10,6 +10,7 @@ use App\Http\Resources\PartyResource;
 use App\Models\Party;
 use App\Repositories\PartyRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Way2Web\Force\Http\Controller;
 
 class PartyController extends Controller
 {
@@ -18,6 +19,9 @@ class PartyController extends Controller
     public function __construct(PartyRepository $personRepository)
     {
         $this->partyRepository = $personRepository;
+
+        $this
+            ->protectActionRoutes(['api']);
     }
 
     public function index(): AnonymousResourceCollection

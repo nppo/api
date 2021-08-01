@@ -20,7 +20,6 @@ class Tag extends AbstractModel
     protected $keyType = 'string';
 
     protected $fillable = [
-        'label',
         'type',
     ];
 

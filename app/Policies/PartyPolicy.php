@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enumerators\Permissions;
-use App\Models\Party;
 use App\Models\User;
 
 class PartyPolicy
@@ -15,14 +14,12 @@ class PartyPolicy
         return $user->hasPermissionTo(Permissions::PARTY_CREATE);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
-    public function update(User $user, Party $party): bool
+    public function update(User $user): bool
     {
         return $user->hasPermissionTo(Permissions::PARTY_UPDATE);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
-    public function delete(User $user, Party $party): bool
+    public function delete(User $user): bool
     {
         return $user->hasPermissionTo(Permissions::PARTY_DELETE);
     }

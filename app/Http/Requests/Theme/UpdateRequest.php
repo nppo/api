@@ -13,7 +13,7 @@ class UpdateRequest extends StoreRequest
     {
         return array_merge(
             [
-                'type' => ['nullable', 'string', Rule::in([TagTypes::KEYWORD])],
+                'type' => ['nullable', 'string', Rule::in([TagTypes::KEYWORD, TagTypes::THEME])],
             ],
             parent::rules()
         );
