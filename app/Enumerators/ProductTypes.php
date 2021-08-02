@@ -19,4 +19,6 @@ class ProductTypes extends Enum
     public const COLLECTION = 'collection';
 
     public const LINK = 'link';
+
+    public const VIDEO = 'video';
 }
