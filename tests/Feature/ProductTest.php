@@ -132,6 +132,7 @@ class ProductTest extends TestCase
             ->assertOk()
             ->assertJsonFragment(['can' => [
                 Action::UPDATE => true,
+                Action::DELETE => false,
             ]]);
     }
 
@@ -351,5 +352,60 @@ class ProductTest extends TestCase
         $response->assertJsonValidationErrors([
             'children' => 'validation.prohibited_unless',
         ]);
+    }
+
+    /** @test */
+    public function it_can_delete_a_product(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        /** @var Product $product */
+        $product = Product::factory()->create();
+
+        $product->people()->attach($user->person, ['is_owner' => true]);
+
+        $this
+            ->deleteJson(route('api.products.destroy', ['product' => $product->id]))
+            ->assertNoContent();
+
+    }
+
+    /** @test */
+    public function it_will_not_retrieve_deleted_products(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        /** @var Product $product */
+        $product = Product::factory()->make();
+        $product->deleted_at = now();
+        $product->save();
+
+        $product->people()->attach($user->person, ['is_owner' => true]);
+
+        $this
+            ->deleteJson(route('api.products.show', ['product' => $product->id]))
+            ->assertNotFound();
+    }
+
+    /** @test */
+    public function it_can_not_delete_a_product_if_not_owner(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        /** @var Product $product */
+        $product = Product::factory()->create();
+
+        $product->people()->attach($user->person, ['is_owner' => false]);
+
+        $this
+            ->deleteJson(route('api.products.destroy', ['product' => $product->id]))
+            ->assertForbidden();
+
     }
 }

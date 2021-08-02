@@ -11,6 +11,7 @@ use App\Interfaces\HasMetaData;
 use App\Models\Support\HasMeta;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Way2Web\Force\AbstractModel;
@@ -21,6 +22,7 @@ class Project extends AbstractModel implements HasMedia, HasMetaData
     use InteractsWithMedia;
     use HasMeta;
     use HasUuid;
+    use SoftDeletes;
 
     public $incrementing = false;
 

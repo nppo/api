@@ -13,6 +13,7 @@ use App\Repositories\ProjectRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Response;
 use Way2Web\Force\Http\Controller;
 
 class ProjectController extends Controller
@@ -126,5 +127,16 @@ class ProjectController extends Controller
             $this->projectRepository->show($id)
         )
             ->withPermissions();
+    }
+
+    public function destroy(string $id): JsonResponse
+    {
+        $project = $this->projectRepository->show($id);
+
+        $this->authorize('delete', $project);
+
+        $this->projectRepository->softDelete($id);
+
+        return Response::json([], 204);
     }
 }

@@ -19,6 +19,7 @@ class CreateProjectsTable extends Migration
             $table->text('purpose')->nullable();
             $table->text('description')->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

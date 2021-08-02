@@ -11,4 +11,5 @@ class Action extends Enum
     const VIEW_ANY = 'viewAny';
     const CREATE = 'create';
     const UPDATE = 'update';
+    const DELETE = 'delete';
 }
