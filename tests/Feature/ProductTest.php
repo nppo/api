@@ -369,7 +369,6 @@ class ProductTest extends TestCase
         $this
             ->deleteJson(route('api.products.destroy', ['product' => $product->id]))
             ->assertNoContent();
-
     }
 
     /** @test */
@@ -406,6 +405,5 @@ class ProductTest extends TestCase
         $this
             ->deleteJson(route('api.products.destroy', ['product' => $product->id]))
             ->assertForbidden();
-
     }
 }

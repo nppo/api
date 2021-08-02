@@ -448,7 +448,6 @@ class ProjectTest extends TestCase
         $this
             ->deleteJson(route('api.projects.destroy', ['project' => $project->id]))
             ->assertNoContent();
-
     }
 
     /** @test */
@@ -486,6 +485,5 @@ class ProjectTest extends TestCase
         $this
             ->deleteJson(route('api.projects.destroy', ['project' => $project->id]))
             ->assertForbidden();
-
     }
 }
