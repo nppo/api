@@ -8,6 +8,7 @@ use App\Models\Party;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Way2Web\Force\Repository\AbstractRepository;
 
 class PartyRepository extends AbstractRepository
@@ -37,7 +38,7 @@ class PartyRepository extends AbstractRepository
         return $this;
     }
 
-    public function get()
+    public function get(): Collection
     {
         return $this->builder->get();
     }
@@ -50,7 +51,8 @@ class PartyRepository extends AbstractRepository
             ->get();
     }
 
-    public function show($id)
+    /** @param mixed $id */
+    public function show($id): Model
     {
         return $this
             ->with([

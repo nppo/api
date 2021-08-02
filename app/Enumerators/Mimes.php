@@ -15,4 +15,12 @@ class Mimes extends Enum
     public const PNG = 'png';
 
     public const BMP = 'bmp';
+
+    public const MP4 = 'mp4';
+
+    public const OGG = 'ogg';
+
+    public const WEBM = 'webm';
+
+    public const MOV = 'mov';
 }

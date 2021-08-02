@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Way2Web\Force\Repository\AbstractRepository;
 
 class ProductRepository extends AbstractRepository
@@ -33,7 +34,8 @@ class ProductRepository extends AbstractRepository
             ->get();
     }
 
-    public function show($id)
+    /** @param mixed $id */
+    public function show($id): Model
     {
         return $this
             ->with([
@@ -99,7 +101,7 @@ class ProductRepository extends AbstractRepository
         return $this->builder->cursorPaginate($perPage);
     }
 
-    public function get()
+    public function get(): Collection
     {
         return $this->builder->get();
     }

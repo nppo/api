@@ -14,10 +14,17 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Way2Web\Force\AbstractModel;
+use Way2Web\Force\HasUuid;
 
 class Project extends AbstractModel implements HasMedia, HasMetaData
 {
-    use InteractsWithMedia, HasMeta;
+    use InteractsWithMedia;
+    use HasMeta;
+    use HasUuid;
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     /** @var array */
     protected $fillable = [

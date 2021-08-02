@@ -16,7 +16,7 @@ trait SeedsMedia
         return ! empty($this->getMediaOptions($type));
     }
 
-    protected function getRandomMediaFile(string $type)
+    protected function getRandomMediaFile(string $type): string
     {
         return Arr::random($this->getMediaOptions($type));
     }

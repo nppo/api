@@ -8,7 +8,7 @@ use App\Models\User;
 
 class UserPolicy
 {
-    public function viewAnyLike(User $authUser, User $user)
+    public function viewAnyLike(User $authUser, User $user): bool
     {
         if (!$authUser->is($user)) {
             return false;
@@ -17,7 +17,7 @@ class UserPolicy
         return true;
     }
 
-    public function createLike(User $authUser, User $user)
+    public function createLike(User $authUser, User $user): bool
     {
         if (!$authUser->is($user)) {
             return false;

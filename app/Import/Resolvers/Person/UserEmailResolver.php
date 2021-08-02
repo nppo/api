@@ -22,7 +22,10 @@ class UserEmailResolver implements CompositableResolver
         $query = $this->usingEmail(Arr::get($data, 'email'));
 
         if ($query->count() === 1) {
-            return $query->sole();
+            /** @var Person */
+            $person = $query->sole();
+
+            return $person;
         }
 
         return null;

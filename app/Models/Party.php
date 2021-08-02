@@ -11,12 +11,17 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Way2Web\Force\AbstractModel;
+use Way2Web\Force\HasUuid;
 
 class Party extends AbstractModel implements HasMedia
 {
     use InteractsWithMedia;
-
     use HasExternalResource;
+    use HasUuid;
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     protected $fillable = [
         'name',

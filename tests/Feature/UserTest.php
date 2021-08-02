@@ -17,7 +17,6 @@ class UserTest extends TestCase
     /** @test */
     public function it_can_like_a_product(): void
     {
-        $this->withoutExceptionHandling();
         $user = $this->getUser();
 
         Passport::actingAs($user);
@@ -26,7 +25,7 @@ class UserTest extends TestCase
 
         $this
             ->postJson(
-                route('api.users.likes.store', [$user->id]),
+                route('api.users.likes.store', [$user]),
                 [
                     'likable_type' => Product::class,
                     'likable_id'   => $product->getKey(),
@@ -48,7 +47,7 @@ class UserTest extends TestCase
 
         $this
             ->postJson(
-                route('api.users.likes.store', [$user->id]),
+                route('api.users.likes.store', [$user]),
                 [
                     'likable_type' => Project::class,
                     'likable_id'   => $project->getKey(),
@@ -70,7 +69,7 @@ class UserTest extends TestCase
 
         $this
             ->postJson(
-                route('api.users.likes.store', [$user->id]),
+                route('api.users.likes.store', [$user]),
                 [
                     'likable_type' => Party::class,
                     'likable_id'   => $party->getKey(),
@@ -92,7 +91,7 @@ class UserTest extends TestCase
 
         $this
             ->postJson(
-                route('api.users.likes.store', [$user->id]),
+                route('api.users.likes.store', [$user]),
                 [
                     'likable_type' => Person::class,
                     'likable_id'   => $person->getKey(),
@@ -114,7 +113,7 @@ class UserTest extends TestCase
 
         $this
             ->postJson(
-                route('api.users.likes.store', [$user->id]),
+                route('api.users.likes.store', [$user]),
                 [
                     'likable_type' => Article::class,
                     'likable_id'   => $person->getKey(),
@@ -139,7 +138,7 @@ class UserTest extends TestCase
 
         $response = $this
             ->getJson(
-                route('api.users.likes.index', [$user->id])
+                route('api.users.likes.index', [$user])
             )
             ->assertOk();
 

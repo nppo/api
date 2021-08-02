@@ -27,6 +27,7 @@ class UserRepository extends AbstractRepository
             ->first();
     }
 
+    /** @param mixed $userId */
     public function addLike($userId, string $likableType, string $likableId): User
     {
         /** @var User $user */

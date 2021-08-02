@@ -15,10 +15,12 @@ class AttributeTest extends TestCase
     /** @test */
     public function it_will_load_the_value_relation_from_the_instance(): void
     {
+        /** @var Attribute */
         $attribute = Attribute::factory()->make([
             'id' => 125,
         ]);
 
+        /** @var Project $project */
         $project = Project::factory()
             ->make();
 

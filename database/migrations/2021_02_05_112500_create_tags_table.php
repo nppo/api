@@ -11,7 +11,7 @@ class CreateTagsTable extends Migration
     public function up(): void
     {
         Schema::create('tags', function (Blueprint $table): void {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('type')->nullable();
             $table->string('label');
 

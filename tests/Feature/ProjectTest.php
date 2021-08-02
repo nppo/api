@@ -80,8 +80,11 @@ class ProjectTest extends TestCase
         /** @var Project $project */
         $project = Project::factory()->create();
 
+        /** @var User */
         $user = User::factory()
-            ->create()
+            ->create();
+
+        $user
             ->givePermissionTo(
                 Permission::findOrCreate(Permissions::PROJECTS_UPDATE)
             );
@@ -105,10 +108,14 @@ class ProjectTest extends TestCase
     {
         /** @var Project $project */
         $project = Project::factory()->create();
+
+        /** @var User $user */
         $user = User::factory()
             ->create([
                 'person_id' => Person::factory(),
-            ])
+            ]);
+
+        $user
             ->givePermissionTo(
                 Permission::findOrCreate(Permissions::PROJECTS_UPDATE)
             );

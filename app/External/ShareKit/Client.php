@@ -17,7 +17,7 @@ class Client
         $this->client = $guzzleClient;
     }
 
-    public function get(string $path)
+    public function get(string $path): Response
     {
         return Response::fromClient(
             $this->client->request('GET', $path, [

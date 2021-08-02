@@ -1,0 +1,51 @@
+{
+    "name": "SURAPP Development",
+    "dockerComposeFile": [
+        "../.dev/docker/docker-compose.yml",
+        "../.dev/docker/docker-compose.override.yml"
+    ],
+    "workspaceFolder": "/var/www/html",
+    "service": "php-fpm",
+    "extensions": [
+        // General
+        "EditorConfig.EditorConfig",
+        //
+        // PHP Plugins
+        //
+        "bmewburn.vscode-intelephense-client",
+        "ikappas.phpcs",
+        "junstyle.php-cs-fixer",
+        "felixfbecker.php-debug",
+        "calebporzio.better-phpunit",
+    ],
+    "settings": {
+        "files.insertFinalNewline": true,
+        "extensions.ignoreRecommendations": true,
+        "search.exclude": {
+            "**/storage": true,
+            "**/vendor": true,
+            "public/**": true,
+            ".git/**": true,
+        },
+        "telemetry.enableTelemetry": false,
+        "telemetry.enableCrashReporter": false,
+        //
+        // Language Settings
+        //
+        "[php]": {
+            "editor.defaultFormatter": "junstyle.php-cs-fixer"
+        },
+        //
+        // PHP Plugins
+        //
+        // phpcs
+        "phpcs.executablePath": "/var/www/html/vendor/bin/phpcs",
+        "phpcs.standard": "./.dev/php/phpcs.xml",
+        // php-cs-fixer
+        "php-cs-fixer.executablePath": "/var/www/html/vendor/bin/php-cs-fixer", // Make no sense, but needs to be absolute path
+        "php-cs-fixer.config": "/var/www/html/.dev/php/.php-cs-fixer.php", // Make no sense, but needs to be absolute path
+        "php-cs-fixer.allowRisky": true,
+        "php-cs-fixer.onsave": true,
+        "terminal.integrated.shell.linux": "/bin/bash",
+    }
+}

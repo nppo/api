@@ -11,6 +11,7 @@ use App\Models\Person;
 use App\Models\Tag;
 use App\Models\User;
 use Database\Seeders\Support\SeedsMetadata;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -38,7 +39,8 @@ class PersonSeeder extends Seeder
         Person::factory()
             ->times(self::MAX_PEOPLE)
             ->create()
-            ->each(function (Person $person) use ($parties, $tags, $users): void {
+            ->each(function (Model $person) use ($parties, $tags, $users): void {
+                /** @var Person $person */
                 $this->attachTags($person, $tags);
                 $this->attachParty($person, $parties);
 

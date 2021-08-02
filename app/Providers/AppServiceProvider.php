@@ -28,11 +28,11 @@ class AppServiceProvider extends ServiceProvider
 {
     use RegistersTransformers;
 
-    public $singletons = [
+    public array $singletons = [
         Repository::class => Repository::class,
     ];
 
-    public $transformers = [
+    public array $transformers = [
         'date'                 => Date::class,
         'firstName'            => FirstName::class,
         'lastName'             => LastName::class,

@@ -10,7 +10,7 @@ use App\Models\User;
 
 class PersonPolicy
 {
-    public function create(User $user)
+    public function create(User $user): bool
     {
         if (!$user->can(Permissions::PEOPLE_CREATE)) {
             return false;
@@ -19,7 +19,7 @@ class PersonPolicy
         return is_null($user->person);
     }
 
-    public function update(User $user, Person $person)
+    public function update(User $user, Person $person): bool
     {
         if (!$user->can(Permissions::PEOPLE_UPDATE)) {
             return false;

@@ -10,6 +10,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     private const IMPORT = 'Import';
+
     private const SEEDER = 'Seeder';
 
     private Import $importer;
@@ -29,7 +30,7 @@ class DatabaseSeeder extends Seeder
         $choice = $this->command->choice(
             'Use Seeder or Import for: Tags, Themes, People, Products, Projects, Parties',
             [self::SEEDER, self::IMPORT],
-            0
+            self::SEEDER
         );
 
         if ($choice === self::SEEDER) {

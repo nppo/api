@@ -8,6 +8,7 @@ use App\Interfaces\HasMetaData;
 use App\Models\Attribute;
 use App\Models\Structure;
 use App\Models\Value;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -65,7 +66,9 @@ trait HasMeta
                 throw new InvalidArgumentException('Provided information could not be casted to a Value');
             })
             ->filter(function (Value $value) {
-                return $this->attributes()->get()->contains($value->attribute);
+                return $this->whereHas('attributes', function (Builder $builder) use ($value): Builder {
+                    return $builder->where('id', $value->id);
+                });
             })
             ->each(function (Value $value): void {
                 if (is_null($value->value)) {
