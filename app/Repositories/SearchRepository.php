@@ -121,6 +121,7 @@ class SearchRepository
                     ->articleRepository
                     ->search($query)
                     ->filter($filters)
+                    ->limit(10)
                     ->get();
                 break;
 
@@ -162,6 +163,14 @@ class SearchRepository
             case Entities::PROJECT:
                 $this->results[$type] = $this
                     ->projectRepository
+                    ->search($query)
+                    ->filter($filters)
+                    ->cursorPaginate();
+                break;
+
+            case Entities::ARTICLE:
+                $this->results[$type] = $this
+                    ->articleRepository
                     ->search($query)
                     ->filter($filters)
                     ->cursorPaginate();
