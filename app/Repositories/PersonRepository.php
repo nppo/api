@@ -6,8 +6,8 @@ namespace App\Repositories;
 
 use App\Enumerators\Filters;
 use App\Models\Person;
-use Illuminate\Contracts\Pagination\CursorPaginator;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
