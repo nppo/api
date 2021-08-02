@@ -86,7 +86,7 @@ class SearchTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertJson(fn (AssertableJson $json) => $json->has('data.products', 2));
+            ->assertJson(fn (AssertableJson $json) => $json->has('data.products.items', 2));
     }
 
     /** @test */
