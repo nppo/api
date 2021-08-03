@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Support\Str;
 use Way2Web\Force\Http\Resource;
@@ -45,16 +46,17 @@ class SearchResource extends Resource
         ];
     }
 
+    /** @return MissingValue|mixed */
     private function getItems(string $entityType)
     {
-        $resourceMethod = 'App\\Http\\Resources\\' . Str::ucfirst($entityType) . 'Resource::collection';
+        $resourceMethod = 'App\\Http\\Resources\\' . Str::ucfirst($entityType) . 'Resource';
 
         return $this
             ->when(
                 get_class($this->resource[$entityType]) === CursorPaginator::class,
                 function () use ($entityType, $resourceMethod): array {
                     return [
-                        'items'      => call_user_func($resourceMethod, $this->resource[$entityType]),
+                        'items'      => call_user_func([$resourceMethod, 'collection'], $this->resource[$entityType]),
                         'nextCursor' => $this->getNextCursor($entityType),
                     ];
                 },
@@ -64,7 +66,8 @@ class SearchResource extends Resource
             );
     }
 
-    private function getNextCursor($type)
+    /** @return bool|string|null */
+    private function getNextCursor(string $type)
     {
         /** @var CursorPaginator $resource */
         $resource = $this->resource[$type];
