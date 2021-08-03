@@ -64,7 +64,7 @@ class SearchRepository
     {
         $filters = Arr::except($filters, Filters::TYPES);
 
-        if (is_array($types)) {
+        if (is_array($types) && count($types) > 1) {
             foreach ($types as $type) {
                 $this->handleSearch($type, $query, $filters);
             }
@@ -72,7 +72,7 @@ class SearchRepository
             return $this;
         }
 
-        $this->handleSearch($types, $query, $filters);
+        $this->handlePaginatedSearch(Arr::first($types), $query, $filters);
 
         return $this;
     }
@@ -86,6 +86,7 @@ class SearchRepository
                     ->search($query)
                     ->filter($filters)
                     ->orderBy('published_at', 'desc')
+                    ->limit(10)
                     ->get();
                 break;
 
@@ -94,6 +95,7 @@ class SearchRepository
                     ->personRepository
                     ->search($query)
                     ->filter($filters)
+                    ->limit(10)
                     ->get();
                 break;
 
@@ -101,6 +103,7 @@ class SearchRepository
                 $this->results[$type] = $this
                     ->partyRepository
                     ->search($query)
+                    ->limit(10)
                     ->get();
                 break;
 
@@ -109,6 +112,7 @@ class SearchRepository
                     ->projectRepository
                     ->search($query)
                     ->filter($filters)
+                    ->limit(10)
                     ->get();
                 break;
 
@@ -117,7 +121,59 @@ class SearchRepository
                     ->articleRepository
                     ->search($query)
                     ->filter($filters)
+                    ->limit(10)
                     ->get();
+                break;
+
+            default:
+                $this->results[$type] = [];
+                break;
+        }
+
+        $this->results[self::COUNT_KEY] += count($this->results[$type]);
+    }
+
+    protected function handlePaginatedSearch(string $type, string $query, array $filters): void
+    {
+        switch ($type) {
+            case Entities::PRODUCT:
+                $this->results[$type] = $this
+                    ->productRepository
+                    ->search($query)
+                    ->filter($filters)
+                    ->orderBy('published_at', 'desc')
+                    ->cursorPaginate();
+                break;
+
+            case Entities::PERSON:
+                $this->results[$type] = $this
+                    ->personRepository
+                    ->search($query)
+                    ->filter($filters)
+                    ->cursorPaginate();
+                break;
+
+            case Entities::PARTY:
+                $this->results[$type] = $this
+                    ->partyRepository
+                    ->search($query)
+                    ->cursorPaginate();
+                break;
+
+            case Entities::PROJECT:
+                $this->results[$type] = $this
+                    ->projectRepository
+                    ->search($query)
+                    ->filter($filters)
+                    ->cursorPaginate();
+                break;
+
+            case Entities::ARTICLE:
+                $this->results[$type] = $this
+                    ->articleRepository
+                    ->search($query)
+                    ->filter($filters)
+                    ->cursorPaginate();
                 break;
 
             default:
