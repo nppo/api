@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Enumerators\Filters;
 use App\Models\Project;
+use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -89,6 +90,18 @@ class ProjectRepository extends AbstractRepository
                 ->first()
         )
             ->toArray();
+    }
+
+    public function limit(int $amount): self
+    {
+        $this->builder->limit($amount);
+
+        return $this;
+    }
+
+    public function cursorPaginate(int $perPage = self::DEFAULT_PER_PAGE): CursorPaginator
+    {
+        return $this->builder->cursorPaginate($perPage);
     }
 
     public function get(): Collection

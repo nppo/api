@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Way2Web\Force\Repository;
 
+use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -81,6 +82,16 @@ abstract class AbstractRepository
     public function simplePaginate(int $perPage = self::DEFAULT_PER_PAGE, array $columns = ['*']): Paginator
     {
         return $this->makeQuery()->simplePaginate($perPage, $columns);
+    }
+
+    /**
+     * @param int $perPage
+     *
+     * @return CursorPaginator
+     */
+    public function cursorPaginate(int $perPage = self::DEFAULT_PER_PAGE): CursorPaginator
+    {
+        return $this->makeQuery()->cursorPaginate($perPage);
     }
 
     /**

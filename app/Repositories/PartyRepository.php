@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Party;
+use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -61,5 +62,17 @@ class PartyRepository extends AbstractRepository
                 'media',
             ])
             ->findOrFail($id);
+    }
+
+    public function limit(int $amount): self
+    {
+        $this->builder->limit($amount);
+
+        return $this;
+    }
+
+    public function cursorPaginate(int $perPage = self::DEFAULT_PER_PAGE): CursorPaginator
+    {
+        return $this->builder->cursorPaginate($perPage);
     }
 }
