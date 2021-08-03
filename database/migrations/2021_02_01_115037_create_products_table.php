@@ -21,8 +21,9 @@ class CreateProductsTable extends Migration
 
             $table->text('link')->nullable();
 
-            $table->softDeletes();
             $table->timestamp('published_at')->nullable();
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
