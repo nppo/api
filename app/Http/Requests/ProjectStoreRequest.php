@@ -23,6 +23,9 @@ class ProjectStoreRequest extends FormRequest
             'products.*'    => ['array', 'required'],
             'products.*.id' => ['required', 'uuid'],
 
+            'people'      => ['array', 'nullable'],
+            'people.*.id' => ['required', 'uuid'],
+
             'meta'         => ['nullable'],
             'meta.*'       => ['array', 'required'],
             'meta.*.value' => ['nullable', 'string'],
