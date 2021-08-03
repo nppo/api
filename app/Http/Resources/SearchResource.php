@@ -61,7 +61,7 @@ class SearchResource extends Resource
                     ];
                 },
                 function () use ($entityType, $resourceMethod): array {
-                    return ['items' => call_user_func($resourceMethod, $this->resource[$entityType])];
+                    return ['items' => call_user_func([$resourceMethod, 'collection'], $this->resource[$entityType])];
                 }
             );
     }
