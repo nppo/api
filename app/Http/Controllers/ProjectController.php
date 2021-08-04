@@ -55,15 +55,17 @@ class ProjectController extends Controller
                 ->toArray(),
         ]);
 
-        /** @var Project */
+        /** @var Project $project */
         $project = $this
             ->projectRepository
             ->create(
-                Arr::except($request->validated(), ['project_picture', 'parties', 'products'])
+                Arr::except($request->validated(), ['project_picture', 'parties', 'products', 'people'])
             );
 
-        $this->syncRelation($project, 'parties', Arr::get($validated, 'parties') ?: []);
-        $this->syncRelation($project, 'products', Arr::get($validated, 'products') ?: []);
+        $this
+            ->syncRelation($project, 'parties', Arr::get($validated, 'parties') ?: [])
+            ->syncRelation($project, 'products', Arr::get($validated, 'products') ?: [])
+            ->syncRelation($project, 'people', Arr::get($validated, 'people') ?: []);
 
         $project->people()->attach($request->user()->person, ['is_owner' => true]);
 
@@ -108,12 +110,16 @@ class ProjectController extends Controller
         $this
             ->projectRepository
             ->update(
-                Arr::except($request->validated(), ['parties', 'products', 'project_picture']),
+                Arr::except($request->validated(), ['parties', 'products', 'project_picture', 'people']),
                 $id
             );
 
-        $this->syncRelation($project, 'parties', Arr::get($validated, 'parties') ?: []);
-        $this->syncRelation($project, 'products', Arr::get($validated, 'products') ?: []);
+        $this
+            ->syncRelation($project, 'parties', Arr::get($validated, 'parties') ?: [])
+            ->syncRelation($project, 'products', Arr::get($validated, 'products') ?: [])
+            ->syncRelation($project, 'people', Arr::get($validated, 'people') ?: []);
+
+        $project->people()->attach($request->user()->person, ['is_owner' => true]);
 
         if ($request->hasFile('project_picture')) {
             $project
