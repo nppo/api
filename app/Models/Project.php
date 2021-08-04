@@ -83,4 +83,9 @@ class Project extends AbstractModel implements HasMedia, HasMetaData
             ->singleFile()
             ->useDisk(Disks::SURF_PUBLIC);
     }
+
+    public function articles(): MorphToMany
+    {
+        return $this->morphToMany(Article::class, 'relatable');
+    }
 }
