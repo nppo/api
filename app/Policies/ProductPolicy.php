@@ -38,4 +38,21 @@ class ProductPolicy
 
         return true;
     }
+
+    public function delete(User $user, Product $product): bool
+    {
+        if (!$user->can(Permissions::PRODUCTS_DELETE)) {
+            return false;
+        }
+
+        if (!$user->person) {
+            return false;
+        }
+
+        if (!$product->owner->contains($user->person)) {
+            return false;
+        }
+
+        return true;
+    }
 }

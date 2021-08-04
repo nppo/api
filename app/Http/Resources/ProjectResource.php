@@ -16,6 +16,7 @@ class ProjectResource extends Resource
 
     protected array $permissions = [
         Action::UPDATE,
+        Action::DELETE,
     ];
 
     /**

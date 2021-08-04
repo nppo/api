@@ -17,6 +17,7 @@ class ProductResource extends Resource
 
     protected array $permissions = [
         Action::UPDATE,
+        Action::DELETE,
     ];
 
     /**
