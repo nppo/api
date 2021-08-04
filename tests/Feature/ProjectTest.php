@@ -432,4 +432,58 @@ class ProjectTest extends TestCase
             )
             ->assertForbidden();
     }
+
+    /** @test */
+    public function it_can_delete_a_project(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        /** @var Project $project */
+        $project = Project::factory()
+            ->hasAttached($user->person, ['is_owner' => true])
+            ->create();
+
+        $this
+            ->deleteJson(route('api.projects.destroy', ['project' => $project->id]))
+            ->assertNoContent();
+    }
+
+    /** @test */
+    public function it_will_not_retrieve_deleted_projects(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        /** @var Project $project */
+        $project = Project::factory()
+            ->hasAttached($user->person, ['is_owner' => true])
+            ->make();
+
+        $project->deleted_at = now();
+        $project->save();
+
+        $this
+            ->deleteJson(route('api.projects.show', ['project' => $project->id]))
+            ->assertNotFound();
+    }
+
+    /** @test */
+    public function it_can_not_delete_a_project_if_not_owner(): void
+    {
+        $user = $this->getUser();
+
+        Passport::actingAs($user);
+
+        /** @var Project $project */
+        $project = Project::factory()
+            ->hasAttached($user->person, ['is_owner' => false])
+            ->create();
+
+        $this
+            ->deleteJson(route('api.projects.destroy', ['project' => $project->id]))
+            ->assertForbidden();
+    }
 }

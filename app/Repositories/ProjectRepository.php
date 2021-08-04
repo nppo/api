@@ -108,4 +108,11 @@ class ProjectRepository extends AbstractRepository
     {
         return $this->builder->get();
     }
+
+    public function softDelete(string $id): bool
+    {
+        $project = $this->findOrFail($id);
+
+        return $project->delete();
+    }
 }

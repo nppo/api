@@ -14,6 +14,7 @@ use App\Models\Support\HasMeta;
 use App\Models\Support\HasTags;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -28,6 +29,7 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
     use HasTags;
     use HasExternalResource;
     use HasUuid;
+    use SoftDeletes;
 
     public $incrementing = false;
 

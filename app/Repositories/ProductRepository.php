@@ -105,4 +105,11 @@ class ProductRepository extends AbstractRepository
     {
         return $this->builder->get();
     }
+
+    public function softDelete(string $id): bool
+    {
+        $product = $this->findOrFail($id);
+
+        return $product->delete();
+    }
 }

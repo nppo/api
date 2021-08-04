@@ -11,9 +11,11 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Response;
 use Way2Web\Force\Http\Controller;
 
 class ProductController extends Controller
@@ -114,6 +116,17 @@ class ProductController extends Controller
         return ProductResource::make(
             $this->productRepository->show($product->getKey())
         );
+    }
+
+    public function destroy(string $id): JsonResponse
+    {
+        $product = $this->productRepository->findOrFail($id);
+
+        $this->authorize('delete', $product);
+
+        $this->productRepository->softDelete($id);
+
+        return Response::json([], 204);
     }
 
     /** @param mixed $id */

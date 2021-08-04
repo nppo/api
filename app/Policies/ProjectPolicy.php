@@ -52,6 +52,23 @@ class ProjectPolicy
         return true;
     }
 
+    public function delete(User $user, Project $project): bool
+    {
+        if (!$user->can(Permissions::PROJECTS_DELETE)) {
+            return false;
+        }
+
+        if (!$user->person) {
+            return false;
+        }
+
+        if (!$project->owner->contains($user->person)) {
+            return false;
+        }
+
+        return true;
+    }
+
     protected function validateProducts(Person $person, array $productIds): bool
     {
         return $person->products->whereIn('id', $productIds)->count() !== count($productIds);
