@@ -6,9 +6,13 @@ namespace App\Repositories;
 
 use App\Models\Party;
 use Illuminate\Contracts\Pagination\CursorPaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
+use Spatie\QueryBuilder\QueryBuilder;
 use Way2Web\Force\Repository\AbstractRepository;
 
 class PartyRepository extends AbstractRepository
@@ -43,16 +47,23 @@ class PartyRepository extends AbstractRepository
         return $this->builder->get();
     }
 
-    public function index(): Collection
+    public function index(): Paginator
     {
-        return $this
-            ->makeQuery()
-            ->orderBy('name')
-            ->get();
+        return QueryBuilder::for($this->makeQuery())
+            ->defaultSort('name')
+            ->allowedSorts([
+                AllowedSort::field('id'),
+                AllowedSort::field('name'),
+            ])
+            ->allowedFilters([
+                AllowedFilter::exact('id'),
+                AllowedFilter::partial('name'),
+                AllowedFilter::partial('description'),
+            ])
+            ->jsonPaginate();
     }
 
-    /** @param mixed $id */
-    public function show($id): Model
+    public function show(string $id): Model
     {
         return $this
             ->with([
@@ -62,6 +73,34 @@ class PartyRepository extends AbstractRepository
                 'media',
             ])
             ->findOrFail($id);
+    }
+
+    public function createFull(array $data): Party
+    {
+        /** @var Party */
+        $party = Party::create($data);
+
+        return $party;
+    }
+
+    public function updateFull(string $id, array $data): Party
+    {
+        /** @var Party */
+        $party = $this->findOrFail($id);
+
+        $party->update($data);
+
+        return $party;
+    }
+
+    public function deleteFull(string $id): Party
+    {
+        /** @var Party */
+        $party = $this->findOrFail($id);
+
+        $party->delete();
+
+        return $party;
     }
 
     public function limit(int $amount): self

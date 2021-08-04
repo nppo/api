@@ -26,8 +26,10 @@
         "mzur/laravel-openstack-swift": "^1.11",
         "socialiteproviders/surfconext": "^4.1",
         "softcreatr/jsonpath": "^0.7.2",
+        "spatie/laravel-json-api-paginate": "^1.10",
         "spatie/laravel-medialibrary": "^9.4",
         "spatie/laravel-permission": "^4.0",
+        "spatie/laravel-query-builder": "^3.5",
         "way2web/force": "*"
     },
     "require-dev": {

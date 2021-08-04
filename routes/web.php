@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 if (App::environment('local')) {
     Route::get('login', function () {
-        Auth::login(User::inRandomOrder()->first());
+        Auth::login(User::first());
 
         return redirect()->intended();
     })->name('login');

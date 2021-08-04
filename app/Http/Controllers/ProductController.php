@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enumerators\MediaCollections;
+use App\Enumerators\TagTypes;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
@@ -62,14 +63,21 @@ class ProductController extends Controller
         }
 
         $product->syncTags(
-            Collection::make(Arr::get($validated, 'tags') ?? [])
-                ->map(fn ($tag) => $tag['label'])
-                ->toArray()
+            Collection::make(Arr::get($validated, 'keywords') ?? [])
+                ->map(fn ($keyword) => $keyword['label'])
+                ->toArray(),
+            TagTypes::KEYWORD
+        );
+
+        $product->syncTags(
+            Collection::make(Arr::get($validated, 'themes') ?? [])
+                ->map(fn ($theme) => $theme['label'])
+                ->toArray(),
+            TagTypes::THEME
         );
 
         $this
             ->syncRelation($product, 'children', Arr::get($validated, 'children') ?? [])
-            ->syncRelation($product, 'themes', Arr::get($validated, 'themes') ?? [])
             ->syncRelation($product, 'people', Arr::get($validated, 'people') ?? [], ['is_owner' => false])
             ->syncRelation($product, 'parties', Arr::get($validated, 'parties') ?? [], ['is_owner' => false]);
 
@@ -87,7 +95,7 @@ class ProductController extends Controller
 
         $validated = $request->validated();
 
-        /** @var Product */
+        /** @var Product $product */
         $product = $this
             ->productRepository
             ->create($validated);
@@ -100,14 +108,21 @@ class ProductController extends Controller
         }
 
         $product->syncTags(
-            Collection::make(Arr::get($validated, 'tags') ?? [])
-                ->map(fn ($tag) => $tag['label'])
-                ->toArray()
+            Collection::make(Arr::get($validated, 'keywords') ?? [])
+                ->map(fn ($keyword) => $keyword['label'])
+                ->toArray(),
+            TagTypes::KEYWORD
+        );
+
+        $product->syncTags(
+            Collection::make(Arr::get($validated, 'themes') ?? [])
+                ->map(fn ($theme) => $theme['label'])
+                ->toArray(),
+            TagTypes::THEME
         );
 
         $this
             ->syncRelation($product, 'children', Arr::get($validated, 'children') ?? [])
-            ->syncRelation($product, 'themes', Arr::get($validated, 'themes') ?? [])
             ->syncRelation($product, 'people', Arr::get($validated, 'people') ?? [], ['is_owner' => false])
             ->syncRelation($product, 'parties', Arr::get($validated, 'parties') ?? [], ['is_owner' => false]);
 

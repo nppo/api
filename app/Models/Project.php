@@ -6,9 +6,9 @@ namespace App\Models;
 
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
-use App\Enumerators\TagTypes;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasMeta;
+use App\Models\Support\HasTags;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,6 +22,7 @@ class Project extends AbstractModel implements HasMedia, HasMetaData
     use InteractsWithMedia;
     use HasMeta;
     use HasUuid;
+    use HasTags;
     use SoftDeletes;
 
     public $incrementing = false;
@@ -63,14 +64,14 @@ class Project extends AbstractModel implements HasMedia, HasMetaData
             ->withTimestamps();
     }
 
-    public function tags(): MorphToMany
-    {
-        return $this->morphToMany(Tag::class, 'taggable');
-    }
-
     public function themes(): MorphToMany
     {
-        return $this->tags()->where('type', TagTypes::THEME);
+        return $this->tagRelation(Theme::class);
+    }
+
+    public function keywords(): MorphToMany
+    {
+        return $this->tagRelation(Keyword::class);
     }
 
     public function getProjectPictureUrlAttribute(): ?string

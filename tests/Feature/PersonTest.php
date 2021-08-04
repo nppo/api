@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use App\Enumerators\TagTypes;
 use App\Models\Attribute;
+use App\Models\Skill;
 use App\Models\Tag;
 use App\Models\Value;
 use Illuminate\Database\Eloquent\Model;
@@ -169,11 +170,9 @@ class PersonTest extends TestCase
 
         Passport::actingAs($user);
 
-        $skills = Tag::factory()->times(2)->make([
-            'type' => TagTypes::SKILL,
-        ]);
+        $skills = Skill::factory()->times(2)->make();
 
-        $original = Tag::count();
+        $original = Skill::count();
 
         $this
             ->putJson(
@@ -184,7 +183,7 @@ class PersonTest extends TestCase
 
         $this->assertEquals(
             $original + 2,
-            Tag::count()
+            Skill::count()
         );
     }
 

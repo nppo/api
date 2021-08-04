@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use InvalidArgumentException;
+use Laravel\Passport\Passport;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
@@ -16,7 +17,7 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, DatabaseTransactions;
 
-    protected function getUser(array $roles = ['RESEARCHER']): User
+    protected function getUser(array $roles = ['RESEARCHER'], array $permissions = []): User
     {
         /** @var User */
         $user = User::factory()->create();
@@ -31,6 +32,8 @@ abstract class TestCase extends BaseTestCase
             $user->roles()->attach($query->sole());
         }
 
+        $user->givePermissionTo($permissions);
+
         $user->person()->associate(Person::factory()->create());
 
         $user->save();
@@ -38,6 +41,13 @@ abstract class TestCase extends BaseTestCase
         $this->clearCache();
 
         return $user;
+    }
+
+    protected function performAs(User $user): self
+    {
+        Passport::actingAs($user);
+
+        return $this;
     }
 
     protected function clearCache(): void

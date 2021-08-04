@@ -8,7 +8,8 @@ use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
 use App\Models\Party;
 use App\Models\Person;
-use App\Models\Tag;
+use App\Models\Skill;
+use App\Models\Theme;
 use App\Models\User;
 use Database\Seeders\Support\SeedsMetadata;
 use Illuminate\Database\Eloquent\Model;
@@ -24,7 +25,9 @@ class PersonSeeder extends Seeder
 
     private const MAX_PEOPLE = 50;
 
-    private const MAX_TAGS = 10;
+    private const MAX_KEYWORDS = 10;
+
+    private const MAX_THEMES = 10;
 
     private const MAX_PARTIES = 2;
 
@@ -32,16 +35,18 @@ class PersonSeeder extends Seeder
 
     public function run(): void
     {
-        $tags = Tag::all();
+        $skill = Skill::all();
+        $themes = Theme::all();
         $parties = Party::all();
         $users = User::all();
 
         Person::factory()
             ->times(self::MAX_PEOPLE)
             ->create()
-            ->each(function (Model $person) use ($parties, $tags, $users): void {
+            ->each(function (Model $person) use ($parties, $themes, $skill, $users): void {
                 /** @var Person $person */
-                $this->attachTags($person, $tags);
+                $this->attachThemes($person, $themes);
+                $this->attachSkills($person, $skill);
                 $this->attachParty($person, $parties);
 
                 if (rand(0, 1)) {
@@ -60,11 +65,20 @@ class PersonSeeder extends Seeder
             ->saveMany($parties->random((mt_rand(0, self::MAX_PARTIES))));
     }
 
-    private function attachTags(Person $person, Collection $tags): void
+    private function attachSkills(Person $person, Collection $skill): void
     {
         $person
-            ->tags()
-            ->saveMany($tags->random(mt_rand(1, self::MAX_TAGS)));
+            ->keywords()
+            ->saveMany($skill->random(mt_rand(1, self::MAX_KEYWORDS)));
+    }
+
+    private function attachThemes(Person $person, Collection $themes): void
+    {
+        $person
+            ->themes()
+            ->saveMany(
+                $themes->random(mt_rand(0, self::MAX_THEMES))
+            );
     }
 
     private function attachProfilePicture(Person $person): void

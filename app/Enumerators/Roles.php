@@ -28,5 +28,16 @@ class Roles extends Enum
         Permissions::PRODUCTS_DELETE,
         Permissions::PEOPLE_CREATE,
         Permissions::PEOPLE_UPDATE,
+        Permissions::THEME_CREATE,
+        Permissions::THEME_UPDATE,
+        Permissions::KEYWORD_CREATE,
+        Permissions::KEYWORD_UPDATE,
+        Permissions::KEYWORD_DELETE,
+        Permissions::PARTY_CREATE,
+        Permissions::PARTY_UPDATE,
+        Permissions::PARTY_DELETE,
+        Permissions::USER_CREATE,
+        Permissions::USER_UPDATE,
+        Permissions::USER_DELETE,
     ];
 }

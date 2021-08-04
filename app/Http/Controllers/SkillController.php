@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\TagResource;
+use App\Http\Resources\SkillResource;
 use App\Repositories\SkillRepository;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -19,7 +19,7 @@ class SkillController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        return TagResource::collection(
+        return SkillResource::collection(
             $this->skillRepository->index()
         );
     }

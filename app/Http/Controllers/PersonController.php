@@ -74,14 +74,14 @@ class PersonController extends Controller
 
         $person->syncTags(
             Collection::make(Arr::get($validated, 'skills') ?? [])
-                ->map(fn ($tag) => $tag['label'])
+                ->map(fn ($skill) => $skill['label'])
                 ->toArray(),
             TagTypes::SKILL,
         );
 
         $person->syncTags(
             Collection::make(Arr::get($validated, 'themes') ?? [])
-                ->map(fn ($tag) => $tag['label'])
+                ->map(fn ($theme) => $theme['label'])
                 ->toArray(),
             TagTypes::THEME,
             true
@@ -117,14 +117,14 @@ class PersonController extends Controller
 
         $person->syncTags(
             Collection::make(Arr::get($validated, 'skills') ?? [])
-                ->map(fn ($tag) => $tag['label'])
+                ->map(fn ($skill) => $skill['label'])
                 ->toArray(),
             TagTypes::SKILL,
         );
 
         $person->syncTags(
             Collection::make(Arr::get($validated, 'themes') ?? [])
-                ->map(fn ($tag) => $tag['label'])
+                ->map(fn ($theme) => $theme['label'])
                 ->toArray(),
             TagTypes::THEME,
             true

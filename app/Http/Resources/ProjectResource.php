@@ -53,8 +53,8 @@ class ProjectResource extends Resource
                 return ProductResource::collection($this->products);
             }),
 
-            'tags' => $this->whenLoaded('tags', function (): AnonymousResourceCollection {
-                return TagResource::collection($this->tags);
+            'keywords' => $this->whenLoaded('keywords', function (): AnonymousResourceCollection {
+                return KeywordResource::collection($this->keywords);
             }),
 
             'themes' => $this->whenLoaded('themes', function (): AnonymousResourceCollection {

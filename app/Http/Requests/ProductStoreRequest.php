@@ -21,8 +21,8 @@ class ProductStoreRequest extends FormRequest
             'published_at' => ['nullable', 'date'],
             'summary'      => ['nullable'],
 
-            'tags'         => ['array', 'nullable'],
-            'tags.*.label' => ['required', 'string'],
+            'keywords'         => ['array', 'nullable'],
+            'keywords.*.label' => ['required', 'string'],
 
             'themes'      => ['array', 'nullable'],
             'themes.*.id' => ['required', 'uuid'],

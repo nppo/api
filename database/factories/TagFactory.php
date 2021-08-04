@@ -32,7 +32,7 @@ class TagFactory extends Factory
 
                     return $label;
                 },
-                'type' => TagTypes::THEME,
+                'type' => $this->faker->randomElement(TagTypes::asArray()),
             ];
         });
     }

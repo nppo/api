@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Enumerators\Disks;
 use App\Enumerators\MediaCollections;
-use App\Enumerators\TagTypes;
 use App\Interfaces\HasMetaData;
 use App\Models\Support\HasMeta;
 use App\Models\Support\HasTags;
@@ -60,12 +59,17 @@ class Person extends AbstractModel implements HasMedia, HasMetaData
 
     public function skills(): MorphToMany
     {
-        return $this->tags()->where('type', TagTypes::SKILL);
+        return $this->tagRelation(Skill::class);
     }
 
     public function themes(): MorphToMany
     {
-        return $this->tags()->where('type', TagTypes::THEME);
+        return $this->tagRelation(Theme::class);
+    }
+
+    public function keywords(): MorphToMany
+    {
+        return $this->tagRelation(Keyword::class);
     }
 
     public function getProfilePictureUrlAttribute(): ?string

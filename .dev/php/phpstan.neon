@@ -23,3 +23,4 @@ parameters:
         # Larastan does not match the make method with the right resource
         - '#should return [a-zA-Z\\]*Resource but returns Way2Web\\Force\\Http\\Resource.#'
         - '#Laravel\\Passport\\Passport::actingAs\(\) expects Illuminate\\Contracts\\Auth\\Authenticatable|Laravel\\Passport\\HasApiTokens, Illuminate\\Database\\Eloquent\\Collection<Illuminate\\Database\\Eloquent\\Model>|Illuminate\\Database\\Eloquent\\Model given.#'
+        - '#Call to an undefined method [a-zA-Z\\]*Builder::jsonPaginate\(\)#'

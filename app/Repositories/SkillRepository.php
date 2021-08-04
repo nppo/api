@@ -4,29 +4,32 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Enumerators\TagTypes;
-use App\Models\Tag;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\Skill;
+use Illuminate\Contracts\Pagination\Paginator;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
+use Spatie\QueryBuilder\QueryBuilder;
 use Way2Web\Force\Repository\AbstractRepository;
 
 class SkillRepository extends AbstractRepository
 {
     public function model(): string
     {
-        return Tag::class;
+        return Skill::class;
     }
 
-    public function makeQuery(bool $timestamps = true): Builder
+    public function index(): Paginator
     {
-        return parent::makeQuery($timestamps)->where('type', TagTypes::SKILL);
-    }
-
-    public function index(): Collection
-    {
-        return $this
-            ->makeQuery()
-            ->orderBy('label')
-            ->get();
+        return QueryBuilder::for($this->makeQuery())
+            ->defaultSort('label')
+            ->allowedSorts([
+                AllowedSort::field('id'),
+                AllowedSort::field('label'),
+            ])
+            ->allowedFilters([
+                AllowedFilter::exact('id'),
+                AllowedFilter::partial('label'),
+            ])
+            ->jsonPaginate();
     }
 }

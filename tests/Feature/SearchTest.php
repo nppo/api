@@ -12,6 +12,7 @@ use App\Models\Person;
 use App\Models\Product;
 use App\Models\Project;
 use App\Models\Tag;
+use App\Models\Theme;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -75,7 +76,7 @@ class SearchTest extends TestCase
                 ->save(Tag::factory(['type' => TagTypes::THEME])->create());
         });
 
-        $themes = Tag::where('type', TagTypes::THEME)->get();
+        $themes = Theme::get();
 
         $response = $this
             ->getJson(
