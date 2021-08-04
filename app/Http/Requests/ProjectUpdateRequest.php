@@ -23,6 +23,9 @@ class ProjectUpdateRequest extends FormRequest
             'products.*'    => ['array', 'required'],
             'products.*.id' => ['required', 'uuid'],
 
+            'people'      => ['array', 'nullable'],
+            'people.*.id' => ['required', 'uuid'],
+
             'project_picture' => [
                 'sometimes',
                 'image',

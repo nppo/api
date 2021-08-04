@@ -45,4 +45,14 @@ class Article extends AbstractModel
     {
         return $this->tagRelation(Keyword::class);
     }
+
+    public function products(): MorphToMany
+    {
+        return $this->morphedByMany(Product::class, 'relatable');
+    }
+
+    public function projects(): MorphToMany
+    {
+        return $this->morphedByMany(Project::class, 'relatable');
+    }
 }

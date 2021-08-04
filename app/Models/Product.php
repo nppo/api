@@ -147,4 +147,9 @@ class Product extends AbstractModel implements HasMedia, HasMetaData
 
         return $this->link;
     }
+
+    public function articles(): MorphToMany
+    {
+        return $this->morphToMany(Article::class, 'relatable');
+    }
 }
